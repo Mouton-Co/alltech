@@ -8,6 +8,7 @@
         <title>{{ env('APP_NAME', 'Alltech') }}</title>
 
         <!-- Scripts -->
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
         @yield('header-scripts')
     </head>
