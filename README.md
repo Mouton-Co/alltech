@@ -1,15 +1,18 @@
+Alltech
+=======
+
 Dependancies:
+1. php 8^
+2. node 16^
+3. composer
 
-php 8^
-node 18^
-composer
 Run the following console commands:
+1. composer i
+2. npm i
+3. npm run build (npm run dev - for continues watch)
 
-composer i
-npm i
-npm run build (npm run dev - for continues watch)
-Copy .env.example over to .env Setup database details in .env
+Cope .env.example over to .env
+Setup database details in .env
 
 Create database:
-
-php artisan migrate:fresh --seed
+1. php artisan migrate:fresh --seed
