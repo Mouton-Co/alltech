@@ -16,8 +16,14 @@ export default {
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                orange: '#de6320',
+                black: '#231f20',
+            }
         },
     },
 
     plugins: [forms],
+
+    darkMode: 'class',
 };

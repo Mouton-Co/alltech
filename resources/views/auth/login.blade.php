@@ -9,22 +9,23 @@
         {{-- login form --}}
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
             <div class="card">
-                <form class="space-y-6" action="#" method="POST">
+                <form class="space-y-6" action="{{ route('login') }}" method="POST">
+                    @csrf
 
                     {{-- email address --}}
                     <div>
-                        <x-forms.label :value="'Email address'" />
+                        <x-form.label :value="'Email address'" />
                         <div class="mt-2">
-                            <x-forms.input :type="'email'" name="email" autocomplete="email" required
+                            <x-form.input :type="'email'" name="email" autocomplete="email" required
                                 placeholder="johndoe@gmail.com" />
                         </div>
                     </div>
 
                     {{-- password --}}
                     <div>
-                        <x-forms.label :value="'Password'" />
+                        <x-form.label :value="'Password'" />
                         <div class="mt-2">
-                            <x-forms.input :type="'password'" name="password" required />
+                            <x-form.input :type="'password'" name="password" required />
                         </div>
                     </div>
 
@@ -34,10 +35,9 @@
                             {{ __('Sign in') }}
                         </button>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
     </div>
-
 </x-app>
