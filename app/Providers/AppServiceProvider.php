@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\View\Components\AppLayout;
+use App\View\Components\DashboardLayout;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::component('app', AppLayout::class);
+        Blade::component('dashboard', DashboardLayout::class);
     }
 }
