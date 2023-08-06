@@ -1,6 +1,8 @@
-<div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
+<div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-gray-800 px-6 pb-4 shadow-sidebar
+dark:shadow-black">
     <div class="flex h-16 shrink-0 items-center">
-        <x-img.logo-full-light class="h-9"/>
+        <x-img.logo-full-light class="w-[146px] logo-light {{ auth()->user()->dark ? 'hidden' : '' }}"/>
+        <x-img.logo-full-dark class="w-[146px] logo-dark {{ !auth()->user()->dark ? 'hidden' : '' }}"/>
     </div>
     <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
