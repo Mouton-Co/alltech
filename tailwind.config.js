@@ -19,6 +19,9 @@ export default {
             colors: {
                 orange: '#de6320',
                 black: '#231f20',
+            },
+            boxShadow: {
+                sidebar: '#e5e7eb 2px 1.5px 3px',
             }
         },
     },
