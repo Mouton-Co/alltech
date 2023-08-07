@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | RESOURCES
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * Display a listing of the resource.
      */
@@ -17,7 +23,9 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view('user.index')->with(['users' => $users]);
+        return view('models.user.index')->with([
+            'users'  => $users,
+        ]);
     }
 
     /**
@@ -27,7 +35,9 @@ class UserController extends Controller
     {
         $roles = Role::all();
 
-        return view('user.create')->with(['roles' => $roles]);
+        return view('models.user.create')->with([
+            'roles'  => $roles,
+        ]);
     }
 
     /**
@@ -68,9 +78,9 @@ class UserController extends Controller
 
         $roles = Role::all();
 
-        return view('user.create')->with([
-            'user'  => $user,
-            'roles' => $roles
+        return view('models.user.create')->with([
+            'user'   => $user,
+            'roles'  => $roles,
         ]);
     }
 
@@ -122,6 +132,12 @@ class UserController extends Controller
             'success' => "$name has been removed"
         ]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | OTHER
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * Toggles the dark mode for logged in user.
