@@ -20,8 +20,9 @@ dark:shadow-black">
                 <div class="text-xs font-semibold leading-6 text-gray-400">Administration</div>
                 <ul role="list" class="-mx-2 mt-2 space-y-1">
                     <li>
-                        <x-navbar.link>
-                            <x-icon.users class="w-7"/>
+                        <x-navbar.link :link="route('user.index')"
+                        :active="request()->segment(1) == 'users' ? true : false">
+                            <x-icon.users class="w-7" />
                             Users
                         </x-navbar.link>
                         <x-navbar.link>

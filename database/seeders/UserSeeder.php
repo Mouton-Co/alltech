@@ -22,6 +22,11 @@ class UserSeeder extends Seeder
                 'name'  => 'Adriaan Mouton',
                 'role'  => 'Admin',
             ],
+            [
+                'email' => 'theamouton@gmail.com',
+                'name'  => 'Thea Mouton',
+                'role'  => 'Admin',
+            ],
         ];
         
         foreach ($users as $user) {
