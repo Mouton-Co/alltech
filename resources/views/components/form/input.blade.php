@@ -4,4 +4,9 @@
     }
 @endphp
 
-<input type="{{ $type }}" {{ $attributes->merge(['class' => 'field']) }}>
+<input type="{{ $type }}" name="{{ $name }}" {{ $attributes->merge([
+    'class' => !empty($errors->get($name)) ? 'field ring-red-600' : 'field'
+]) }}>
+@if (!empty($errors->get($name)))
+    <x-form.error :messages="$errors->get($name)" />
+@endif

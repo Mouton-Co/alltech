@@ -11,7 +11,7 @@ class UpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'  => 'required',
-            'role'  => 'required',
-            'email' => 'required|unique:users,email,' . $this->get('user_id'),
+            'name'     => 'required',
+            'role_id'  => 'required',
+            'email'    => 'required|unique:users,email,' . $this->get('user_id'),
         ];
 
         if (!empty($this->get('password')) || $this->get('confirm_password')) {
