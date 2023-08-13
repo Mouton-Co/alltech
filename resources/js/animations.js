@@ -32,4 +32,14 @@ export function animations() {
     $('#test-press-me').on("click", function () {
         console.log('clicked');
     });
+
+    $(".dismiss-button").on("click", function () {
+        let msg = $(this).parent().parent();
+        msg.fadeOut(700);
+
+        setTimeout(function () {
+            msg.css('display', '');
+            msg.addClass('hidden');
+        }, 800);
+    });
 }

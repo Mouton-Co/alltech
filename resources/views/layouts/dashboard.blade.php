@@ -42,6 +42,16 @@
             {{-- dashboard content --}}
             <main class="py-10">
                 <div class="px-4 sm:px-6 lg:px-8">
+                    @if (session('success'))
+                        <x-navbar.message :type="'success'">
+                            {{ session('success') }}
+                        </x-navbar>
+                    @endif
+                    @if (session('error'))
+                        <x-navbar.message :type="'error'">
+                            {{ session('error') }}
+                        </x-navbar>
+                    @endif
                     {{ $slot }}
                 </div>
             </main>

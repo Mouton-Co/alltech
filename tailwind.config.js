@@ -6,8 +6,9 @@ export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
         "./resources/**/*.blade.php",
+        "./resources/**/**/*.blade.php",
+        "./resources/**/**/**/*.blade.php",
         "./resources/**/*.js",
     ],
 
@@ -22,9 +23,25 @@ export default {
             },
             boxShadow: {
                 sidebar: '#e5e7eb 2px 1.5px 3px',
-            }
+            },
+            
         },
     },
+
+    safelist: [
+        'border-green-500',
+        'text-green-500',
+        'text-green-700',
+        'bg-green-100',
+        'bg-green-200',
+        'ring-green-400',
+        'border-red-500',
+        'text-red-500',
+        'text-red-700',
+        'bg-red-100',
+        'bg-red-200',
+        'ring-red-400',
+    ],
 
     plugins: [forms],
 

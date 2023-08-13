@@ -16,8 +16,8 @@
                     <div>
                         <x-form.label :value="'Email address'" />
                         <div class="mt-2">
-                            <x-form.input :type="'email'" name="email" autocomplete="email" required
-                                placeholder="johndoe@gmail.com" />
+                            <x-form.input :type="'email'" :name="'email'" autocomplete="email" required
+                                placeholder="johndoe@gmail.com" value="{{ old('email') }}" />
                         </div>
                     </div>
 
@@ -25,7 +25,7 @@
                     <div>
                         <x-form.label :value="'Password'" />
                         <div class="mt-2">
-                            <x-form.input :type="'password'" name="password" required />
+                            <x-form.input :type="'password'" :name="'password'" required />
                         </div>
                     </div>
 

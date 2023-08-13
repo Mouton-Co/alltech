@@ -78,7 +78,7 @@ class UserController extends Controller
 
         $roles = Role::all();
 
-        return view('models.user.create')->with([
+        return view('models.user.edit')->with([
             'user'   => $user,
             'roles'  => $roles,
         ]);

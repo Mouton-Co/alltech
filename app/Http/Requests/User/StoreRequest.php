@@ -11,7 +11,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'             => 'required',
-            'role'             => 'required',
+            'role_id'          => 'required',
             'email'            => 'required|unique:users,email',
             'password'         => "regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
             'confirm_password' => 'same:password',
