@@ -20,6 +20,10 @@ export default {
             colors: {
                 orange: '#de6320',
                 black: '#231f20',
+                bg_gray: '#1d2125',
+                bg_darkgray: '#161a1d',
+                bg_lightgray: '#22272b',
+                bg_seperator: '#282e35',
             },
             boxShadow: {
                 sidebar: '#e5e7eb 2px 1.5px 3px',

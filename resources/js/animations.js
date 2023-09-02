@@ -1,4 +1,10 @@
 export function animations() {
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFILE DROPDOWN
+    |--------------------------------------------------------------------------
+    */
     $("#profile-dropdown-toggle").on("click", function () {
         if ($("#profile-dropdown-toggle").attr('aria-expanded') == "false") {
             $('#profile-dropdown').removeClass('hidden');
@@ -15,6 +21,11 @@ export function animations() {
         }
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | OPEN AND CLOSE MOBILE MENU
+    |--------------------------------------------------------------------------
+    */
     $('#open-menu').on("click", function () {
         $("#mobile-nav").removeClass('-z-10').addClass('z-50');
         $('#curtain').addClass('curtain-expanded').removeClass('curtain-closed');
@@ -29,10 +40,11 @@ export function animations() {
         $("#mobile-nav").removeClass('z-50').addClass('-z-10');
     });
 
-    $('#test-press-me').on("click", function () {
-        console.log('clicked');
-    });
-
+    /*
+    |--------------------------------------------------------------------------
+    | DISMESS MESSAGE
+    |--------------------------------------------------------------------------
+    */
     $(".dismiss-button").on("click", function () {
         let msg = $(this).parent().parent();
         msg.fadeOut(700);
@@ -41,5 +53,30 @@ export function animations() {
             msg.css('display', '');
             msg.addClass('hidden');
         }, 800);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE MODAL POPUP
+    |--------------------------------------------------------------------------
+    */
+    $('svg[id^="delete-button-"], div[id^="delete-button-"]').on("click", function () {
+        let id = this.getAttribute('id').split('-')[2];
+        $("#delete-modal-"+id).removeClass('hidden');
+        $('#curtain-'+id).removeClass('curtain-closed').addClass('curtain-expanded');
+        setTimeout(function () {
+            $("#delete-modal-popup-"+id).removeClass('modal-close');
+            $("#delete-modal-popup-"+id).addClass('modal-popup');
+        }, 300);
+    });
+
+    $('button[id^="delete-modal-cancel-"]').on("click", function () {
+        let id = this.getAttribute('id').split('-')[3];
+        $('#curtain-'+id).addClass('curtain-closed').removeClass('curtain-expanded');
+        $("#delete-modal-popup-"+id).removeClass('modal-popup');
+        $("#delete-modal-popup-"+id).addClass('modal-close');
+        setTimeout(function () {
+            $("#delete-modal-"+id).addClass('hidden');
+        }, 200);
     });
 }
