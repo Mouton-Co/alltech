@@ -36,7 +36,8 @@
                     </td>
                     <td>
                         @if ($user->id != auth()->user()->id)
-                            <x-icon.delete class="w-5" />
+                            <x-icon.delete class="w-5" id="delete-button-{{ $user->id }}"/>
+                            <x-modals.delete :model="'user'" :object="$user" />
                         @endif
                     </td>
                 </tr>

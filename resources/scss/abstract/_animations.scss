@@ -8,10 +8,10 @@
 }
 
 .curtain {
-    @apply transition-opacity ease-linear duration-300;
+    @apply transition-opacity ease-linear;
 
     &-expanded {
-        @apply curtain opacity-100;
+        @apply curtain opacity-75;
     }
 
     &-closed {

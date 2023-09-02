@@ -10,7 +10,7 @@
 @endphp
 <div class="mb-6">
     <div
-        class="flex justify-between px-4 py-2 mt-3 text-{{ $color }}-500 rounded-lg bg-transparent
+        class="flex justify-between px-4 py-2 mt-3 text-{{ $color }}-500 rounded-lg bg-{{ $color }}-100
         overflow-hidden w-full shadow-md sm:rounded-lg border-solid border-{{ $color }}-500">
         <div class="flex align-center">
             <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
