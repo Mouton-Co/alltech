@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/toggle-dark-mode', [UserController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
 
     require_once 'models/user.php';
+    require_once 'models/company-type.php';
 });
 
 require_once 'auth.php';

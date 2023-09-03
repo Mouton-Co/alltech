@@ -15,7 +15,7 @@
                         </h2>
                         <div class="mt-2">
                             <p class="text-sm">
-                                {{ __("Are you sure you want to delete this $model?") }}
+                                {{ __("Are you sure you want to delete this item?") }}
                             </p>
                         </div>
                     </div>
