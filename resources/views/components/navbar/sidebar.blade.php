@@ -28,7 +28,8 @@ dark:border-solid dark:border-r-2 dark:border-r-bg_seperator">
                             <x-icon.users class="w-7" />
                             Users
                         </x-navbar.link>
-                        <x-navbar.link>
+                        <x-navbar.link :link="route('contact.index')"
+                        :active="request()->segment(1) == 'contacts' ? true : false">
                             <x-icon.contact class="w-8 -mx-[3px]"/>
                             Contacts
                         </x-navbar.link>
