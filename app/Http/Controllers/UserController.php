@@ -36,7 +36,7 @@ class UserController extends Controller
         $roles = Role::all();
 
         return view('models.user.create')->with([
-            'roles'  => $roles,
+            'roles' => $roles,
         ]);
     }
 

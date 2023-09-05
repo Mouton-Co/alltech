@@ -32,7 +32,7 @@
 
             {{-- role --}}
             <div>
-                <x-form.label class="mt-2" :value="'Email address'" />
+                <x-form.label class="mt-2" :value="'Role'" />
                 <div class="mt-2">
                     <select name="role_id" class="field"
                     {{ $user->id == auth()->user()->id ? 'disabled' : '' }}>
