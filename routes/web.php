@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     require_once 'models/user.php';
     require_once 'models/company-type.php';
+    require_once 'models/company.php';
 });
 
 require_once 'auth.php';

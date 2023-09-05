@@ -32,7 +32,8 @@ dark:border-solid dark:border-r-2 dark:border-r-bg_seperator">
                             <x-icon.contact class="w-8 -mx-[3px]"/>
                             Contacts
                         </x-navbar.link>
-                        <x-navbar.link>
+                        <x-navbar.link :link="route('company.index')"
+                        :active="request()->segment(1) == 'companies' ? true : false">
                             <x-icon.company class="w-7"/>
                             Companies
                         </x-navbar.link>

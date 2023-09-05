@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CompanyType extends Model
+class Company extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,9 @@ class CompanyType extends Model
      */
     protected $fillable = [
         'name',
-        'minimum_required',
+        'location',
+        'coordinates',
+        'company_type_id',
     ];
 
     /*
@@ -27,10 +29,10 @@ class CompanyType extends Model
     */
 
     /**
-     * Get all companies of this type
+     * Get company's type
      */
-    public function companies(): HasMany
+    public function companyType(): BelongsTo
     {
-        return $this->hasMany(Company::class);
+        return $this->belongsTo(CompanyType::class);
     }
 }
