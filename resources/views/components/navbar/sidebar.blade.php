@@ -11,7 +11,8 @@ dark:border-solid dark:border-r-2 dark:border-r-bg_seperator">
             <li>
                 <ul role="list" class="-mx-2 space-y-1">
                     <li>
-                        <x-navbar.link>
+                        <x-navbar.link :link="route('meeting.index')"
+                        :active="request()->segment(1) == 'meetings' ? true : false">
                             <x-icon.calendar class="w-7"/>
                             Meeting planner
                         </x-navbar.link>

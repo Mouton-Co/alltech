@@ -10,6 +10,7 @@ export default {
         "./resources/**/**/*.blade.php",
         "./resources/**/**/**/*.blade.php",
         "./resources/**/*.js",
+        "./node_modules/flowbite/**/*.js"
     ],
 
     theme: {
@@ -47,7 +48,10 @@ export default {
         'ring-red-400',
     ],
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('flowbite/plugin')
+    ],
 
     darkMode: 'class',
 };
