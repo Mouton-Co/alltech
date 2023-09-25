@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Contact extends Model
+class Meeting extends Model
 {
     use HasFactory;
 
@@ -16,10 +16,13 @@ class Contact extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'company_id',
+        'date',
+        'start_time',
+        'end_time',
+        'objective',
+        'marketing_requirements',
+        'added_to_teams',
+        'contact_id',
     ];
 
     /*
@@ -29,10 +32,18 @@ class Contact extends Model
     */
 
     /**
-     * Get contact's company
+     * Get meeting's contact.
      */
-    public function company(): BelongsTo
+    public function contact(): BelongsTo
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Contact::class);
+    }
+
+    /**
+     * Get meeting's company
+     */
+    public function company()
+    {
+        return $this->contact->company;
     }
 }
