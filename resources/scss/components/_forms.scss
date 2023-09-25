@@ -7,3 +7,17 @@
 .label {
     @apply block text-sm font-medium leading-6 text-black dark:text-white;
 }
+
+.datepicker {
+    .datepicker-picker {
+        @apply dark:bg-bg_seperator;
+        .datepicker-controls button {
+            @apply bg-transparent focus:ring-orange;
+        }
+        .datepicker-main {
+            .selected {
+                @apply bg-orange;
+            }
+        }
+    }
+}

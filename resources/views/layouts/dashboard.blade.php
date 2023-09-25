@@ -57,4 +57,6 @@
             </main>
         </div>
     </div>
+
+    @yield('end-body-scripts')
 </x-app>

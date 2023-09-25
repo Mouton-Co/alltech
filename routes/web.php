@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     require_once 'models/company-type.php';
     require_once 'models/company.php';
     require_once 'models/contact.php';
+    require_once 'models/meeting.php';
 });
 
 require_once 'auth.php';
