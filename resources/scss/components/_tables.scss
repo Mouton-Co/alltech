@@ -19,4 +19,28 @@ table {
             @apply block w-full h-full px-3 py-2;
         }
     }
+
+    caption {
+        @apply text-lg pb-2 text-left text-black dark:text-orange;
+    }
+}
+
+.vertical-lines {
+    @apply border-l border-r border-b border-black dark:border-white;
+    td, th {
+        @apply border-l border-r border-black dark:border-white;
+    }
+    td {
+        @apply px-3 border-dotted;
+    }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

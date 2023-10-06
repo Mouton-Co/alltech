@@ -2,8 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "abstract/typography";
 @import "abstract/animations";
+@import "abstract/general";
+
+@import "abstract/typography";
 @import "components/buttons";
 @import "components/cards";
 @import "components/forms";

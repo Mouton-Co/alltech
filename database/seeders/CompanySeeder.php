@@ -13,27 +13,14 @@ class CompanySeeder extends Seeder
      */
     public function run(): void
     {
-        $companies = [
-            [
-                'name'         => 'Test Comp 1',
-                'location'     => 'Africa',
-                'coordinates'  => '104 189 012',
-                'company_type' => 'Consultants',
-            ],
-            [
-                'name'         => 'Test Comp 2',
-                'location'     => 'America',
-                'coordinates'  => '7767 876',
-                'company_type' => 'Veterinarians',
-            ],
-        ];
+        /**
+         * Generate 5 companies for each company type
+         */
 
-        foreach($companies as $company) {
-            $companyType = CompanyType::where('name', $company['company_type'])->first();
-            Company::create([
-                'name'            => $company['name'],
-                'location'        => $company['location'],
-                'coordinates'     => $company['coordinates'],
+        $companyTypes = CompanyType::all();
+
+        foreach($companyTypes as $companyType) {
+            Company::factory()->count(5)->create([
                 'company_type_id' => $companyType->id,
             ]);
         }
