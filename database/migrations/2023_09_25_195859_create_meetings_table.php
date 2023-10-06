@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('marketing_requirements')->nullable();
             $table->boolean('added_to_teams')->default(false);
             $table->foreignId('contact_id')->constrained('contacts');
+            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_type_id')->constrained('company_types');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

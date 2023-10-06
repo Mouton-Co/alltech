@@ -13,27 +13,14 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        $contacts = [
-            [
-                'name'    => 'John Doe',
-                'email'   => 'johndoe@gmail.com',
-                'phone'   => '01234556789',
-                'company' => 'Test Comp 1',
-            ],
-            [
-                'name'    => 'Jane Doe',
-                'email'   => 'janedoe@gmail.com',
-                'phone'   => '01234556789',
-                'company' => 'Test Comp 2',
-            ],
-        ];
+        /**
+         * Generate 10 contacts for each company
+         */
 
-        foreach($contacts as $contact) {
-            $company = Company::where('name', $contact['company'])->first();
-            Contact::create([
-                'name'       => $contact['name'],
-                'email'      => $contact['email'],
-                'phone'      => $contact['phone'],
+        $companies = Company::all();
+
+        foreach($companies as $company) {
+            Contact::factory()->count(10)->create([
                 'company_id' => $company->id,
             ]);
         }

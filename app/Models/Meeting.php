@@ -23,6 +23,7 @@ class Meeting extends Model
         'marketing_requirements',
         'added_to_teams',
         'contact_id',
+        'user_id',
     ];
 
     /*
@@ -45,5 +46,21 @@ class Meeting extends Model
     public function company()
     {
         return $this->contact->company;
+    }
+
+    /**
+     * Get meeting's company type
+     */
+    public function companyType()
+    {
+        return $this->contact->company->companyType;
+    }
+
+    /**
+     * Get meeting's user.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
