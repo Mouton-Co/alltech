@@ -19,7 +19,8 @@ export default {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                orange: '#de6320',
+                // orange: '#de6320',
+                orange: '#c45527',
                 black: '#231f20',
                 bg_gray: '#1d2125',
                 bg_darkgray: '#161a1d',
@@ -28,8 +29,12 @@ export default {
             },
             boxShadow: {
                 sidebar: '#e5e7eb 2px 1.5px 3px',
+                inner: 'inset 0 2px 6px rgba(0, 0, 0, 0.5)',
             },
-            
+        },
+        screens: {
+            'smaller-than-380': {'min': '0px', 'max': '380px'},
+            ...defaultTheme.screens,
         },
     },
 
