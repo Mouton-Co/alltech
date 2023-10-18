@@ -15,8 +15,6 @@
             {{-- password --}}
             <x-form.input :type="'password'" :name="'password'" placeholder="Password" required />
 
-            <a href="#" class="link text-center">Forgot password?</a>
-
             {{-- button --}}
             <button type="submit" class="btn-orange">
                 {{ __('Login') }}
