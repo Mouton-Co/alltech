@@ -79,4 +79,29 @@ export function animations() {
             $("#delete-modal-"+id).addClass('hidden');
         }, 200);
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | ADD MEETING MODAL POPUP
+    |--------------------------------------------------------------------------
+    */
+    $('button[id^="add-meeting-button-"]').on("click", function () {
+        let id = this.getAttribute('id').split('-')[3];
+        $("#add-modal-"+id).removeClass('hidden');
+        $('#curtain-'+id).removeClass('curtain-closed').addClass('curtain-expanded');
+        setTimeout(function () {
+            $("#add-modal-popup-"+id).removeClass('modal-close');
+            $("#add-modal-popup-"+id).addClass('modal-popup');
+        }, 300);
+    });
+
+    $('button[id^="add-modal-cancel-"]').on("click", function () {
+        let id = this.getAttribute('id').split('-')[3];
+        $('#curtain-'+id).addClass('curtain-closed').removeClass('curtain-expanded');
+        $("#add-modal-popup-"+id).removeClass('modal-popup');
+        $("#add-modal-popup-"+id).addClass('modal-close');
+        setTimeout(function () {
+            $("#add-modal-"+id).addClass('hidden');
+        }, 200);
+    });
 }

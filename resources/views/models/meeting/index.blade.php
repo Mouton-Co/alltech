@@ -5,7 +5,7 @@
     </div>
 
     @foreach ($companyTypes as $companyType)
-        <div class="card mt-3 overflow-auto !pt-2 !pb-3 mb-6 no-scrollbar">
+        <div class="card mt-3 overflow-auto !pt-2 !pb-3 mb-6 no-scrollbar relative">
             <table class="vertical-lines">
                 <caption>{{ $companyType->name }}</caption>
                 <thead>
@@ -40,7 +40,12 @@
                     @endforeach
                 </tbody>
             </table>
+            <button id="add-meeting-button-{{$companyType->id}}" class="btn-primary max-w-fit float-right mt-3">
+                {{ __('Add') }}
+            </button>
         </div>
+        
+        <x-modals.add-meeting :object="$companyType" />
     @endforeach
 
     @section('end-body-scripts')
