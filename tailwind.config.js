@@ -19,17 +19,21 @@ export default {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // orange: '#de6320',
-                orange: '#c45527',
-                black: '#231f20',
-                bg_gray: '#1d2125',
-                bg_darkgray: '#161a1d',
-                bg_lightgray: '#22272b',
-                bg_seperator: '#282e35',
+                orange: '#de6320',
+                black: '#1f1f1f',
+                darkgray: '#555555',
+                gray: '#e5e5e5',
+                nothing: '#f3f3f3',
+                torquise: '#424b4e',
+                lightblue: '#4c6b77',
             },
             boxShadow: {
-                sidebar: '#e5e7eb 2px 1.5px 3px',
-                inner: 'inset 0 2px 6px rgba(0, 0, 0, 0.5)',
+                solidlightblue: '0 0 0 28px #4c6b77',
+                solidnothing: '0 0 0 38px #f3f3f3',
+                inner: 'inset 0px 2px 6px #575757',
+            },
+            borderRadius: {
+                'pill': '50vw',
             },
         },
         screens: {
@@ -37,21 +41,6 @@ export default {
             ...defaultTheme.screens,
         },
     },
-
-    safelist: [
-        'border-green-500',
-        'text-green-500',
-        'text-green-700',
-        'bg-green-100',
-        'bg-green-200',
-        'ring-green-400',
-        'border-red-500',
-        'text-red-500',
-        'text-red-700',
-        'bg-red-100',
-        'bg-red-200',
-        'ring-red-400',
-    ],
 
     plugins: [
         forms,

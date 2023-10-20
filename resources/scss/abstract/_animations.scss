@@ -1,3 +1,9 @@
+.settings {
+    &-show {
+        @apply transition ease-in-out duration-300;
+    }
+}
+
 .profile-dropdown {
     &-show {
         @apply transition ease-in duration-75 transform opacity-100 scale-100;

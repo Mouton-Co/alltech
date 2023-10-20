@@ -11,7 +11,7 @@
     <g stroke-width="0"></g>
     <g stroke-linecap="round" stroke-linejoin="round"></g>
     <g>
-        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
         stroke-linejoin="round">
         </path>
     </g>

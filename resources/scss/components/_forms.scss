@@ -8,7 +8,6 @@
 
 .datepicker {
     .datepicker-picker {
-        @apply dark:bg-bg_seperator;
         .datepicker-controls button {
             @apply bg-transparent focus:ring-orange;
         }
