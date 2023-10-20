@@ -1,62 +1,75 @@
 <x-app>
-    <div>
-        {{-- mobile canvas --}}
-        <div id="mobile-nav" class="-z-10 relative" role="dialog" aria-modal="true">
-            
-            {{-- curtain --}}
-            <div id="curtain" class="fixed inset-0 bg-gray-500 curtain-closed"></div>
 
-            <div class="fixed inset-0 flex">
-                
-                {{-- off screen canvas --}}
-                <div id="side-panel" class="-translate-x-full relative mr-16 flex w-full max-w-xs flex-1">
-                    
-                    {{-- close menu button --}}
-                    <div id="close-button" class="opacity-0 absolute left-full top-0 flex w-16 justify-center pt-5">
-                        <button type="button" class="-m-2.5 p-2.5" id="close-menu">
-                            <span class="sr-only">Close sidebar</span>
-                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
+    {{-- navbar top --}}
+    <nav class="w-full bg-torquise flex justify-end py-4 pr-12 shadow-solidlightblue" aria-label="navbar">
 
-                    {{-- mobile nav --}}
-                    <x-navbar.sidebar />
+        <div class="relative font-bold text-lg">
+            {{-- dropdown toggle --}}
+            <div class="h-14 bg-gray flex w-fit items-center p-1 pr-5 rounded-pill cursor-pointer z-20 relative
+            border border-[#d0d0d0] shadow" id="settings-toggle">
+                <div class="h-full aspect-square rounded-[50vw] mr-4 bg-cover bg-center bg-no-repeat"
+                style="background-image: url({{ asset("img/profile.jpeg") }})">
                 </div>
+                <div>Adriaan Mouton</div>
+                <x-icon.arrow :direction="'down'" class="h-6 transition-all" id="settings-arrow" />
+            </div>
+    
+            {{-- dropdown --}}
+            <div class="h-14 pt-14 w-full absolute top-0 left-0 z-10 bg-gray
+            transition-all overflow-hidden rounded-[1.8rem] text-darkgray text-base shadow"
+            id="settings-dropdown" aria-expanded="false">
+                <a href="{{ route('user.edit', auth()->user()->id) }}"
+                    class="block w-full pl-5 py-2 hover:bg-[#c5c5c5] mt-[5px]">
+                    {{ __('Your profile') }}
+                </a>
+                <form class="block w-full pl-5 py-2 hover:bg-[#c5c5c5]" action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="w-full text-left">
+                        {{ __('Sign out') }}
+                    </button>
+                </form>
             </div>
         </div>
 
-        {{-- desktop canvas --}}
-        <div class="shadow-lg hidden lg:fixed lg:inset-y-0 lg:z-40 lg:flex lg:w-72 lg:flex-col">
-            {{-- mobile nav --}}
-            <x-navbar.sidebar />
-        </div>
+    </nav>
 
-        <div class="lg:pl-72">
-
-            {{-- top navbar --}}
-            <x-navbar.top />
-
-            {{-- dashboard content --}}
-            <main class="py-10">
-                <div class="px-4 sm:px-6 lg:px-8">
-                    @if (session('success'))
-                        <x-navbar.message :type="'success'">
-                            {{ session('success') }}
-                        </x-navbar>
-                    @endif
-                    @if (session('error'))
-                        <x-navbar.message :type="'error'">
-                            {{ session('error') }}
-                        </x-navbar>
-                    @endif
-                    {{ $slot }}
+    {{-- sidebar desktop --}}
+    <nav class="fixed top-0 left-0 h-full bg-transparent pt-20 pb-4 pl-4 pr-10" aria-label="sidebar">
+        <div class="bg-black text-white h-full w-full rounded-pill pt-28 pl-4 pr-8 shadow-solidnothing
+        relative">
+            <div class="flex flex-1 flex-col gap-y-7">
+                <div class="space-y-3">
+                    <x-navbar.link :link="route('meeting.index')"
+                    :active="request()->segment(1) == 'meetings'" class="mb-7">
+                        <x-icon.calendar class="w-7"/>
+                        {{ __('Meeting planner') }}
+                    </x-navbar.link>
+                    <div class="text-xs leading-6 text-gray">{{ __('Administration') }}</div>
+                    <x-navbar.link :link="route('user.index')"
+                    :active="request()->segment(1) == 'users'">
+                        <x-icon.users class="w-7" />
+                        {{ __('Users') }}
+                    </x-navbar.link>
+                    <x-navbar.link :link="route('contact.index')"
+                    :active="request()->segment(1) == 'contacts'">
+                        <x-icon.contact class="w-8 -mx-[3px]"/>
+                        {{ __('Contacts') }}
+                    </x-navbar.link>
+                    <x-navbar.link :link="route('company.index')"
+                    :active="request()->segment(1) == 'companies'">
+                        <x-icon.company class="w-7"/>
+                        {{ __('Companies') }}
+                    </x-navbar.link>
+                    <x-navbar.link :link="route('company-type.index')"
+                    :active="request()->segment(1) == 'company-types'">
+                        <x-icon.company-type class="w-7"/>
+                        {{ __('Company types') }}
+                    </x-navbar.link>
                 </div>
-            </main>
+            </div>
+            <img src="{{ asset('img/logo-white.png') }}" alt="No image found"
+            class="max-w-[164px] absolute bottom-24 ml-1">
         </div>
-    </div>
+    </nav>
 
-    @yield('end-body-scripts')
 </x-app>

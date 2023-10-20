@@ -17,7 +17,7 @@
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
     </head>
 
-    <body class="h-full text-black bg-[#e5e5e5] font-sans">
+    <body class="h-full text-black bg-nothing font-sans">
         {{ $slot }}
     </body>
 
