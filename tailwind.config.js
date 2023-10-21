@@ -23,9 +23,11 @@ export default {
                 black: '#1f1f1f',
                 darkgray: '#555555',
                 gray: '#e5e5e5',
+                lightgray: '#f7f7f7',
                 nothing: '#f3f3f3',
                 torquise: '#424b4e',
                 lightblue: '#4c6b77',
+                blue: '#2f80ed',
             },
             boxShadow: {
                 solidlightblue: '0 0 0 28px #4c6b77',
@@ -38,6 +40,8 @@ export default {
         },
         screens: {
             'smaller-than-380': {'min': '0px', 'max': '380px'},
+            'smaller-than-740': {'min': '0px', 'max': '740px'},
+            'smaller-than-928': {'min': '0px', 'max': '928px'},
             ...defaultTheme.screens,
         },
     },

@@ -30,13 +30,28 @@ class UserSeeder extends Seeder
         ];
         
         foreach ($users as $user) {
-            $role = Role::where('name', $user['role'])->first();
-            $user = User::create([
+            User::factory()->create([
+                'role_id' => Role::where('name', $user['role'])->first()->id,
+                'password' => $password,
                 'name'     => $user['name'],
                 'email'    => $user['email'],
-                'password' => $password,
-                'role_id'  => $role->id,
             ]);
         }
+
+        /**
+         * Seed 10 admins
+         */
+        User::factory()->count(10)->create([
+            'role_id' => Role::where('name', 'Admin')->first()->id,
+            'password' => $password
+        ]);
+
+        /**
+         * Seed 50 clients
+         */
+        User::factory()->count(50)->create([
+            'role_id' => Role::where('name', 'Client')->first()->id,
+            'password' => $password
+        ]);
     }
 }

@@ -1,37 +1,30 @@
-table {
-    @apply w-full divide-y-2 divide-black dark:divide-white table-auto;
+.index-table {
+    @apply w-full bg-lightgray shadow rounded-sm mb-3;
 
-    tbody {
-        @apply divide-y divide-black dark:divide-white;
-
-        tr {
-            @apply hover:bg-orange hover:text-white cursor-pointer hover:shadow-inner;
-        }
+    thead, th {
+        @apply text-sm font-semibold text-left bg-lightgray;
     }
 
-    th {
-        @apply px-3 py-3 text-left text-sm font-bold;
-    }
-    td {
-        @apply whitespace-nowrap text-sm;
-
-        a {
-            @apply block w-full h-full px-3 py-2;
-        }
+    tr:nth-child(odd) {
+        @apply bg-gray;
     }
 
-    caption {
-        @apply text-lg pb-2 text-left text-black dark:text-orange;
+    th, td {
+        @apply py-2 px-4 whitespace-nowrap;
     }
 }
 
-.vertical-lines {
-    @apply border-l border-r border-b border-black dark:border-white;
-    td, th {
-        @apply border-l border-r border-black dark:border-white;
+.pagination-link {
+    @apply relative inline-flex items-center justify-center px-2 py-2 text-sm font-medium border border-gray
+    leading-5 w-[38px] h-[38px];
+    &-normal {
+        @apply pagination-link cursor-pointer bg-lightgray hover:bg-orange hover:text-white text-darkgray;
     }
-    td {
-        @apply px-3 border-dotted;
+    &-inactive {
+        @apply pagination-link text-[#afafaf] cursor-default bg-lightgray;
+    }
+    &-active {
+        @apply pagination-link text-white bg-orange cursor-default;
     }
 }
 

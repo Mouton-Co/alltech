@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\Role;
@@ -19,12 +20,30 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $users = User::all();
+        $users = User::select(['users.*', 'roles.name as role_name'])->join('roles', 'roles.id', '=', 'users.role_id');
+
+        if (!empty($request->get('order_by')) && $request->get('order_by') == 'role->name') {
+            $users = $users->orderBy(
+                'roles.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        } else {
+            $users = $users->orderBy(
+                $request->get('order_by') ?? 'users.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        }
+
+        if (!empty($request->get('search'))) {
+            $users = $users->where('users.name', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('email', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('roles.name', 'like', '%' . $request->get('search') . '%');
+        }
 
         return view('models.user.index')->with([
-            'users'  => $users,
+            'users' => $users->paginate(10),
         ]);
     }
 
