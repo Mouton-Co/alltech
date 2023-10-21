@@ -4,21 +4,21 @@
         {{-- mobile --}}
         <div class="justify-between flex-1 hidden smaller-than-740:flex">
             @if ($paginator->onFirstPage())
-                <span class="pagination-link-inactive rounded-md min-w-[86px]">
+                <span class="pagination-link-inactive rounded-md min-w-[96px]">
                     {!! __('pagination.previous') !!}
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" class="pagination-link-normal rounded-md min-w-[86px]">
+                <a href="{{ $paginator->previousPageUrl() }}" class="pagination-link-normal rounded-md min-w-[96px]">
                     {!! __('pagination.previous') !!}
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" class="pagination-link-normal rounded-md min-w-[86px]">
+                <a href="{{ $paginator->nextPageUrl() }}" class="pagination-link-normal rounded-md min-w-[96px]">
                     {!! __('pagination.next') !!}
                 </a>
             @else
-                <span class="pagination-link-inactive rounded-md min-w-[86px]">
+                <span class="pagination-link-inactive rounded-md min-w-[96px]">
                     {!! __('pagination.next') !!}
                 </span>
             @endif
