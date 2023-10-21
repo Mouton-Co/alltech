@@ -1,10 +1,14 @@
 <x-dashboard>
 
+    {{-- curtain --}}
+    <x-modals.curtain />
+
+    {{-- title and search --}}
     <div class="flex justify-between mb-3">
         <h1>{{ __('Users') }}</h1>
         <form action="" class="relative">
             <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray
+                class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray shadow
                 focus:ring-orange focus:border-orange">
             <input type="hidden" name="order_by" value="{{ request()->query('order_by') ?? 'name' }}">
             <input type="hidden" name="order_direction" value="{{ request()->query('order_direction') ?? 'asc' }}">
@@ -15,6 +19,7 @@
         </form>
     </div>
     
+    {{-- index table --}}
     <div class="overflow-scroll no-scrollbar">
         <table class="index-table">
             <caption class="hidden">{{ __('User index table') }}</caption>
@@ -60,13 +65,24 @@
                                 <td>{{ $user->$field }}</td>
                             @endif
                         @endforeach
-                        <td class="flex justify-end"><x-icon.ellipse class="text-blue w-5 cursor-pointer" /></td>
+                        <td class="flex justify-end gap-2">
+                            <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange"/>
+                            <x-icon.delete class="text-blue w-6 cursor-pointer hover:text-orange delete-icon"
+                            id="delete-{{ $user->id }}"/>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 
+    {{-- delete modals --}}
+    @foreach ($users as $user)
+        <x-modals.delete id="delete-modal-{{ $user->id }}" :resource="$user" :route="'user'"
+            :message="'Are you sure you which to delete the account for user ' . $user->name . '?'"/>
+    @endforeach
+
+    {{-- pagination --}}
     {{ $users->appends([
         'search'          => request()->query('search') ?? '',
         'order_by'        => request()->query('order_by') ?? 'name',

@@ -45,6 +45,15 @@ class User extends Authenticatable
         'password'          => 'hashed',
     ];
 
+    /**
+     * Delete cascading.
+     */
+    protected static function booted () {
+        static::deleting(function(User $user) {
+                $user->meetings()->delete();
+        });
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONSHIPS

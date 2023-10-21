@@ -2,6 +2,10 @@ h1 {
     @apply text-xl font-bold;
 }
 
+h2 {
+    @apply text-lg font-semibold leading-[0.5rem];
+}
+
 .link {
     @apply hover:text-orange;
 }

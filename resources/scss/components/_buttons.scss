@@ -1,3 +1,17 @@
 .btn-orange {
     @apply h-[45px] text-white rounded-[10px] bg-orange hover:shadow-inner;
 }
+
+.btn-transparent {
+    @apply h-[45px] text-black border-black border-2 rounded-[10px] bg-transparent hover:border-orange
+    hover:text-orange;
+}
+
+.btn-orange-thin {
+    @apply h-[35px] text-white rounded bg-orange hover:shadow-inner;
+}
+
+.btn-transparent-thin {
+    @apply h-[35px] text-black border-black border-2 rounded bg-transparent hover:border-orange
+    hover:text-orange;
+}
