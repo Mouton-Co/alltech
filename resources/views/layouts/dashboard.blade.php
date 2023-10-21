@@ -1,7 +1,7 @@
 <x-app>
 
     {{-- navbar top --}}
-    <nav class="w-full bg-torquise flex justify-end py-4 pr-12 shadow-solidlightblue" aria-label="navbar">
+    <nav class="w-full bg-torquise flex justify-end py-4 pr-16 shadow-solidlightblue" aria-label="navbar">
 
         <div class="relative font-bold text-lg">
             {{-- dropdown toggle --}}
@@ -10,7 +10,7 @@
                 <div class="h-full aspect-square rounded-[50vw] mr-4 bg-cover bg-center bg-no-repeat"
                 style="background-image: url({{ asset("img/profile.jpeg") }})">
                 </div>
-                <div>Adriaan Mouton</div>
+                <div>{{ auth()->user()->name }}</div>
                 <x-icon.arrow :direction="'down'" class="h-6 transition-all" id="settings-arrow" />
             </div>
     
@@ -34,7 +34,7 @@
     </nav>
 
     {{-- sidebar desktop --}}
-    <nav class="fixed top-0 left-0 h-full bg-transparent pt-20 pb-4 pl-4 pr-10" aria-label="sidebar">
+    <nav class="absolute top-0 left-0 h-full bg-transparent pt-20 pb-4 pl-4 pr-10" aria-label="sidebar">
         <div class="bg-black text-white h-full w-full rounded-pill pt-28 pl-4 pr-8 shadow-solidnothing
         relative">
             <div class="flex flex-1 flex-col gap-y-7">
@@ -71,5 +71,12 @@
             class="max-w-[164px] absolute bottom-24 ml-1">
         </div>
     </nav>
+
+    {{-- dashboard --}}
+    <main class="w-full" aria-label="main">
+        <div class="w-full pt-[106px] pl-80 pr-20 pb-28">
+            {{ $slot ?? null }}
+        </div>
+    </main>
 
 </x-app>
