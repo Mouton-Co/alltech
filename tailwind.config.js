@@ -40,6 +40,7 @@ export default {
         },
         screens: {
             'smaller-than-380': {'min': '0px', 'max': '380px'},
+            'smaller-than-520': {'min': '0px', 'max': '520px'},
             'smaller-than-740': {'min': '0px', 'max': '740px'},
             'smaller-than-928': {'min': '0px', 'max': '928px'},
             ...defaultTheme.screens,
