@@ -47,6 +47,21 @@ export default {
         },
     },
 
+    safelist: [
+        'bg-green-100',
+        'bg-green-200',
+        'b-green-500',
+        'text-green-500',
+        'text-green-700',
+        'ring-green-400',
+        'bg-red-100',
+        'bg-red-200',
+        'b-red-500',
+        'text-red-500',
+        'text-red-700',
+        'ring-red-400',
+    ],
+
     plugins: [
         forms,
         require('flowbite/plugin')

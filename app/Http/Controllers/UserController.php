@@ -22,7 +22,9 @@ class UserController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        $users = User::select(['users.*', 'roles.name as role_name'])->join('roles', 'roles.id', '=', 'users.role_id');
+        $users = User::select(['users.*', 'roles.name as role_name'])
+            ->join('roles', 'roles.id', '=', 'users.role_id')
+            ->where('users.id', '!=', auth()->user()->id);
 
         if (!empty($request->get('order_by')) && $request->get('order_by') == 'role->name') {
             $users = $users->orderBy(
@@ -44,6 +46,7 @@ class UserController extends Controller
 
         return view('models.user.index')->with([
             'users' => $users->paginate(10),
+            'roles' => Role::all(),
         ]);
     }
 
@@ -150,21 +153,5 @@ class UserController extends Controller
         return redirect()->route('user.index')->with([
             'success' => "$name has been removed"
         ]);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | OTHER
-    |--------------------------------------------------------------------------
-    */
-
-    /**
-     * Toggles the dark mode for logged in user.
-     */
-    public function toggleDarkMode()
-    {
-        $user = User::find(auth()->user()->id);
-        $user->dark = !$user->dark;
-        $user->save();
     }
 }

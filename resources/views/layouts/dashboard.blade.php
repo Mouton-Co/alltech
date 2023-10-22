@@ -75,6 +75,14 @@
     {{-- dashboard --}}
     <main class="w-full" aria-label="main">
         <div class="w-full pt-[106px] pl-80 pr-20 pb-28">
+            @php $messageTypes = ['success', 'error']; @endphp
+            @foreach ($messageTypes as $messageType)
+                @if (session()->has($messageType))
+                    <x-navbar.message :type="$messageType">
+                        {{ session()->get($messageType) }}
+                    </x-navbar.message>
+                @endif
+            @endforeach
             {{ $slot ?? null }}
         </div>
     </main>

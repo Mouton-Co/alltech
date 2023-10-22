@@ -1,7 +1,46 @@
 <x-dashboard>
 
+    {{-- see if there's any modal errors and show the modal if the case --}}
+    @php
+        $modalErrors = [
+            'name',
+            'email',
+            'role_id',
+        ];
+
+        $hasModalErrors = false;
+        foreach ($modalErrors as $modalError) {
+            if (!empty($errors->get($modalError))) {
+                $hasModalErrors = true;
+                break;
+            }
+        }
+    @endphp
+
     {{-- curtain --}}
-    <x-modals.curtain />
+    <x-modals.curtain :show="$hasModalErrors" />
+
+    {{-- add modal --}}
+    <x-modals.add :route="'user'" :show="$hasModalErrors">
+        <div class="flex w-full flex-col gap-3">
+            <x-form.input type="text" :name="'name'" value="{{ old('name') }}" placeholder="Name"
+                class="w-full" required>
+                <x-icon.name class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+            </x-form.input>
+            <x-form.input type="email" :name="'email'" value="{{ old('email') }}" placeholder="Email"
+                class="w-full" required>
+                <x-icon.email class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+            </x-form.input>
+            <div>
+                <x-form.label for="role_id">
+                    {{ __('Role') }}
+                </x-form.label>
+                <x-form.select :name="'role_id'" class="w-full" :options="$roles" :value="'id'" :display="'name'">
+                    <x-icon.role class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+                </x-form.input>
+            </div>
+        </div>
+    </x-modals.add>
 
     {{-- title and search --}}
     <div class="flex justify-between mb-3">
@@ -48,7 +87,7 @@
                         </th>
                     @endforeach
                     <th class="flex justify-end">
-                        <span class="flex items-center gap-3 cursor-pointer hover:text-orange">
+                        <span class="flex items-center gap-3 cursor-pointer hover:text-orange" id="add-resource">
                             <x-icon.plus class="w-4 h-4"/>
                             {{ __('Add user') }}
                         </span>
