@@ -19,10 +19,10 @@ return new class extends Migration
             $table->text('objective')->nullable();
             $table->text('marketing_requirements')->nullable();
             $table->boolean('added_to_teams')->default(false);
-            $table->foreignId('contact_id')->constrained('contacts');
-            $table->foreignId('company_id')->constrained('companies');
-            $table->foreignId('company_type_id')->constrained('company_types');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('contact_id')->constrained('contacts')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('company_type_id')->constrained('company_types')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
