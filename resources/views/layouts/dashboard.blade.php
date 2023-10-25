@@ -18,7 +18,7 @@
             <div class="h-14 pt-14 w-full absolute top-0 left-0 z-10 bg-gray
             transition-all overflow-hidden rounded-[1.8rem] text-darkgray text-base shadow"
             id="settings-dropdown" aria-expanded="false">
-                <a href="{{ route('user.edit', auth()->user()->id) }}"
+                <a href=""
                     class="block w-full pl-5 py-2 hover:bg-[#c5c5c5] mt-[5px]">
                     {{ __('Your profile') }}
                 </a>
