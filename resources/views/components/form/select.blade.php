@@ -3,7 +3,10 @@
         'class' => !empty($errors->get($name)) ? 'field-thin !ring-red-600' : 'field-thin'
     ]) }}>
         @foreach ($options as $option)
-            <option value="{{ $option->$value }}">{{ $option->$display }}</option>
+            <option value="{{ $option->$value }}"
+            {{ !empty($selected) && $selected == $option->$value ? 'selected' : '' }}>
+                {{ $option->$display }}
+            </option>
         @endforeach
     </select>
     {{ $slot }}

@@ -17,7 +17,7 @@ export function animations() {
 
     /*
     |--------------------------------------------------------------------------
-    | DELETE MODAL POPUP
+    | MODAL POPUPS
     |--------------------------------------------------------------------------
     */
     $('.delete-icon').on("click", function () {
@@ -25,22 +25,18 @@ export function animations() {
         $("#delete-modal-" + id).addClass('flex').removeClass('hidden');
         $('#curtain').addClass('block').removeClass('hidden');
     });
-    $('#curtain, .modal-cancel').on("click", function () {
-        $('.delete-modal').addClass('hidden').removeClass('flex');
-        $('#curtain').addClass('hidden').removeClass('block');
-    });
-
-    /*
-    |--------------------------------------------------------------------------
-    | ADD MODAL POPUP
-    |--------------------------------------------------------------------------
-    */
     $('#add-resource').on("click", function () {
         $("#add-resource-modal").addClass('flex').removeClass('hidden');
         $('#curtain').addClass('block').removeClass('hidden');
     });
+    $('.edit-icon').on("click", function () {
+        let id = this.getAttribute('id').split('-')[1];
+        $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
+    });
     $('#curtain, .modal-cancel').on("click", function () {
-        $('#add-resource-modal').addClass('hidden').removeClass('flex');
+        $('.delete-modal').addClass('hidden').removeClass('flex');
+        $('.resource-modal').addClass('hidden').removeClass('flex');
         $('#curtain').addClass('hidden').removeClass('block');
     });
 
