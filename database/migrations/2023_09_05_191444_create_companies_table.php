@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('location')->nullable();
             $table->string('coordinates')->nullable();
-            $table->foreignId('company_type_id');
+            $table->foreignId('company_type_id')->constrained('company_types')->onDelete('cascade');
             $table->timestamps();
         });
     }

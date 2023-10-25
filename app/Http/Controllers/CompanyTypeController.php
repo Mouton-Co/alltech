@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompanyType\IndexRequest;
 use App\Http\Requests\CompanyType\StoreRequest;
 use App\Models\CompanyType;
 
@@ -16,21 +17,20 @@ class CompanyTypeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $companyTypes = CompanyType::all();
+        $companyTypes = CompanyType::orderBy(
+            $request->get('order_by') ?? 'name',
+            $request->get('order_direction') ?? 'asc'
+        );
+
+        if (!empty($request->get('search'))) {
+            $companyTypes = $companyTypes->where('name', 'like', '%' . $request->get('search') . '%');
+        }
 
         return view('models.company-type.index')->with([
-            'companyTypes' => $companyTypes,
+            'companyTypes' => $companyTypes->paginate(10)
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('models.company-type.create');
     }
 
     /**
@@ -55,24 +55,6 @@ class CompanyTypeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $companyType = CompanyType::find($id);
-
-        if (empty($companyType)) {
-            return redirect()->route('company-type.index')->with([
-                'error' => "Company type not found"
-            ]);
-        }
-
-        return view('models.company-type.edit')->with([
-            'companyType'   => $companyType,
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(StoreRequest $request, string $id)
@@ -89,7 +71,7 @@ class CompanyTypeController extends Controller
         $companyType->minimum_required = $request->get('minimum_required');
         $companyType->save();
 
-        return redirect()->route('company-type.edit', $companyType->id)->with([
+        return redirect()->route('company-type.index', $companyType->id)->with([
             'success' => "Company type updated"
         ]);
     }

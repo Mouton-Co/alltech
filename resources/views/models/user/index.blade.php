@@ -123,7 +123,8 @@
     @foreach ($users as $user)
         {{-- delete modals --}}
         <x-modals.delete id="delete-modal-{{ $user->id }}" :resource="$user" :route="'user'"
-            :message="'Are you sure you which to delete the account for user ' . $user->name . '?'" />
+            :message="'Are you sure you wish to delete the account for user ' . $user->name . '? All meetings
+            associated with this account will be removed as well.'" />
 
         {{-- edit modals --}}
         <x-modals.resource :route="route('user.update', $user->id)" :show="$hasModalErrors" :title="'Editing user'"
