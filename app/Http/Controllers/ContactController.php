@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Contact\IndexRequest;
 use App\Http\Requests\Contact\StoreRequest;
 use App\Models\Company;
 use App\Models\Contact;
@@ -17,24 +18,33 @@ class ContactController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $contacts = Contact::all();
+        $contacts = Contact::select(['contacts.*', 'companies.name as companies_name'])
+            ->join('companies', 'companies.id', '=', 'contacts.company_id');
+
+        if (!empty($request->get('order_by')) && $request->get('order_by') == 'company->name') {
+            $contacts = $contacts->orderBy(
+                'companies.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        } else {
+            $contacts = $contacts->orderBy(
+                $request->get('order_by') ?? 'contacts.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        }
+
+        if (!empty($request->get('search'))) {
+            $contacts = $contacts->where('contacts.name', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('email', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('phone', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('companies.name', 'like', '%' . $request->get('search') . '%');
+        }
 
         return view('models.contact.index')->with([
-            'contacts' => $contacts,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $companies = Company::all();
-
-        return view('models.contact.create')->with([
-            'companies' => $companies,
+            'contacts'  => $contacts->paginate(10),
+            'companies' => Company::all(),
         ]);
     }
 
@@ -62,27 +72,6 @@ class ContactController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $contact = Contact::find($id);
-
-        if (empty($contact)) {
-            return redirect()->route('contact.index')->with([
-                'error' => "Contact not found"
-            ]);
-        }
-
-        $companies = Company::all();
-
-        return view('models.contact.edit')->with([
-            'contact'   => $contact,
-            'companies' => $companies,
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(StoreRequest $request, string $id)
@@ -101,7 +90,7 @@ class ContactController extends Controller
         $contact->company_id = $request->get('company_id');
         $contact->save();
 
-        return redirect()->route('contact.edit', $contact->id)->with([
+        return redirect()->route('contact.index', $contact->id)->with([
             'success' => "Contact updated"
         ]);
     }
