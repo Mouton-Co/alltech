@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Company\IndexRequest;
 use App\Http\Requests\Company\StoreRequest;
 use App\Models\Company;
 use App\Models\CompanyType;
@@ -17,24 +18,32 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $companies = Company::all();
+        $companies = Company::select(['companies.*', 'company_types.name as company_types_name'])
+            ->join('company_types', 'company_types.id', '=', 'companies.company_type_id');
+
+        if (!empty($request->get('order_by')) && $request->get('order_by') == 'companyType->name') {
+            $companies = $companies->orderBy(
+                'company_types.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        } else {
+            $companies = $companies->orderBy(
+                $request->get('order_by') ?? 'companies.name',
+                $request->get('order_direction') ?? 'asc'
+            );
+        }
+
+        if (!empty($request->get('search'))) {
+            $companies = $companies->where('companies.name', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('location', 'like', '%' . $request->get('search') . '%')
+                ->orWhere('company_types.name', 'like', '%' . $request->get('search') . '%');
+        }
 
         return view('models.company.index')->with([
-            'companies' => $companies,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $companyTypes = CompanyType::all();
-
-        return view('models.company.create')->with([
-            'companyTypes' => $companyTypes,
+            'companies'    => $companies->paginate(10),
+            'companyTypes' => CompanyType::all(),
         ]);
     }
 
@@ -62,27 +71,6 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $company = Company::find($id);
-
-        if (empty($company)) {
-            return redirect()->route('company.index')->with([
-                'error' => "Company not found"
-            ]);
-        }
-
-        $companyTypes = CompanyType::all();
-
-        return view('models.company.edit')->with([
-            'company'      => $company,
-            'companyTypes' => $companyTypes,
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(StoreRequest $request, string $id)
@@ -101,7 +89,7 @@ class CompanyController extends Controller
         $company->company_type_id = $request->get('company_type_id');
         $company->save();
 
-        return redirect()->route('company.edit', $company->id)->with([
+        return redirect()->route('company.index', $company->id)->with([
             'success' => "Company updated"
         ]);
     }
