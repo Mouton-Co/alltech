@@ -4,7 +4,7 @@ namespace App\Http\Requests\Contact;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class IndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'       => 'required',
-            'email'      => 'required',
-            'company_id' => 'required|exists:companies,id',
+            'page' => 'nullable|integer|min:1',
+            'order_by' => 'nullable|string|in:' . implode(',', array_keys(config('models.contact.columns'))),
+            'order_direction' => 'nullable|string|in:asc,desc',
+            'search' => 'nullable|string',
         ];
     }
 }
