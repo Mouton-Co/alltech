@@ -15,6 +15,7 @@
 
         <!-- Scripts -->
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+        @yield('header-scripts')
     </head>
 
     <body class="h-full text-black bg-nothing font-sans">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Meeting\StoreRequest;
 use App\Models\CompanyType;
 use App\Models\Meeting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
@@ -20,17 +21,19 @@ class MeetingController extends Controller
      */
     public function index(Request $request)
     {
-        $companyTypes = CompanyType::all();
-        $date         = $request->get('date') ?? now()->format('Y-m-d');
-        $meetings     = Meeting::where('date', $date)->where(
-            'user_id', auth()->user()->id
-        )->orderBy('start_time')->get();
-
-        return view('models.meeting.index')->with([
-            'meetings'     => $meetings,
-            'date'         => $date,
-            'companyTypes' => $companyTypes,
-        ]);
+        $events = [];
+ 
+        $meetings = Meeting::where('user_id', auth()->id())->get();
+ 
+        foreach ($meetings as $meeting) {
+            $events[] = [
+                'title' => $meeting->contact->name,
+                'start' => $meeting->date . ' ' . $meeting->start_time,
+                'end'   => $meeting->date . ' ' . $meeting->end_time,
+            ];
+        }
+ 
+        return view('models.meeting.index', compact('events'));
     }
 
     public function store(StoreRequest $request)

@@ -16,7 +16,7 @@
 
 .pagination-link {
     @apply relative inline-flex items-center justify-center px-2 py-2 text-sm font-medium border border-gray
-    leading-5 w-[38px] h-[38px];
+    leading-5 w-[38px] h-[38px] focus:outline-none focus:ring-0;
     &-normal {
         @apply pagination-link cursor-pointer bg-lightgray hover:bg-orange hover:text-white text-darkgray;
     }

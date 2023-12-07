@@ -20,8 +20,8 @@ class MeetingFactory extends Factory
      */
     public function definition(): array
     {
-        $hour = $this->faker->numberBetween(10, 16);
-        $startTime = $hour . ':00:00'; // between 10:00 and 16:00
+        $hour = $this->faker->numberBetween(6, 19);
+        $startTime = $hour . ':00:00'; // between 06:00 and 19:00
         $endTime   = ($hour + 1) . ':00:00'; // an hour later
         
         return [

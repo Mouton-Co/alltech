@@ -20,6 +20,7 @@ export default {
             },
             colors: {
                 orange: '#de6320',
+                orangehover: '#df641fc7',
                 black: '#1f1f1f',
                 darkgray: '#555555',
                 gray: '#e5e5e5',
