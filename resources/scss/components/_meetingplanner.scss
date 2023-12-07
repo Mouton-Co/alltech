@@ -1,0 +1,28 @@
+#calendar {
+    @apply p-4 bg-white rounded shadow;
+    .fc-view-harness {
+        height: auto !important;
+    }
+    th, td {
+        @apply border-slate-300;
+    }
+    .fc-timegrid-slot {
+        @apply h-10;
+    }
+    .fc-button-primary {
+        @apply pagination-link-normal shadow-sm;
+    }
+    .fc-today-button {
+        @apply px-8;
+        &:disabled {
+            @apply pagination-link-inactive;
+            padding-inline: 2rem !important;
+        }
+    }
+
+    // events
+    .fc-timegrid-event {
+        @apply bg-orange text-white rounded-sm shadow-sm border-none p-1
+        hover:cursor-pointer hover:bg-orangehover;
+    }
+}

@@ -15,26 +15,30 @@ class MeetingSeeder extends Seeder
     public function run(): void
     {
         /**
-         * Create 5 meetings for each company type for each user.
+         * Create 1 random meeting per day for this user for this week.
          */
-
+        $user = User::where('email', 'arouxmouton@gmail.com')->first();
         $companyTypes = CompanyType::all();
-        $users        = User::all();
-        
-        foreach ($users as $user) {
-            foreach ($companyTypes as $companyType) {
-                // get a random company for the company type
-                $company = $companyType->companies->random();
-                // get a random contact for the company
-                $contact = $company->contacts->random();
 
-                Meeting::factory()->count(5)->create([
-                    'contact_id'      => $contact->id,
-                    'company_id'      => $company->id,
-                    'company_type_id' => $companyType->id,
-                    'user_id'         => $user->id,
-                ]);
-            }
+        // get start of this week
+        $startOfWeek = now()->startOfWeek();
+
+        // for each day of the week
+        for ($i = 0; $i < 7; $i++) {
+            // create random meeting
+            $companyType = $companyTypes->random();
+            $company     = $companyType->companies->random();
+            $contact     = $company->contacts->random();
+            Meeting::factory()->create([
+                'user_id'         => $user->id,
+                'company_type_id' => $companyType->id,
+                'company_id'      => $company->id,
+                'contact_id'      => $contact->id,
+                'date'            => $startOfWeek->format('Y-m-d'),
+            ]);
+
+            // go to next day
+            $startOfWeek->addDay();
         }
     }
 }

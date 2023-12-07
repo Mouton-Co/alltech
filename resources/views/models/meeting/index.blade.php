@@ -1,54 +1,24 @@
+@section('header-scripts')
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                slotMinTime: '6:00:00',
+                slotMaxTime: '20:00:00',
+                events: @json($events),
+                allDaySlot: false,
+                firstDay: 1,
+            });
+            calendar.render();
+        });
+    </script>
+@endsection
+
 <x-dashboard>
-    <div class="flex justify-start items-center gap-8 pb-3">
-        <h1>{{ __('Daily schedule') }}</h1>
-        <x-form.date-picker :date="$date"/>
-    </div>
-
-    @foreach ($companyTypes as $companyType)
-        <div class="card mt-3 overflow-auto !pt-2 !pb-3 mb-6 no-scrollbar relative">
-            <table class="vertical-lines">
-                <caption>{{ $companyType->name }}</caption>
-                <thead>
-                    <tr>
-                        <th>{{ __('Time') }}</th>
-                        <th>{{ __('Contact') }}</th>
-                        <th>{{ __('Company') }}</th>
-                        <th>{{ __('Location') }}</th>
-                        <th>{{ __('Phone') }}</th>
-                        <th>{{ __('Email') }}</th>
-                        <th>{{ __('Coordinates') }}</th>
-                        <th>{{ __('Objective') }}</th>
-                        <th>{{ __('Requirements') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($meetings as $meeting)
-                        @if ($meeting->company_type_id != $companyType->id)
-                            @continue
-                        @endif
-                        <tr>
-                            <td>{{ $meeting->start_time . ' -> ' . $meeting->end_time }}</td>
-                            <td>{{ $meeting->contact->name }}</td>
-                            <td>{{ $meeting->company()->name }}</td>
-                            <td>{{ $meeting->company()->location }}</td>
-                            <td>{{ $meeting->contact->phone }}</td>
-                            <td>{{ $meeting->contact->email }}</td>
-                            <td>{{ $meeting->company()->coordinates }}</td>
-                            <td>{{ $meeting->objective }}</td>
-                            <td>{{ $meeting->requirements }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <button id="add-meeting-button-{{$companyType->id}}" class="btn-primary max-w-fit float-right mt-3">
-                {{ __('Add') }}
-            </button>
-        </div>
-        
-        <x-modals.add-meeting :object="$companyType" />
-    @endforeach
-
-    @section('end-body-scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
-    @endsection
+    <div id="calendar"></div>
 </x-dashboard>
