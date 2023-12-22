@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Imports\MasterExcelImport;
 use Illuminate\Database\Seeder;
+use Maatwebsite\Excel\Excel;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,8 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(CompanyTypeSeeder::class);
-        $this->call(CompanySeeder::class);
-        $this->call(ContactSeeder::class);
-        $this->call(MeetingSeeder::class);
+        (new MasterExcelImport())->import(storage_path('excel/MasterContactData.xlsx'),null, Excel::XLSX);
+//        $this->call(CompanySeeder::class);
+//        $this->call(ContactSeeder::class);
+//        $this->call(MeetingSeeder::class);
     }
 }

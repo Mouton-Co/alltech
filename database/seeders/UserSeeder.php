@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
                 'role'  => 'Admin',
             ],
         ];
-        
+
         foreach ($users as $user) {
             User::factory()->create([
                 'role_id' => Role::where('name', $user['role'])->first()->id,
@@ -42,21 +42,5 @@ class UserSeeder extends Seeder
                 'email'    => $user['email'],
             ]);
         }
-
-        /**
-         * Seed 10 admins
-         */
-        User::factory()->count(10)->create([
-            'role_id' => Role::where('name', 'Admin')->first()->id,
-            'password' => $password
-        ]);
-
-        /**
-         * Seed 50 clients
-         */
-        User::factory()->count(50)->create([
-            'role_id' => Role::where('name', 'Client')->first()->id,
-            'password' => $password
-        ]);
     }
 }
