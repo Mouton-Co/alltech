@@ -93,7 +93,7 @@ class UserController extends Controller
         if (!empty($request->get('password'))) {
             $user->name = $request->get('name');
         }
-        
+
         $user->save();
 
         return redirect()->route('user.index')->with([

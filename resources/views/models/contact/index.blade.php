@@ -20,32 +20,7 @@
     <x-modals.resource :route="route('contact.store')" :show="$hasModalErrors" :title="'Creating contact'"
     :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
-
-            <x-form.input type="text" :name="'name'" value="{{ old('name') }}" placeholder="Name" class="w-full"
-                required>
-                <x-icon.name class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-            </x-form.input>
-
-            <x-form.input type="email" :name="'email'" value="{{ old('email') }}" placeholder="Email" class="w-full"
-                required>
-                <x-icon.email class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-            </x-form.input>
-
-            <x-form.input type="text" :name="'phone'" value="{{ old('phone') }}" placeholder="Phone"
-            class="w-full">
-                <x-icon.phone class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-            </x-form.input>
-
-            <div>
-                <x-form.label for="company_id">
-                    {{ __('Company') }}
-                </x-form.label>
-                <x-form.select :name="'company_id'" class="w-full" :options="$companies" :value="'id'"
-                :display="'name'" :selected="old('company_id')">
-                    <x-icon.company class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.select>
-            </div>
-
+            @include('models.contact.form', ['contact' => null, 'companies' => $companies])
         </div>
     </x-modals.resource>
 
@@ -139,32 +114,7 @@
         <x-modals.resource :route="route('contact.update', $contact->id)" :show="$hasModalErrors"
             :title="'Editing company'" :button="'Update'" id="edit-resource-modal-{{ $contact->id }}">
             <div class="flex w-full flex-col gap-3">
-
-                <x-form.input type="text" :name="'name'" value="{{  old('name') ?? $contact->name }}"
-                    placeholder="Name" class="w-full" required>
-                    <x-icon.name class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.input>
-
-                <x-form.input type="email" :name="'email'" value="{{ old('email') ?? $contact->email }}"
-                    placeholder="Email" class="w-full" required>
-                    <x-icon.email class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.input>
-
-                <x-form.input type="text" :name="'phone'" value="{{ old('phone') ?? $contact->phone ?? '' }}"
-                    placeholder="Phone" class="w-full">
-                    <x-icon.phone class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.input>
-
-                <div>
-                    <x-form.label for="company_id">
-                        {{ __('Company') }}
-                    </x-form.label>
-                    <x-form.select :name="'company_id'" class="w-full" :options="$companies" :value="'id'"
-                    :display="'name'" :selected="old('company_id') ?? $contact->company_id">
-                        <x-icon.company class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                    </x-form.select>
-                </div>
-
+                @include('models.contact.form', ['contact' => $contact, 'companies' => $companies])
             </div>
         </x-modals.resource>
     @endforeach

@@ -1,15 +1,18 @@
 import jQuery from "jquery";
-window.$ = jQuery;
 
 import './bootstrap';
-
 import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
-
 import { darkMode } from "./darkmode";
-darkMode();
 import { animations } from "./animations";
+import { Calendar } from '@fullcalendar/core';
+import timeGridPlugin from '@fullcalendar/timegrid'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction';
+import {calander} from "./calander.js";
+
+window.$ = jQuery;
+window.Alpine = Alpine;
+Alpine.start();
+darkMode();
 animations();
+calander();

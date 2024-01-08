@@ -17,28 +17,30 @@ class MeetingSeeder extends Seeder
         /**
          * Create 1 random meeting per day for this user for this week.
          */
-        $user = User::where('email', 'arouxmouton@gmail.com')->first();
+        $users = User::whereIn('email', ['arouxmouton@gmail.com','nicole.geyser@Alltech.com','theamouton@gmail.com'])->get();
         $companyTypes = CompanyType::all();
 
         // get start of this week
         $startOfWeek = now()->startOfWeek();
 
         // for each day of the week
-        for ($i = 0; $i < 7; $i++) {
-            // create random meeting
-            $companyType = $companyTypes->random();
-            $company     = $companyType->companies->random();
-            $contact     = $company->contacts->random();
-            Meeting::factory()->create([
-                'user_id'         => $user->id,
-                'company_type_id' => $companyType->id,
-                'company_id'      => $company->id,
-                'contact_id'      => $contact->id,
-                'date'            => $startOfWeek->format('Y-m-d'),
-            ]);
+        foreach ($users as $user) {
+            for ($i = 0; $i < 7; $i++) {
+                // create random meeting
+                $companyType = $companyTypes->random();
+                $company = $companyType->companies->random();
+                $contact = $company->contacts->random();
+                Meeting::factory()->create([
+                    'user_id'         => $user->id,
+                    'company_type_id' => $companyType->id,
+                    'company_id'      => $company->id,
+                    'contact_id'      => $contact->id,
+                    'date'            => $startOfWeek->format('Y-m-d'),
+                ]);
 
-            // go to next day
-            $startOfWeek->addDay();
+                // go to next day
+                $startOfWeek->addDay();
+            }
         }
     }
 }

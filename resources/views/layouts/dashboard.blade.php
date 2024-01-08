@@ -13,7 +13,7 @@
                 <div>{{ auth()->user()->name }}</div>
                 <x-icon.arrow :direction="'down'" class="h-6 transition-all" id="settings-arrow" />
             </div>
-    
+
             {{-- dropdown --}}
             <div class="h-14 pt-14 w-full absolute top-0 left-0 z-10 bg-gray
             transition-all overflow-hidden rounded-[1.8rem] text-darkgray text-base shadow"

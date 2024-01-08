@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         (new MasterExcelImport())->import(storage_path('excel/MasterContactData.xlsx'),null, Excel::XLSX);
 //        $this->call(CompanySeeder::class);
 //        $this->call(ContactSeeder::class);
-//        $this->call(MeetingSeeder::class);
+        $this->call(MeetingSeeder::class);
     }
 }
