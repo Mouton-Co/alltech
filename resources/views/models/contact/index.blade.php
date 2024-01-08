@@ -2,22 +2,29 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $modalErrors = ['name', 'email', 'phone', 'company_id'];
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
 
-        $hasModalErrors = false;
-        foreach ($modalErrors as $modalError) {
-            if (!empty($errors->get($modalError))) {
-                $hasModalErrors = true;
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'contactStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'contactUpdate')) {
+                $hasUpdateErrors = true;
+                $updateErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
                 break;
             }
         }
     @endphp
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasModalErrors" />
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('contact.store')" :show="$hasModalErrors" :title="'Creating contact'"
+    <x-modals.resource :route="route('contact.store')" :show="$hasStoreErrors" :title="'Creating contact'"
     :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.contact.form', ['contact' => null, 'companies' => $companies])
@@ -111,8 +118,8 @@
             associated with this contact will be removed as well.'" />
 
         {{-- edit modals --}}
-        <x-modals.resource :route="route('contact.update', $contact->id)" :show="$hasModalErrors"
-            :title="'Editing company'" :button="'Update'" id="edit-resource-modal-{{ $contact->id }}">
+        <x-modals.resource :route="route('contact.update', $contact->id)" :title="'Editing company'" :button="'Update'"
+            :show="$hasUpdateErrors && $updateErrorId == $contact->id" id="edit-resource-modal-{{ $contact->id }}">
             <div class="flex w-full flex-col gap-3">
                 @include('models.contact.form', ['contact' => $contact, 'companies' => $companies])
             </div>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\CompanyType;
+namespace App\Http\Requests\Company;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
-    protected $errorBag = 'companyTypeStore';
+    protected $errorBag = 'companyUpdate--';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,10 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $this->errorBag .= $this->get('company_id');
         return [
-            'name'             => 'required',
-            'minimum_required' => 'required|int|min:1',
+            'name'            => 'required|string|max:255',
+            'company_type_id' => 'required|exists:company_types,id',
         ];
     }
 }

@@ -2,22 +2,29 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $modalErrors = ['name', 'company_type_id'];
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
 
-        $hasModalErrors = false;
-        foreach ($modalErrors as $modalError) {
-            if (!empty($errors->get($modalError))) {
-                $hasModalErrors = true;
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'companyStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'companyUpdate')) {
+                $hasUpdateErrors = true;
+                $updateErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
                 break;
             }
         }
     @endphp
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasModalErrors" />
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('company.store')" :show="$hasModalErrors" :title="'Creating company'"
+    <x-modals.resource :route="route('company.store')" :show="$hasStoreErrors" :title="'Creating company'"
     :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.company.form', ['company' => null, 'companyTypes' => $companyTypes])
@@ -111,8 +118,8 @@
             and contacts associated with this company will be removed as well.'" />
 
         {{-- edit modals --}}
-        <x-modals.resource :route="route('company.update', $company->id)" :show="$hasModalErrors"
-            :title="'Editing company'" :button="'Update'" id="edit-resource-modal-{{ $company->id }}">
+        <x-modals.resource :route="route('company.update', $company->id)" id="edit-resource-modal-{{ $company->id }}"
+            :show="$hasUpdateErrors && $updateErrorId == $company->id" :title="'Editing company'" :button="'Update'">
             <div class="flex w-full flex-col gap-3">
                 @include('models.company.form', ['company' => $company, 'companyTypes' => $companyTypes])
             </div>

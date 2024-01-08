@@ -2,22 +2,29 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $modalErrors = ['name', 'minimum_required'];
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
 
-        $hasModalErrors = false;
-        foreach ($modalErrors as $modalError) {
-            if (!empty($errors->get($modalError))) {
-                $hasModalErrors = true;
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'companyTypeStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'companyTypeUpdate')) {
+                $hasUpdateErrors = true;
+                $updateErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
                 break;
             }
         }
     @endphp
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasModalErrors" />
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('company-type.store')" :show="$hasModalErrors" :title="'Creating company type'"
+    <x-modals.resource :route="route('company-type.store')" :show="$hasStoreErrors" :title="'Creating company type'"
     :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.company-type.form', ['companyType' => null])
@@ -111,8 +118,9 @@
             meetings associated with this company type will be removed as well.'" />
 
         {{-- edit modals --}}
-        <x-modals.resource :route="route('company-type.update', $companyType->id)" :show="$hasModalErrors"
-            :title="'Editing company type'" :button="'Update'" id="edit-resource-modal-{{ $companyType->id }}">
+        <x-modals.resource :route="route('company-type.update', $companyType->id)" :title="'Editing company type'"
+            :button="'Update'" :show="$hasUpdateErrors && $updateErrorId == $companyType->id"
+            id="edit-resource-modal-{{ $companyType->id }}">
             <div class="flex w-full flex-col gap-3">
                 @include('models.company-type.form', ['companyType' => $companyType])
             </div>

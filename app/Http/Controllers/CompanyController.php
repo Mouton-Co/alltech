@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Company\IndexRequest;
 use App\Http\Requests\Company\StoreRequest;
+use App\Http\Requests\Company\UpdateRequest;
 use App\Models\Company;
 use App\Models\CompanyType;
 
@@ -73,7 +74,7 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreRequest $request, string $id)
+    public function update(UpdateRequest $request, string $id)
     {
         $company = Company::find($id);
 

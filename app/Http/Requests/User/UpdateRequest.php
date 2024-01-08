@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+    protected $errorBag = 'userUpdate--';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,18 +23,14 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'name'     => 'required',
-            'role_id'  => 'required',
-            'email'    => 'required|unique:users,email,' . $this->get('user_id'),
+        $this->errorBag .= $this->get('user_id');
+        return [
+            'name'             => 'required',
+            'role_id'          => 'required',
+            'email'            => 'required|unique:users,email,' . $this->get('user_id'),
+            'password'         => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
+            'confirm_password' => 'nullable|same:password',
         ];
-
-        if (!empty($this->get('password')) || $this->get('confirm_password')) {
-            $rules['password'] = "regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/";
-            $rules['confirm_password'] = "same:password";
-        }
-
-        return $rules;
     }
 
     /**

@@ -2,22 +2,29 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $modalErrors = ['name', 'email', 'role_id'];
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
 
-        $hasModalErrors = false;
-        foreach ($modalErrors as $modalError) {
-            if (!empty($errors->get($modalError))) {
-                $hasModalErrors = true;
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'userStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'userUpdate')) {
+                $hasUpdateErrors = true;
+                $updateErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
                 break;
             }
         }
     @endphp
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasModalErrors" />
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('user.store')" :show="$hasModalErrors" :title="'Creating user'" :button="'Create'"
+    <x-modals.resource :route="route('user.store')" :show="$hasStoreErrors" :title="'Creating user'" :button="'Create'"
     id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.user.form', ['user' => null, 'roles' => $roles])
@@ -86,8 +93,8 @@
             associated with this account will be removed as well.'" />
 
         {{-- edit modals --}}
-        <x-modals.resource :route="route('user.update', $user->id)" :show="$hasModalErrors" :title="'Editing user'"
-        :button="'Update'" id="edit-resource-modal-{{ $user->id }}">
+        <x-modals.resource :route="route('user.update', $user->id)" :title="'Editing user'" :button="'Update'"
+            :show="$hasUpdateErrors && $updateErrorId == $user->id" id="edit-resource-modal-{{ $user->id }}">
             <div class="flex w-full flex-col gap-3">
                 @include('models.user.form', ['user' => $user, 'roles' => $roles])
             </div>
