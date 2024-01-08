@@ -6,5 +6,10 @@
     rounded-lg focus:ring-orange focus:border-orange block w-full pl-10 p-2.5
     dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
     dark:focus:ring-orange dark:focus:border-orange" placeholder="Select date"
-    value="{{ Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('d/m/Y') }}">
+    value="{{
+        !empty($date) ? Carbon\Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d'):
+        now()->format('Y-m-d')
+    }}"
+    name="{{ $name}}"
+    >
 </div>

@@ -20,14 +20,7 @@
     <x-modals.resource :route="route('company-type.store')" :show="$hasModalErrors" :title="'Creating company type'"
     :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
-            <x-form.input type="text" :name="'name'" value="{{ old('name') }}" placeholder="Name" class="w-full"
-                required>
-                <x-icon.company-type class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-            </x-form.input>
-            <x-form.input type="number" :name="'minimum_required'" value="{{ old('minimum_required') }}"
-            placeholder="Minimum required" class="w-full" required>
-                <x-icon.calendar class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-            </x-form.input>
+            @include('models.company-type.form', ['companyType' => null])
         </div>
     </x-modals.resource>
 
@@ -121,14 +114,7 @@
         <x-modals.resource :route="route('company-type.update', $companyType->id)" :show="$hasModalErrors"
             :title="'Editing company type'" :button="'Update'" id="edit-resource-modal-{{ $companyType->id }}">
             <div class="flex w-full flex-col gap-3">
-                <x-form.input type="text" :name="'name'" value="{{ $companyType->name ?? old('name') }}"
-                    placeholder="Name" class="w-full" required>
-                    <x-icon.company-type class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.input>
-                <x-form.input type="number" :name="'minimum_required'" placeholder="Minimum required" class="w-full"
-                value="{{ $companyType->minimum_required ?? old('minimum_required') }}" required>
-                    <x-icon.calendar class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-                </x-form.input>
+                @include('models.company-type.form', ['companyType' => $companyType])
             </div>
         </x-modals.resource>
     @endforeach

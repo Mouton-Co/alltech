@@ -3,55 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Meeting\StoreRequest;
-use App\Models\CompanyType;
+use App\Http\Requests\Meeting\UpdateRequest;
+use App\Models\Contact;
 use App\Models\Meeting;
-use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | RESOURCES
-    |--------------------------------------------------------------------------
-    */
-
     /**
      * Display a listing of the resource.
+     *
+     * @param Request $request
+     *
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $events = [];
- 
+
         $meetings = Meeting::where('user_id', auth()->id())->get();
- 
+
         foreach ($meetings as $meeting) {
             $events[] = [
+                'id'    => $meeting->id,
                 'title' => $meeting->contact->name,
                 'start' => $meeting->date . ' ' . $meeting->start_time,
                 'end'   => $meeting->date . ' ' . $meeting->end_time,
             ];
         }
- 
-        return view('models.meeting.index', compact('events'));
+
+        $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
+
+        return view('models.meeting.index', compact('events', 'contacts', 'meetings'));
     }
 
-    public function store(StoreRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreRequest $request
+     *
+     * @return RedirectResponse
+     */
+    public function store(StoreRequest $request): RedirectResponse
     {
-        $meeting                         = new Meeting();
-        $meeting->date                   = $request->get('date');
-        $meeting->start_time             = $request->get('start_time');
-        $meeting->end_time               = $request->get('end_time');
-        $meeting->objective              = $request->get('objective');
-        $meeting->marketing_requirements = $request->get('marketing_requirements');
-        $meeting->contact_id             = $request->get('contact_id');
-        $meeting->company_id             = $request->get('company_id');
-        $meeting->company_type_id        = $request->get('company_type_id');
-        $meeting->user_id                = $request->get('user_id');
+        $contact = Contact::find($request->input('contact_id'));
+
+        $meeting = new Meeting();
+        $meeting->date = $request->input('date');
+        $meeting->start_time = $request->input('start_time');
+        $meeting->end_time = $request->input('end_time');
+        $meeting->objective = $request->input('objective');
+        $meeting->marketing_requirements = $request->input('marketing_requirements');
+        $meeting->contact_id = $request->input('contact_id');
+        $meeting->company_id = strval($contact->company_id);
+        $meeting->company_type_id = strval($contact->company->company_type_id);
+        $meeting->user_id = auth()->id();
         $meeting->save();
 
+        if ($meeting) {
+            return redirect()->route('meeting.index')->with([
+                'status' => 'Meeting created successfully',
+            ]);
+        }
+
         return redirect()->route('meeting.index')->with([
-            'status' => 'Meeting created successfully',
+            'error' => "Meeting creation failed"
+        ]);
+    }
+
+    public function update(UpdateRequest $request): RedirectResponse
+    {
+        $contact = Contact::find($request->input('contact_id'));
+
+        $meeting = Meeting::find($request->input('meeting_id'));
+        $meeting->date = $request->input('date');
+        $meeting->start_time = $request->input('start_time');
+        $meeting->end_time = $request->input('end_time');
+        $meeting->objective = $request->input('objective');
+        $meeting->marketing_requirements = $request->input('marketing_requirements');
+        $meeting->contact_id = $request->input('contact_id');
+        $meeting->company_id = strval($contact->company_id);
+        $meeting->company_type_id = strval($contact->company->company_type_id);
+        $meeting->user_id = auth()->id();
+        $meeting->save();
+
+        if ($meeting) {
+            return redirect()->route('meeting.index')->with([
+                'status' => 'Meeting updated successfully',
+            ]);
+        }
+
+        return redirect()->route('meeting.index')->with([
+            'error' => "Meeting update failed"
         ]);
     }
 }

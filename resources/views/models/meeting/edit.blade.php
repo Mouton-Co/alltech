@@ -1,22 +1,22 @@
 <x-dashboard>
-    <a href="{{ route('company-type.index') }}" class="btn-primary flex items-center gap-2 max-w-fit">
+    <a href="{{ route('meetings.index') }}" class="btn-primary flex items-center gap-2 max-w-fit">
         <x-icon.arrow class="w-6" :direction="'left'" />
-        {{ __('Back to company types') }}
+        {{ __('Back to calendar') }}
     </a>
 
     <div class="card mt-7">
 
-        <h1>{{ __('Add company type') }}</h1>
+        <h1>{{ __('Edit meeting') }}</h1>
 
-        <form action="{{ route('company-type.store') }}" method="POST">
+        <form action="{{ route('meetings.update') }}" method="POST">
             @csrf
 
-            @include('models.company-type.form')
+            @include('models.meeting.form')
 
             {{-- button --}}
             <div class="w-full flex justify-end mt-3">
                 <button type="submit" class="btn-primary max-w-fit">
-                    {{ __('Create') }}
+                    {{ __('Update') }}
                 </button>
             </div>
 
