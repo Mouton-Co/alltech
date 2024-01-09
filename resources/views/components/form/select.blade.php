@@ -1,6 +1,6 @@
 <div class="relative">
     <select name="{{ $name }}" {{ $attributes->merge([
-        'class' => !empty($errors->get($name)) ? 'field-thin !ring-red-600' : 'field-thin'
+        'class' => (!empty($errors->get($name)) ? 'field-thin !ring-red-600' : 'field-thin') . ' selector-for-js'
     ]) }}>
         @foreach ($options as $option)
             <option value="{{ $option->$value }}"

@@ -48,25 +48,12 @@
 </x-form.input>
 
 {{-- contact --}}
-<x-form.label for="contact_id">
-    {{ __('Contact') }}
-</x-form.label>
-<x-form.label class="mt-2" :value="'Company type'"/>
-<div class="mt-2">
-    <select name="contact_id" class="field">
-        @if (!empty($contacts))
-            @foreach ($contacts as $contact)
-                <option value="{{ $contact->id }}"
-                        @if(
-                                !empty($meeting->contact_id) &&
-                                $contact->id == $meeting->contact_id
-                                )
-                            selected="selected"
-                        @endif
-                >
-                    {{ $contact->email ?? '' }} - {{ $contact->name ?? '' }} - {{ $contact->company->name ?? '' }}
-                </option>
-            @endforeach
-        @endif
-    </select>
+<div>
+    <x-form.label for="contact_id">
+        {{ __('Contact') }}
+    </x-form.label>
+    <x-form.select :name="'contact_id'" class="w-full" :options="$contacts" :value="'id'"
+                   :display="'name'" :selected="$meeting->contact_id ?? old('contact_id')">
+        <x-icon.company-type class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+    </x-form.select>
 </div>

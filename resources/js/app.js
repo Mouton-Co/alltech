@@ -1,13 +1,9 @@
 import jQuery from "jquery";
-
+import select2 from 'select2';
 import './bootstrap';
 import Alpine from 'alpinejs';
 import { darkMode } from "./darkmode";
 import { animations } from "./animations";
-import { Calendar } from '@fullcalendar/core';
-import timeGridPlugin from '@fullcalendar/timegrid'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction';
 import {calander} from "./calander.js";
 
 window.$ = jQuery;
@@ -16,3 +12,13 @@ Alpine.start();
 darkMode();
 animations();
 calander();
+select2();
+
+$(document).ready(function() {
+    $('.selector-for-js').each(function( index ) {
+        if($(this).length > 0) {
+            console.log($(this))
+            $(this).select2();
+        }
+    });
+});
