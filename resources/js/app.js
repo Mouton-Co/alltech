@@ -1,15 +1,24 @@
 import jQuery from "jquery";
-window.$ = jQuery;
-
+import select2 from 'select2';
 import './bootstrap';
-
 import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
-
 import { darkMode } from "./darkmode";
-darkMode();
 import { animations } from "./animations";
+import {calander} from "./calander.js";
+
+window.$ = jQuery;
+window.Alpine = Alpine;
+Alpine.start();
+darkMode();
 animations();
+calander();
+select2();
+
+$(document).ready(function() {
+    $('.selector-for-js').each(function( index ) {
+        if($(this).length > 0) {
+            console.log($(this))
+            $(this).select2();
+        }
+    });
+});

@@ -1,6 +1,7 @@
 <div class="relative">
-    <input name="{{ $name }}" {{ $attributes->merge([
+    <input name="{{ $name }}" type="{{$type ?? 'text'}}" {{ $attributes->merge([
         'class' => !empty($errors->get($name)) ? 'field-thin !ring-red-600' : 'field-thin'
+
     ]) }}>
     {{ $slot }}
 </div>

@@ -1,28 +1,26 @@
-#calendar {
-    @apply p-4 bg-white rounded shadow;
-    .fc-view-harness {
-        height: auto !important;
+h2#fc-dom-1 {
+    @apply text-xl font-bold;
+}
+
+.fc-button-group {
+    button.fc-button.fc-button-primary.fc-button-active {
+        @apply pagination-link-active min-w-[58px];
     }
-    th, td {
-        @apply border-slate-300;
-    }
-    .fc-timegrid-slot {
-        @apply h-10;
-    }
-    .fc-button-primary {
-        @apply pagination-link-normal shadow-sm;
-    }
-    .fc-today-button {
-        @apply px-8;
-        &:disabled {
-            @apply pagination-link-inactive;
-            padding-inline: 2rem !important;
+    button.fc-button.fc-button-primary {
+        @apply pagination-link-normal min-w-[58px];
+        &:active {
+            @apply pagination-link-normal;
         }
     }
+}
 
-    // events
-    .fc-timegrid-event {
-        @apply bg-orange text-white rounded-sm shadow-sm border-none p-1
-        hover:cursor-pointer hover:bg-orangehover;
+a.fc-event {
+    @apply bg-orange text-white rounded-sm cursor-pointer border-none pl-1;
+    &:hover {
+        @apply bg-orangehover;
     }
+}
+
+.fc-timegrid-slot {
+    @apply cursor-pointer;
 }

@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
+    protected $errorBag = 'userStore';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,8 +27,8 @@ class StoreRequest extends FormRequest
             'name'             => 'required',
             'role_id'          => 'required',
             'email'            => 'required|unique:users,email',
-            'password'         => "regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
-            'confirm_password' => 'same:password',
+            'password'         => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
+            'confirm_password' => 'nullable|same:password',
         ];
     }
 

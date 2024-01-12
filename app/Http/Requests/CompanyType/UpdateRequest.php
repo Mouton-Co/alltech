@@ -4,9 +4,9 @@ namespace App\Http\Requests\CompanyType;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
-    protected $errorBag = 'companyTypeStore';
+    protected $errorBag = 'companyTypeUpdate--';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $this->errorBag .= $this->get('company_type_id');
         return [
             'name'             => 'required',
             'minimum_required' => 'required|int|min:1',
