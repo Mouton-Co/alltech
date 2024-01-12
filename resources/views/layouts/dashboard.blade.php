@@ -40,9 +40,14 @@
             <div class="flex flex-1 flex-col gap-y-7">
                 <div class="space-y-3">
                     <x-navbar.link :link="route('meeting.index')"
-                    :active="request()->segment(1) == 'meetings'" class="mb-7">
+                    :active="request()->segment(1) == 'meetings'">
                         <x-icon.calendar class="w-7"/>
                         {{ __('Meeting planner') }}
+                    </x-navbar.link>
+                    <x-navbar.link :link="route('reporting.index')"
+                    :active="request()->segment(1) == 'reporting'" class="mb-7">
+                        <x-icon.reporting class="w-7"/>
+                        {{ __('Reporting') }}
                     </x-navbar.link>
                     <div class="text-xs leading-6 text-gray">{{ __('Administration') }}</div>
                     <x-navbar.link :link="route('user.index')"
