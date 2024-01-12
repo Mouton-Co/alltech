@@ -6,6 +6,10 @@
     @apply h-[40px] pl-10 rounded border-none shadow ring-1 ring-gray focus:ring-orange;
 }
 
+.field-area {
+    @apply rounded border-none shadow ring-1 ring-gray focus:ring-orange;
+}
+
 .label {
     @apply block text-sm font-medium leading-6 text-black dark:text-white;
 }
@@ -20,5 +24,12 @@
                 @apply bg-orange;
             }
         }
+    }
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator {
+    @apply cursor-pointer;
+    &:hover {
+        @apply scale-125 opacity-70 ease-in-out transition-all;
     }
 }

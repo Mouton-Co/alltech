@@ -23,8 +23,8 @@
     <x-modals.curtain :show="$hasModalErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('meeting.store')" :show="$hasModalErrors" :title="'Creating meeting'" :button="'Create'"
-                       id="add-resource-modal">
+    <x-modals.resource :route="route('meeting.store')" :show="$hasModalErrors" :title="'Creating meeting'"
+    :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.meeting.form', ['meeting' => null, 'contacts' => $contacts])
         </div>
@@ -32,16 +32,15 @@
 
     <div id="calendar"></div>
 
-    @foreach($meetings as $event)
+    @foreach ($meetings as $event)
         @php
-            $event = json_decode(json_encode($event), FALSE)
+            $event = json_decode(json_encode($event), false);
         @endphp
-        <x-modals.resource :route="route('meeting.update', $event->id)" :show="$hasModalErrors" :title="'Editing meeting'" :button="'Update'"
-                           id="edit-resource-modal-{{ $event->id }}">
+        <x-modals.resource :route="route('meeting.update', $event->id)" :show="$hasModalErrors"
+        :title="'Editing meeting'" :button="'Update'" id="edit-resource-modal-{{ $event->id }}">
             <div class="flex w-full flex-col gap-3">
                 @include('models.meeting.form', ['meeting' => $event, 'contacts' => $contacts])
             </div>
         </x-modals.resource>
     @endforeach
 </x-dashboard>
-

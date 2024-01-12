@@ -5,15 +5,20 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 export function calander() {
     document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new Calendar(calendarEl, {
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new Calendar(calendarEl, {
             plugins: [timeGridPlugin,dayGridPlugin,interactionPlugin],
             initialView: 'timeGridWeek',
-            slotMinTime: '6:00:00',
-            slotMaxTime: '20:00:00',
+            slotMinTime: '1:00:00',
+            slotMaxTime: '24:00:00',
             events: window.events,
             allDaySlot: false,
             firstDay: 1,
+            slotLabelFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            },
             headerToolbar: {
                 left: 'title',
                 center: 'dayGridMonth,timeGridWeek,timeGridDay',
