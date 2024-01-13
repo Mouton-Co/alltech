@@ -44,7 +44,7 @@
                         <x-icon.calendar class="w-7"/>
                         {{ __('Meeting planner') }}
                     </x-navbar.link>
-                    <x-navbar.link :link="route('reporting.index')"
+                    <x-navbar.link :link="route('reporting.report')"
                     :active="request()->segment(1) == 'reporting'" class="mb-7">
                         <x-icon.reporting class="w-7"/>
                         {{ __('Reporting') }}

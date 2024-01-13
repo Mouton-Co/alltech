@@ -1,98 +1,46 @@
+@section('header-scripts')
+    <script type="text/javascript">
+        window.events = {!! json_encode($events) !!};
+    </script>
+@endsection
+
 <x-dashboard>
 
-    {{-- title --}}
-    <h1 class="mb-3">{{ __('Meeting reports') }}</h1>
+    {{-- see if there's any modal errors and show the modal if the case --}}
+    @php
+        $modalErrors = ['name', 'email', 'role_id'];
+
+        $hasModalErrors = false;
+        foreach ($modalErrors as $modalError) {
+            if (!empty($errors->get($modalError))) {
+                $hasModalErrors = true;
+                break;
+            }
+        }
+    @endphp
 
     {{-- curtain --}}
-    <div id="modal-curtain" class="hidden"></div>
+    <x-modals.curtain :show="$hasModalErrors" />
 
-    {{-- filter bar --}}
-    <hr>
-    <form action="{{ route('reporting.index') }}" method="get">
-        <div class="flex gap-3 my-2 items-center flex-wrap">
-
-            {{-- multiple dropdown typeahead --}}
-            @php
-                $options = [
-                    'option1' => 'Option 1',
-                    'option2' => 'Option 2',
-                    'option3' => 'Option 3',
-                ];
-            @endphp
-            <label class="min-w-fit">{{ __('Dropdown') }}</label>
-            <select name="options[]" multiple="multiple" class="selector-for-js filter-field"
-            placeholder="Dropdown options...">
-                @foreach ($options as $optionKey => $optionValue)
-                    <option value="{{ $optionKey }}">
-                        {{ $optionValue }}
-                    </option>
-                @endforeach
-            </select>
-
-            {{-- search --}}
-            <label for="search" class="min-w-fit">{{ __('Search') }}</label>
-            <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                class="filter-field">
-
-            <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-            <button type="submit" class="btn-orange min-w-[120px]">
-                {{ __('Filter') }}
-            </button>
-            <a href="{{ route('reporting.index') }}" class="btn-transparent min-w-[120px] flex justify-center
-            items-center">
-                {{ __('Clear Filters') }}
-            </a>
-
+    {{-- add modal --}}
+    <x-modals.resource :route="route('meeting.store')" :show="$hasModalErrors" :title="'Creating meeting'"
+    :button="'Create'" id="add-resource-modal">
+        <div class="flex w-full flex-col gap-3">
+            @include('models.meeting.form', ['meeting' => null, 'contacts' => $contacts])
         </div>
-    </form>
-    <hr class="mb-3">
+    </x-modals.resource>
 
-    {{-- list of reports --}}
-    <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        @for ($i=0; $i < 10; $i++)
+    <div id="calendar"></div>
 
-            {{-- report card --}}
-            <div id="report-card-{{ $i }}" class="report-card">
-                <div class="report-card-header">
-                    <span>{{ __('Some title') }}</span>
-                </div>
-                <div class="report-card-body">
-                    <div class="report-card-body-item">
-                        <x-icon.company class="w-5" />
-                        <span>{{ __('Some value') }}</span>
-                    </div>
-                </div>
-                <div class="report-card-footer">
-                    <span>{{ __('Part summary') }}</span>
-                </div>
+    @foreach ($meetings as $event)
+        @php
+            $event = json_decode(json_encode($event), false);
+        @endphp
+        <x-modals.resource :route="route('meeting.update', $event->id)" :show="$hasModalErrors"
+        :title="'Editing meeting'" :button="'Update'" id="edit-resource-modal-{{ $event->id }}">
+            <div class="flex w-full flex-col gap-3">
+                @include('models.meeting.form', ['meeting' => $event, 'contacts' => $contacts])
             </div>
-
-            {{-- report modal --}}
-            <div id="report-modal-{{ $i }}" class="hidden">
-                <div class="report-card">
-                    <div class="report-card-header">
-                        <span>{{ __('Some title') }}</span>
-                    </div>
-                    <div class="report-card-body">
-                        <div class="report-card-body-item">
-                            <x-icon.company class="w-5" />
-                            <span>{{ __('Some value') }}</span>
-                        </div>
-                    </div>
-                    <div class="report-card-footer">
-                        <span>{{ __('Part summary') }}</span>
-                    </div>
-                </div>
-            </div>
-
-        @endfor
-    </ul>
-
-    {{-- pagination --}}
-    {{-- {{ $orders->appends([
-        'search' => request()->query('search') ?? '',
-        'status' => request()->query('order_by') ?? '0',
-        'supplier' => request()->query('order_direction') ?? '0',
-    ])->links() }} --}}
-
+        </x-modals.resource>
+    @endforeach
 </x-dashboard>

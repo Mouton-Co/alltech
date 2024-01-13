@@ -2,7 +2,12 @@
     <select name="{{ $name }}" {{ $attributes->merge(['class' => 'selector-for-js']) }}>
         @foreach ($options as $option)
             <option value="{{ $option->$value }}"
-            {{ !empty($selected) && $selected == $option->$value ? 'selected' : '' }}>
+                    @if(!empty($selected) && is_array(json_decode($selected)) && in_array($option->$value, json_decode($selected)))
+                        selected
+                    @elseif(!empty($selected) && $selected == $option->$value)
+                        selected
+                    @endif
+            >
                 {{ $option->$display }}
             </option>
         @endforeach

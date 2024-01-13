@@ -39,6 +39,11 @@ export function animations() {
         $('.resource-modal').addClass('hidden').removeClass('flex');
         $('#curtain').addClass('hidden').removeClass('block');
     });
+    $('.report-card').on("click", function () {
+        console.log('click');
+        let id = this.getAttribute('id').split('-')[2];
+        $("#report-modal-" + id).addClass('flex').removeClass('hidden');
+    });
 
     /*
     |--------------------------------------------------------------------------
