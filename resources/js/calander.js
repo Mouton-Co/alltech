@@ -12,7 +12,7 @@ export function calander() {
             initialView: 'timeGridWeek',
             slotMinTime: '1:00:00',
             slotMaxTime: '24:00:00',
-            events: window.events,
+            eventSources: window.eventSources,
             allDaySlot: false,
             firstDay: 1,
             slotLabelFormat: {

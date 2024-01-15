@@ -1,3 +1,5 @@
+@php(ds($meeting))
+{{-- name --}}
 {{-- meeting id --}}
 @if (!empty($meeting))
     <input type="hidden" name="meeting_id" value="{{ $meeting->id }}">

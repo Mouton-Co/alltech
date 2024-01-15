@@ -7,8 +7,8 @@
     hover:text-orange;
 }
 
-.btn-orange-thin {
-    @apply h-[35px] text-white rounded bg-orange hover:shadow-inner;
+.btn-transparent:disabled{
+    @apply opacity-50 cursor-not-allowed hover:border-black hover:text-black;
 }
 
 .btn-transparent-thin {

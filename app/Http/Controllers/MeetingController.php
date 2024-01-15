@@ -6,6 +6,8 @@ use App\Http\Requests\Meeting\StoreRequest;
 use App\Http\Requests\Meeting\UpdateRequest;
 use App\Models\Contact;
 use App\Models\Meeting;
+use App\Models\User;
+use Faker\Core\Color;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,22 +23,36 @@ class MeetingController extends Controller
      */
     public function index(Request $request): View
     {
-        $events = [];
+        $eventSources = [];
+        $users = User::all();
 
-        $meetings = Meeting::where('user_id', auth()->id())->get();
-
-        foreach ($meetings as $meeting) {
-            $events[] = [
-                'id'    => $meeting->id,
-                'title' => $meeting->contact->name,
-                'start' => $meeting->date . ' ' . $meeting->start_time,
-                'end'   => $meeting->date . ' ' . $meeting->end_time,
+        $usersQuery = [auth()->id()];
+        if ($request->has('users')) {
+            $usersQuery = array_merge($usersQuery, $request->get('users'));
+        }
+        $usersQuery = array_unique($usersQuery);
+        foreach ($usersQuery as $user) {
+            $events = [];
+            $meetings = Meeting::where('user_id', $user)->get();
+            foreach ($meetings as $meeting) {
+                $events[] = [
+                    'id'    => $meeting->id,
+                    'title' => $meeting->contact->name,
+                    'start' => $meeting->date . ' ' . $meeting->start_time,
+                    'end'   => $meeting->date . ' ' . $meeting->end_time,
+                    'model' => $meeting
+                ];
+            }
+            $eventSources[] = [
+                'events' => $events,
+                'color'  => (new Color())->colorName(),
+                'user'   => $user,
             ];
         }
 
         $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
 
-        return view('models.meeting.index', compact('events', 'contacts', 'meetings'));
+        return view('models.meeting.index', compact('eventSources', 'contacts', 'users'));
     }
 
     /**

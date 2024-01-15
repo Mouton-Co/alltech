@@ -1,64 +1,169 @@
 <x-dashboard>
 
-    {{-- title --}}
-    <h1 class="mb-3">{{ __('Meeting reports') }}</h1>
+    {{-- see if there's any modal errors and show the modal if the case --}}
+    @php
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
+
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'userStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'userUpdate')) {
+                $hasUpdateErrors = true;
+                $updateErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+        }
+    @endphp
+    <x-modals.resource :route="route('reporting.store')" :title="'Save Report Filter'" :button="'Save'"
+                       :show="$hasStoreErrors" id="add-resource-modal">
+        <div class="flex w-full flex-col gap-3">
+            <input type="hidden" name="filter_used" value="{{ json_encode(request()->query()) }}">
+            {{-- filter name --}}
+            <div class="flex gap-3">
+                <label for="filter_name" class="min-w-fit">{{ __('Filter Name') }}</label>
+                <input type="text" name="filter_name" placeholder="Filter Name" value="" class="filter-field">
+            </div>
+
+            {{-- recipient --}}
+            <div class="flex gap-3">
+                <label for="recipient" class="min-w-fit">{{ __('Recipient') }}</label>
+                <input type="text" name="recipient" placeholder="example@alltech.com" value="" class="filter-field">
+            </div>
+
+            {{-- send at --}}
+            <div class="flex gap-3">
+                <label for="send_at" class="min-w-fit">{{ __('Send At') }}</label>
+                <x-form.date-picker :name="'send_at'" :value="request()->query('send_at') ?? ''"
+                                    class="filter-field"/>
+            </div>
+
+            {{-- repeat --}}
+            <div class="flex gap-3">
+                <label for="repeat" class="min-w-fit">{{ __('Repeat') }}</label>
+                <input type="checkbox" name="repeat" placeholder="Repeat" class="filter-field">
+            </div>
+
+            {{-- repeat frequency --}}
+            <div class="flex gap-3">
+                <label for="repeat_frequency" class="min-w-fit">{{ __('Repeat Frequency') }}</label>
+                <select name="repeat_frequency" class="filter-field selector-for-js">
+                    @foreach(\App\Models\Report::REPEAT_FREQUENCY as $key => $value)
+                        <option
+                            value="{{ $key }}"
+                            @if($key == old('repeat_frequency'))
+                                selected
+                            @endif
+                        >
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
+
+            </div>
+        </div>
+    </x-modals.resource>
 
     {{-- curtain --}}
-    <div id="modal-curtain" class="hidden"></div>
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors"/>
 
+    {{-- title --}}
+    <div class="flex ">
+        <h1 class="mb-3 grow">{{ __('Meeting reports') }}</h1>
+        <a href="{{route('reporting.index')}}" class="btn-transparent">Saved Reports</a>
+    </div>
     {{-- filter bar --}}
     <hr>
+
     <form action="{{ route('reporting.report') }}" method="get">
-        <div class="flex gap-3 my-2 items-center flex-wrap">
+        <div class="grid grid-cols-2 smaller-than-740:grid-cols-1 gap-3 my-2">
             {{-- users --}}
-            <label class="min-w-fit">{{ __('Users') }}</label>
-            <x-form.select
-                :name="'users[]'"
-                :options="$users"
-                :value="'id'"
-                :display="'name'"
-                :selected="json_encode(request()->users) ?? ''"
-                class="filter-field"
-                multiple
-            />
+            <div class="flex gap-3">
+                <label class="min-w-fit">{{ __('Users') }}</label>
+                <x-form.select
+                    :name="'users[]'"
+                    :options="$users"
+                    :value="'id'"
+                    :display="'name'"
+                    :selected="json_encode(request()->users) ?? ''"
+                    class="filter-field"
+                    multiple
+                />
+            </div>
 
             {{-- company types --}}
-            <label class="min-w-fit">{{ __('Company Types') }}</label>
-            <x-form.select :name="'company_types[]'" class="filter-field" :options="$companyTypes" :value="'id'"
-                           :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''" multiple/>
+            <div class="flex gap-3">
+                <label class="min-w-fit">{{ __('Company Types') }}</label>
+                <x-form.select :name="'company_types[]'" class="filter-field" :options="$companyTypes" :value="'id'"
+                               :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
+                               multiple/>
+            </div>
 
             {{-- companies --}}
-            <label class="min-w-fit">{{ __('Companies') }}</label>
-            <x-form.select :name="'companies[]'" class="filter-field" :options="$companies" :value="'id'"
-                           :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
+            <div class="flex gap-3">
+                <label class="min-w-fit">{{ __('Companies') }}</label>
+                <x-form.select :name="'companies[]'" class="filter-field" :options="$companies" :value="'id'"
+                               :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
+            </div>
 
             {{-- contacts --}}
-            <label class="min-w-fit">{{ __('Contacts') }}</label>
-            <x-form.select :name="'contacts[]'" class="filter-field" :options="$contacts" :value="'id'"
-                           :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
+            <div class="flex gap-3">
+                <label class="min-w-fit">{{ __('Contacts') }}</label>
+                <x-form.select :name="'contacts[]'" class="filter-field" :options="$contacts" :value="'id'"
+                               :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
+            </div>
 
             {{-- date --}}
-            <label for="date" class="min-w-fit">{{ __('Date') }}</label>
-            <x-form.date-range-picker :name="'date_range'" :value="request()->query('date') ?? ''" class="filter-field"/>
-
-            {{-- start time --}}
+            <div class="flex gap-3">
+                <label for="date" class="min-w-fit">{{ __('Date') }}</label>
+                <x-form.date-range-picker :name="'date_range'" :value="request()->query('date') ?? ''"
+                                          class="filter-field"/>
+            </div>
 
             {{-- search --}}
-            <label for="search" class="min-w-fit">{{ __('Search') }}</label>
-            <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                   class="filter-field">
+            <div class="flex gap-3">
+                <label for="search" class="min-w-fit">{{ __('Search') }}</label>
+                <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
+                       class="filter-field">
+            </div>
 
-            <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-            <button type="submit" class="btn-orange min-w-[120px]">
-                {{ __('Filter') }}
-            </button>
-            <a href="{{ route('reporting.report') }}" class="btn-transparent min-w-[120px] flex justify-center
-            items-center">
-                {{ __('Clear Filters') }}
-            </a>
+            <div class="flex gap-3">
+                <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
+                    items-center"
+                        onclick="event.preventDefault();"
+                        @if(!$hasQuery)
+                            disabled
+                    @endif
+                >
+                    {{ __('Save Filter') }}
+                </button>
+                <button class="btn-transparent min-w-[160px] flex justify-center"
+                        onclick="event.preventDefault();"
+                        @if(!$hasQuery)
+                            disabled
+                    @endif
+                >
+                    {{ __('Download Filter') }}
+                </button>
+            </div>
 
+            <div class="flex gap-3">
+                <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
+                <button type="submit" class="btn-orange min-w-[120px]">
+                    {{ __('Filter') }}
+                </button>
+                <a href="{{ route('reporting.report') }}" class="btn-transparent min-w-[120px] flex justify-center
+                    items-center">
+                    {{ __('Clear Filters') }}
+                </a>
+            </div>
         </div>
     </form>
+
     <hr class="mb-3">
 
     {{-- list of reports --}}
