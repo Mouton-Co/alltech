@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Report extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     public const REPEAT_FREQUENCY = [
         self::REPEAT_FREQUENCY_DAILY => 'Daily',

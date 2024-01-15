@@ -56,7 +56,8 @@ class MasterExcelImport implements ToCollection, WithChunkReading
                     'name' => $row[0] ?? '',
                     'email' => $row[1] ?? '',
                     'phone_number' => $row[2] ?? '',
-                ], [
+                ],
+                [
                     'role_id' => $role->id,
                     'password' => $password,
                 ]
