@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', function () { return view('layouts.dashboard'); })->name('dashboard');
+    Route::get('/', function () {
+        return view('layouts.dashboard');
+    })->name('dashboard');
     Route::post('/toggle-dark-mode', [UserController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
 
     require_once 'models/user.php';

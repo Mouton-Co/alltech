@@ -24,10 +24,10 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'             => 'required',
-            'role_id'          => 'required',
-            'email'            => 'required|unique:users,email',
-            'password'         => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
+            'name' => 'required',
+            'role_id' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
             'confirm_password' => 'nullable|same:password',
         ];
     }
@@ -40,9 +40,9 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'regex'    => "Password must contain one digit, one lowercase, one uppercase,
-                one special character, no spaces, and be between 8-16 characters.",
-            'same'     => "Passwords don't match",
+            'regex' => 'Password must contain one digit, one lowercase, one uppercase,
+                one special character, no spaces, and be between 8-16 characters.',
+            'same' => "Passwords don't match",
         ];
     }
 }

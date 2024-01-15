@@ -24,9 +24,10 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $this->errorBag .= $this->get('contact_id');
+
         return [
-            'name'       => 'required',
-            'email'      => 'required',
+            'name' => 'required',
+            'email' => 'required',
             'company_id' => 'required|exists:companies,id',
         ];
     }

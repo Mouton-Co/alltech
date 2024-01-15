@@ -16,10 +16,6 @@ class MeetingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return View
      */
     public function index(Request $request): View
     {
@@ -36,17 +32,17 @@ class MeetingController extends Controller
             $meetings = Meeting::where('user_id', $user)->get();
             foreach ($meetings as $meeting) {
                 $events[] = [
-                    'id'    => $meeting->id,
+                    'id' => $meeting->id,
                     'title' => $meeting->contact->name,
-                    'start' => $meeting->date . ' ' . $meeting->start_time,
-                    'end'   => $meeting->date . ' ' . $meeting->end_time,
-                    'model' => $meeting
+                    'start' => $meeting->date.' '.$meeting->start_time,
+                    'end' => $meeting->date.' '.$meeting->end_time,
+                    'model' => $meeting,
                 ];
             }
             $eventSources[] = [
                 'events' => $events,
-                'color'  => (new Color())->colorName(),
-                'user'   => $user,
+                'color' => (new Color())->colorName(),
+                'user' => $user,
             ];
         }
 
@@ -57,10 +53,6 @@ class MeetingController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param StoreRequest $request
-     *
-     * @return RedirectResponse
      */
     public function store(StoreRequest $request): RedirectResponse
     {
@@ -85,7 +77,7 @@ class MeetingController extends Controller
         }
 
         return redirect()->route('meeting.index')->with([
-            'error' => "Meeting creation failed"
+            'error' => 'Meeting creation failed',
         ]);
     }
 
@@ -112,7 +104,7 @@ class MeetingController extends Controller
         }
 
         return redirect()->route('meeting.index')->with([
-            'error' => "Meeting update failed"
+            'error' => 'Meeting update failed',
         ]);
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
 class Report extends Model
 {
     use HasFactory, SoftDeletes;
@@ -20,14 +19,15 @@ class Report extends Model
     ];
 
     public const REPEAT_FREQUENCY_DAILY = 'daily';
+
     public const REPEAT_FREQUENCY_WEEKLY = 'weekly';
+
     public const REPEAT_FREQUENCY_MONTHLY = 'monthly';
+
     public const REPEAT_FREQUENCY_YEARLY = 'yearly';
 
     /**
      * The user who created the filter
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {

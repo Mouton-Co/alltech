@@ -14,30 +14,30 @@ class CompanyTypeSeeder extends Seeder
     {
         $companyTypes = [
             [
-                'name'             => 'Feedmill/Co-op',
+                'name' => 'Feedmill/Co-op',
                 'minimum_required' => 4,
             ],
             [
-                'name'             => 'Farms/Producers',
+                'name' => 'Farms/Producers',
                 'minimum_required' => 5,
             ],
             [
-                'name'             => 'Consultants',
+                'name' => 'Consultants',
                 'minimum_required' => 2,
             ],
             [
-                'name'             => 'Veterinarians',
+                'name' => 'Veterinarians',
                 'minimum_required' => 3,
             ],
             [
-                'name'             => 'Other',
+                'name' => 'Other',
                 'minimum_required' => 3,
             ],
         ];
 
-        foreach($companyTypes as $companyType) {
+        foreach ($companyTypes as $companyType) {
             CompanyType::create([
-                'name'             => $companyType['name'],
+                'name' => $companyType['name'],
                 'minimum_required' => $companyType['minimum_required'],
             ]);
         }

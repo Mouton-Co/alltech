@@ -24,8 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $this->errorBag .= $this->get('company_id');
+
         return [
-            'name'            => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'company_type_id' => 'required|exists:company_types,id',
         ];
     }

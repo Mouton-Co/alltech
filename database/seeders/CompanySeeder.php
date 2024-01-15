@@ -16,10 +16,9 @@ class CompanySeeder extends Seeder
         /**
          * Generate 5 companies for each company type
          */
-
         $companyTypes = CompanyType::all();
 
-        foreach($companyTypes as $companyType) {
+        foreach ($companyTypes as $companyType) {
             Company::factory()->count(5)->create([
                 'company_type_id' => $companyType->id,
             ]);

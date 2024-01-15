@@ -18,9 +18,9 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'            => $this->faker->company,
-            'location'        => $this->faker->country,
-            'coordinates'     => $this->faker->latitude . ' ' . $this->faker->longitude,
+            'name' => $this->faker->company,
+            'location' => $this->faker->country,
+            'coordinates' => $this->faker->latitude.' '.$this->faker->longitude,
             'company_type_id' => $this->faker->randomElement(CompanyType::pluck('id')->toArray()),
         ];
     }

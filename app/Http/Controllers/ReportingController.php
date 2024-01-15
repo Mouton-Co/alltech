@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Report\StoreRequest;
+use App\Http\Requests\Report\UpdateRequest;
 use App\Models\Company;
 use App\Models\CompanyType;
 use App\Models\Contact;
@@ -16,10 +18,6 @@ class ReportingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return View
      */
     public function index(Request $request): View
     {
@@ -59,7 +57,7 @@ class ReportingController extends Controller
             }
         }
 
-        if ( ! empty($queryContacts)) {
+        if (! empty($queryContacts)) {
             $meetings->whereIn('contact_id', $queryContacts);
         }
 
@@ -76,8 +74,8 @@ class ReportingController extends Controller
 
         if ($request->has('search') && ! empty($request->get('search'))) {
             $hasQuery = true;
-            $meetings->where('objectives', 'LIKE', '%' . $request->get('search') . '%');
-            $meetings->orWhere('marketing_requirements', 'LIKE', '%' . $request->get('search') . '%');
+            $meetings->where('objectives', 'LIKE', '%'.$request->get('search').'%');
+            $meetings->orWhere('marketing_requirements', 'LIKE', '%'.$request->get('search').'%');
         }
 
         $meetings = $meetings->paginate(20);
@@ -97,12 +95,8 @@ class ReportingController extends Controller
 
     /**
      * save the report
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
         $report = new Report();
         $report->filter_name = $request->input('filter_name');
@@ -119,12 +113,8 @@ class ReportingController extends Controller
 
     /**
      * update the report
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse
      */
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateRequest $request): RedirectResponse
     {
         $report = Report::find($request->input('report_id'));
         $report->filter_name = $request->input('filter_name');
@@ -141,10 +131,6 @@ class ReportingController extends Controller
 
     /**
      * delete the report
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse
      */
     public function destroy(Request $request): RedirectResponse
     {

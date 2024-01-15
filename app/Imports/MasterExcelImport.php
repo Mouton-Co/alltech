@@ -20,9 +20,6 @@ class MasterExcelImport implements ToCollection, WithChunkReading
 {
     use Importable;
 
-    /**
-     * @param Collection $rows
-     */
     public function collection(Collection $rows)
     {
         $emails = [];
@@ -40,20 +37,12 @@ class MasterExcelImport implements ToCollection, WithChunkReading
         $this->sendPasswordResetEmails($emails);
     }
 
-    /**
-     * @return int
-     */
     public function chunkSize(): int
     {
         return 100;
     }
 
-    /**
-     * @param mixed $row
-     * @param array $emails
-     * @return User|null
-     */
-    private function createUser(mixed $row, array &$emails): User|null
+    private function createUser(mixed $row, array &$emails): ?User
     {
         if (
             $row[0] != null &&
@@ -64,34 +53,31 @@ class MasterExcelImport implements ToCollection, WithChunkReading
             $password = Hash::make('password');
             $user = User::firstOrCreate(
                 [
-                    'name'         => $row[0] ?? '',
-                    'email'        => $row[1] ?? '',
-                    'phone_number' => $row[2] ?? ''
+                    'name' => $row[0] ?? '',
+                    'email' => $row[1] ?? '',
+                    'phone_number' => $row[2] ?? '',
                 ], [
-                    'role_id'  => $role->id,
+                    'role_id' => $role->id,
                     'password' => $password,
                 ]
             );
 
             $emails[] = $user->email;
+
             return $user;
         }
 
         return null;
     }
 
-    /**
-     * @param mixed $row
-     * @return Company
-     */
     private function createCompany(mixed $row): Company
     {
-        if ( ! empty($row[10])) {
+        if (! empty($row[10])) {
             if ($row[10] == 'Co--Ops') {
                 $row[10] = 'co-op';
             }
 
-            $companyType = CompanyType::where('name', 'like', '%' . Str::singular($row[10]) . '%')->first();
+            $companyType = CompanyType::where('name', 'like', '%'.Str::singular($row[10]).'%')->first();
             if (empty($companyType)) {
                 dd($row[10]);
             }
@@ -100,47 +86,37 @@ class MasterExcelImport implements ToCollection, WithChunkReading
         }
 
         return Company::firstOrCreate([
-            'name'            => $row[6] ?? '',
-            'location'        => $row[7] ?? '',
-            'region'          => $row[8] ?? '',
-            'coordinates'     => $row[9] ?? '',
+            'name' => $row[6] ?? '',
+            'location' => $row[7] ?? '',
+            'region' => $row[8] ?? '',
+            'coordinates' => $row[9] ?? '',
             'company_type_id' => $companyType->id,
         ]);
     }
 
-    /**
-     * @param mixed $row
-     * @param Company $company
-     * @param User|null $user
-     * @return void
-     */
     private function createContact(mixed $row, Company $company, ?User $user): void
     {
         $contact = [
-            'name'       => $row[3] ?? '',
-            'email'      => $row[4] ?? '',
-            'phone'      => $row[5] ?? '',
+            'name' => $row[3] ?? '',
+            'email' => $row[4] ?? '',
+            'phone' => $row[5] ?? '',
             'company_id' => $company->id,
         ];
 
-        if ( ! empty($user)) {
+        if (! empty($user)) {
             $contact['user_id'] = $user->id;
         }
 
         Contact::firstOrCreate($contact);
     }
 
-    /**
-     * @param array $emails
-     * @return void
-     */
     private function sendPasswordResetEmails(array $emails): void
     {
         try {
             $emails = array_unique($emails);
             foreach ($emails as $email) {
                 $user = User::where('email', $email)->first();
-                if ( ! empty($user)) {
+                if (! empty($user)) {
                     Password::sendResetLink(
                         $user->only('email')
                     );

@@ -42,15 +42,16 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password'          => 'hashed',
+        'password' => 'hashed',
     ];
 
     /**
      * Delete cascading.
      */
-    protected static function booted () {
-        static::deleting(function(User $user) {
-                $user->meetings()->delete();
+    protected static function booted()
+    {
+        static::deleting(function (User $user) {
+            $user->meetings()->delete();
         });
     }
 
