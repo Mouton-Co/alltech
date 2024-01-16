@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
+    protected $errorBag = 'reportStore';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -23,10 +25,10 @@ class StoreRequest extends FormRequest
         return [
             'filter_name' => 'required|string',
             'filter_used' => 'required|string',
-            'recipient' => 'required|email',
-            'send_at' => 'required|date_format:format,Y-m-d H:i:s',
-            'repeat' => 'required|boolean',
-            'repeat_frequency' => 'required_if:repeat,1|in'.implode(',', Report::REPEAT_FREQUENCY),
+            'recipient' => 'email|nullable',
+            'send_at' => 'date_format:format,Y-m-d H:i|nullable',
+            'repeat' => 'boolean|nullable',
+            'repeat_frequency' => 'required_if:repeat,1|nullable|in:'.implode(',', array_keys(Report::REPEAT_FREQUENCY)),
         ];
     }
 }

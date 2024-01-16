@@ -32,6 +32,10 @@ class ReportingController extends Controller
         $companies = Company::all();
         $companyTypes = CompanyType::all();
         $contacts = Contact::all();
+        $report = null;
+        if($request->has('report_id')) {
+            $report = Report::find($request->get('report_id'));
+        }
 
         $meetings = app(Meeting::class)::query();
 
@@ -88,7 +92,8 @@ class ReportingController extends Controller
                 'companyTypes',
                 'contacts',
                 'meetings',
-                'hasQuery'
+                'hasQuery',
+                'report'
             )
         );
     }
@@ -103,12 +108,12 @@ class ReportingController extends Controller
         $report->filter_used = $request->input('filter_used');
         $report->recipient = $request->input('recipient');
         $report->send_at = $request->input('send_at');
-        $report->repeat = $request->input('repeat');
+        $report->repeat = $request->input('repeat') ?? false;
         $report->repeat_frequency = $request->input('repeat_frequency');
         $report->user_id = auth()->id();
         $report->save();
 
-        return redirect()->route('reporting.report', $request->all());
+        return redirect()->route('reporting.report', json_decode($report->filter_used, true));
     }
 
     /**
@@ -121,20 +126,20 @@ class ReportingController extends Controller
         $report->filter_used = $request->input('filter_used');
         $report->recipient = $request->input('recipient');
         $report->send_at = $request->input('send_at');
-        $report->repeat = $request->input('repeat');
+        $report->repeat = $request->input('repeat')?? false;
         $report->repeat_frequency = $request->input('repeat_frequency');
         $report->user_id = auth()->id();
         $report->save();
 
-        return redirect()->route('reporting.report', $request->all());
+        return redirect()->route('reporting.report', json_decode($report->filter_used, true));
     }
 
     /**
      * delete the report
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-        $report = Report::find($request->input('report_id'));
+        $report = Report::find($id);
         $report->delete();
 
         return redirect()->route('reporting.index');

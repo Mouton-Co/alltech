@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
-        return view('layouts.dashboard');
+        return redirect()->route('meeting.index');
     })->name('dashboard');
     Route::post('/toggle-dark-mode', [UserController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
 

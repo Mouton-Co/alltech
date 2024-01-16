@@ -48,7 +48,7 @@ class MeetingController extends Controller
 
         $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
 
-        return view('models.meeting.index', compact('eventSources', 'contacts', 'users'));
+        return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
     }
 
     /**

@@ -35,16 +35,18 @@
             @else
                 @foreach ($reports as $report)
                     <tr>
-                        @foreach (config('models.user.columns') as $field => $column)
+                        @foreach (config('models.report.columns') as $field => $column)
                             @if (str_contains($field, 'filter_used'))
-                                <td><p>{{ $report->formatted_filter_used }}</p></td>
+                                <td><p>{!!  $report->formatted_filter_used !!}</p></td>
                             @else
                                 <td>{{ $report->$field }}</td>
                             @endif
                         @endforeach
                         <td class="flex justify-end gap-2">
+                            <a href="{{route('reporting.report',array_merge(['report_id'=>$report->id],json_decode($report->filter_used, true)))}}">
                             <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange edit-icon"
                                          id="edit-{{ $report->id }}"/>
+                            </a>
                             <x-icon.delete class="text-blue w-6 cursor-pointer hover:text-orange delete-icon"
                                            id="delete-{{ $report->id }}"/>
                         </td>
@@ -57,9 +59,8 @@
 
     @foreach ($reports as $report)
         {{-- delete modals --}}
-        <x-modals.delete id="delete-modal-{{ $report->id }}" :resource="$user" :route="'user'"
-                         :message="'Are you sure you wish to delete the account for user ' . $user->name . '? All meetings
-            associated with this account will be removed as well.'"/>
+        <x-modals.delete id="delete-modal-{{ $report->id }}" :resource="$report" :route="'reporting'"
+                         :message="'Are you sure you with to delete this report?'"/>
     @endforeach
 
     {{-- pagination --}}

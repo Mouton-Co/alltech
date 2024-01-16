@@ -29,6 +29,10 @@ export function animations() {
         $("#add-resource-modal").addClass('flex').removeClass('hidden');
         $('#curtain').addClass('block').removeClass('hidden');
     });
+    $('#update-resource').on("click", function () {
+        $("#update-resource-modal").addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
+    });
     $('.edit-icon').on("click", function () {
         let id = this.getAttribute('id').split('-')[1];
         $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');

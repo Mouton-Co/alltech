@@ -46,7 +46,7 @@
                 :options="$users"
                 :value="'id'"
                 :display="'name'"
-                :selected="json_encode(request()->users) ?? ''"
+                :selected="json_encode($usersQuery) ?? ''"
                 class="filter-field"
                 multiple
             />

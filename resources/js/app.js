@@ -22,8 +22,15 @@ $(document).ready(function () {
             $(this).select2();
         }
     });
+
     flatpickr(".js-date-range-picker", {
         mode: 'range',
+    });
+
+    flatpickr(".js-date-picker", {
+        mode: 'single',
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
     });
 });
 

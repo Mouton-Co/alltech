@@ -4,14 +4,14 @@
     @php
         $hasStoreErrors  = false;
         $hasUpdateErrors = false;
-
+    ds($errors->getBags());
         foreach ($errors->getBags() as $bagKey => $bag) {
-            if ($bagKey === 'userStore') {
+            if ($bagKey === 'reportSave') {
                 $hasStoreErrors = true;
                 $errors->default = $errors->$bagKey;
                 break;
             }
-            if (str_contains($bagKey, 'userUpdate')) {
+            if (str_contains($bagKey, 'reportUpdate')) {
                 $hasUpdateErrors = true;
                 $updateErrorId = explode('--', $bagKey)[1];
                 $errors->default = $errors->$bagKey;
@@ -19,54 +19,21 @@
             }
         }
     @endphp
-    <x-modals.resource :route="route('reporting.store')" :title="'Save Report Filter'" :button="'Save'"
-                       :show="$hasStoreErrors" id="add-resource-modal">
-        <div class="flex w-full flex-col gap-3">
-            <input type="hidden" name="filter_used" value="{{ json_encode(request()->query()) }}">
-            {{-- filter name --}}
-            <div class="flex gap-3">
-                <label for="filter_name" class="min-w-fit">{{ __('Filter Name') }}</label>
-                <input type="text" name="filter_name" placeholder="Filter Name" value="" class="filter-field">
+    @if(empty($report))
+        <x-modals.resource :route="route('reporting.store')" :title="'Save Report Filter'" :button="'Save'"
+                           :show="$hasStoreErrors" id="add-resource-modal">
+            <div class="flex w-full flex-col gap-3">
+                @include('models.reporting.form', ['report' => null])
             </div>
-
-            {{-- recipient --}}
-            <div class="flex gap-3">
-                <label for="recipient" class="min-w-fit">{{ __('Recipient') }}</label>
-                <input type="text" name="recipient" placeholder="example@alltech.com" value="" class="filter-field">
+        </x-modals.resource>
+    @else
+        <x-modals.resource :route="route('reporting.update')" :title="'Update Report Filter'" :button="'Update'"
+                           :show="$hasStoreErrors" id="update-resource-modal">
+            <div class="flex w-full flex-col gap-3">
+                @include('models.reporting.form', ['report' => $report])
             </div>
-
-            {{-- send at --}}
-            <div class="flex gap-3">
-                <label for="send_at" class="min-w-fit">{{ __('Send At') }}</label>
-                <x-form.date-picker :name="'send_at'" :value="request()->query('send_at') ?? ''"
-                                    class="filter-field"/>
-            </div>
-
-            {{-- repeat --}}
-            <div class="flex gap-3">
-                <label for="repeat" class="min-w-fit">{{ __('Repeat') }}</label>
-                <input type="checkbox" name="repeat" placeholder="Repeat" class="filter-field">
-            </div>
-
-            {{-- repeat frequency --}}
-            <div class="flex gap-3">
-                <label for="repeat_frequency" class="min-w-fit">{{ __('Repeat Frequency') }}</label>
-                <select name="repeat_frequency" class="filter-field selector-for-js">
-                    @foreach(\App\Models\Report::REPEAT_FREQUENCY as $key => $value)
-                        <option
-                            value="{{ $key }}"
-                            @if($key == old('repeat_frequency'))
-                                selected
-                            @endif
-                        >
-                            {{ $value }}
-                        </option>
-                    @endforeach
-                </select>
-
-            </div>
-        </div>
-    </x-modals.resource>
+        </x-modals.resource>
+    @endif
 
     {{-- curtain --}}
     <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors"/>
@@ -81,6 +48,11 @@
 
     <form action="{{ route('reporting.report') }}" method="get">
         <div class="grid grid-cols-2 smaller-than-740:grid-cols-1 gap-3 my-2">
+            {{-- report id --}}
+            @if(!empty($report->id))
+                <input type="hidden" name="report_id" value="{{ $report->id }}">
+            @endif
+
             {{-- users --}}
             <div class="flex gap-3">
                 <label class="min-w-fit">{{ __('Users') }}</label>
@@ -132,15 +104,27 @@
             </div>
 
             <div class="flex gap-3">
-                <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
+                @if(empty($report))
+                    <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
                     items-center"
-                        onclick="event.preventDefault();"
-                        @if(!$hasQuery)
-                            disabled
-                    @endif
-                >
-                    {{ __('Save Filter') }}
-                </button>
+                            onclick="event.preventDefault();"
+                            @if(!$hasQuery)
+                                disabled
+                        @endif
+                    >
+                        {{ __('Save Filter') }}
+                    </button>
+                @else
+                    <button id="update-resource" class="btn-transparent min-w-[160px] flex justify-center
+                    items-center"
+                            onclick="event.preventDefault();"
+                            @if(!$hasQuery)
+                                disabled
+                        @endif
+                    >
+                        {{ __('Update Filter') }}
+                    </button>
+                @endif
                 <button class="btn-transparent min-w-[160px] flex justify-center"
                         onclick="event.preventDefault();"
                         @if(!$hasQuery)
