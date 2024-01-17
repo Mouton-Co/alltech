@@ -47,7 +47,7 @@
                 :value="'id'"
                 :display="'name'"
                 :selected="json_encode($usersQuery) ?? ''"
-                class="filter-field"
+                class="filter-field max-w-[40rem]"
                 multiple
             />
 

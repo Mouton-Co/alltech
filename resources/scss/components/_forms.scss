@@ -35,6 +35,6 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 }
 
 .filter-field {
-    @apply min-w-[20rem] h-[32px] rounded-sm shadow-sm border-gray
+    @apply w-full h-[32px] rounded-sm shadow-sm border-gray
     focus:border-orange focus:ring-orange;
 }

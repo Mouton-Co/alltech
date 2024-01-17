@@ -1,4 +1,4 @@
-<div class="relative max-w-sm">
+<div {{ $attributes->merge(['class' => 'relative']) }}>
     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
         <x-icon.date-picker class="h-4" />
     </div>

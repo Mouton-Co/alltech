@@ -4,7 +4,7 @@
     @php
         $hasStoreErrors  = false;
         $hasUpdateErrors = false;
-    ds($errors->getBags());
+        
         foreach ($errors->getBags() as $bagKey => $bag) {
             if ($bagKey === 'reportSave') {
                 $hasStoreErrors = true;
@@ -19,6 +19,7 @@
             }
         }
     @endphp
+
     @if(empty($report))
         <x-modals.resource :route="route('reporting.store')" :title="'Save Report Filter'" :button="'Save'"
                            :show="$hasStoreErrors" id="add-resource-modal">
@@ -39,9 +40,11 @@
     <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors"/>
 
     {{-- title --}}
-    <div class="flex ">
-        <h1 class="mb-3 grow">{{ __('Meeting reports') }}</h1>
-        <a href="{{route('reporting.index')}}" class="btn-transparent">Saved Reports</a>
+    <div class="flex justify-between items-center py-2">
+        <h1>{{ __('Meeting reports') }}</h1>
+        <a href="{{route('reporting.index')}}" class="btn-transparent flex justify-center items-center px-2">
+            {{ __('Saved Reports') }}
+        </a>
     </div>
     {{-- filter bar --}}
     <hr>
@@ -55,7 +58,7 @@
 
             {{-- users --}}
             <div class="flex gap-3">
-                <label class="min-w-fit">{{ __('Users') }}</label>
+                <label class="min-w-[120px]">{{ __('Users') }}</label>
                 <x-form.select
                     :name="'users[]'"
                     :options="$users"
@@ -69,41 +72,41 @@
 
             {{-- company types --}}
             <div class="flex gap-3">
-                <label class="min-w-fit">{{ __('Company Types') }}</label>
-                <x-form.select :name="'company_types[]'" class="filter-field" :options="$companyTypes" :value="'id'"
-                               :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
-                               multiple/>
+                <label class="min-w-[120px]">{{ __('Company Types') }}</label>
+                <x-form.select :name="'company_types[]'" class="filter-field" :options="$companyTypes"
+                :value="'id'" :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
+                multiple/>
             </div>
 
             {{-- companies --}}
             <div class="flex gap-3">
-                <label class="min-w-fit">{{ __('Companies') }}</label>
+                <label class="min-w-[120px]">{{ __('Companies') }}</label>
                 <x-form.select :name="'companies[]'" class="filter-field" :options="$companies" :value="'id'"
                                :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
             </div>
 
             {{-- contacts --}}
             <div class="flex gap-3">
-                <label class="min-w-fit">{{ __('Contacts') }}</label>
+                <label class="min-w-[120px]">{{ __('Contacts') }}</label>
                 <x-form.select :name="'contacts[]'" class="filter-field" :options="$contacts" :value="'id'"
                                :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
             </div>
 
             {{-- date --}}
             <div class="flex gap-3">
-                <label for="date" class="min-w-fit">{{ __('Date') }}</label>
+                <label for="date" class="min-w-[120px]">{{ __('Date') }}</label>
                 <x-form.date-range-picker :name="'date_range'" :value="request()->query('date') ?? ''"
-                                          class="filter-field"/>
+                class="w-full mr-3"/>
             </div>
 
             {{-- search --}}
             <div class="flex gap-3">
-                <label for="search" class="min-w-fit">{{ __('Search') }}</label>
+                <label for="search" class="min-w-[120px]">{{ __('Search') }}</label>
                 <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                       class="filter-field">
+                       class="filter-field mr-3">
             </div>
 
-            <div class="flex gap-3">
+            <div class="flex justify-end gap-3">
                 @if(empty($report))
                     <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
                     items-center"
@@ -125,7 +128,7 @@
                         {{ __('Update Filter') }}
                     </button>
                 @endif
-                <button class="btn-transparent min-w-[160px] flex justify-center"
+                <button class="btn-transparent min-w-[160px] flex justify-center items-center"
                         onclick="event.preventDefault();"
                         @if(!$hasQuery)
                             disabled
@@ -135,7 +138,7 @@
                 </button>
             </div>
 
-            <div class="flex gap-3">
+            <div class="flex justify-end gap-3">
                 <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
                 <button type="submit" class="btn-orange min-w-[120px]">
                     {{ __('Filter') }}

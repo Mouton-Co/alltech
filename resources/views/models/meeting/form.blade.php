@@ -1,4 +1,3 @@
-@php(ds($meeting))
 {{-- name --}}
 {{-- meeting id --}}
 @if (!empty($meeting))
