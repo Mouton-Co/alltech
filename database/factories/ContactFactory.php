@@ -18,9 +18,9 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'       => $this->faker->name,
-            'email'      => $this->faker->email,
-            'phone'      => $this->faker->phoneNumber,
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'phone' => $this->faker->phoneNumber,
             'company_id' => $this->faker->randomElement(Company::pluck('id')->toArray()),
         ];
     }

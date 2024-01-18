@@ -2,9 +2,9 @@
 
 return [
     'columns' => [
-        'name'          => 'Name',
-        'email'         => 'Email',
-        'phone'         => 'Phone',
+        'name' => 'Name',
+        'email' => 'Email',
+        'phone' => 'Phone',
         'company->name' => 'Company',
-    ]
+    ],
 ];

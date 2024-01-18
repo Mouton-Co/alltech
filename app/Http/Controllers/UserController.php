@@ -26,7 +26,7 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'users.role_id')
             ->where('users.id', '!=', auth()->user()->id);
 
-        if (!empty($request->get('order_by')) && $request->get('order_by') == 'role->name') {
+        if (! empty($request->get('order_by')) && $request->get('order_by') == 'role->name') {
             $users = $users->orderBy(
                 'roles.name',
                 $request->get('order_direction') ?? 'asc'
@@ -38,10 +38,10 @@ class UserController extends Controller
             );
         }
 
-        if (!empty($request->get('search'))) {
-            $users = $users->where('users.name', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('email', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('roles.name', 'like', '%' . $request->get('search') . '%');
+        if (! empty($request->get('search'))) {
+            $users = $users->where('users.name', 'like', '%'.$request->get('search').'%')
+                ->orWhere('email', 'like', '%'.$request->get('search').'%')
+                ->orWhere('roles.name', 'like', '%'.$request->get('search').'%');
         }
 
         return view('models.user.index')->with([
@@ -56,20 +56,20 @@ class UserController extends Controller
     public function store(StoreRequest $request)
     {
         $user = User::create([
-            'name'     => $request->get('name'),
-            'email'    => $request->get('email'),
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
-            'role_id'  => $request->get('role_id'),
+            'role_id' => $request->get('role_id'),
         ]);
 
         if ($user) {
             return redirect()->route('user.index')->with([
-                'success' => "$user->name successfully created"
+                'success' => "$user->name successfully created",
             ]);
         }
 
         return redirect()->route('user.index')->with([
-            'error' => "User creation failed"
+            'error' => 'User creation failed',
         ]);
     }
 
@@ -82,22 +82,22 @@ class UserController extends Controller
 
         if (empty($user)) {
             return redirect()->route('user.index')->with([
-                'error' => "User not found"
+                'error' => 'User not found',
             ]);
         }
 
-        $user->name    = $request->get('name');
-        $user->email   = $request->get('email');
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
         $user->role_id = $request->get('role_id');
 
-        if (!empty($request->get('password'))) {
+        if (! empty($request->get('password'))) {
             $user->name = $request->get('name');
         }
 
         $user->save();
 
         return redirect()->route('user.index')->with([
-            'success' => "$user->name successfully created"
+            'success' => "$user->name successfully created",
         ]);
     }
 
@@ -110,7 +110,7 @@ class UserController extends Controller
 
         if (empty($user)) {
             return redirect()->route('user.index')->with([
-                'error' => "User not found"
+                'error' => 'User not found',
             ]);
         }
 
@@ -118,7 +118,7 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('user.index')->with([
-            'success' => "$name has been removed"
+            'success' => "$name has been removed",
         ]);
     }
 }

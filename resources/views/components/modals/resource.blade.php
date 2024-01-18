@@ -21,7 +21,7 @@ smaller-than-740:w-[calc(100%-16px)] {{ !empty($show) && $show ? 'flex' : 'hidde
 
         {{ $slot }}
 
-        <button type="submit" class="btn-orange-thin w-fit px-5 h-[30px]">
+        <button type="submit" class="btn-transparent w-fit px-5 h-[30px]">
             @if (!empty($button))
                 {{ $button }}
             @else

@@ -25,12 +25,12 @@ class CompanyTypeController extends Controller
             $request->get('order_direction') ?? 'asc'
         );
 
-        if (!empty($request->get('search'))) {
-            $companyTypes = $companyTypes->where('name', 'like', '%' . $request->get('search') . '%');
+        if (! empty($request->get('search'))) {
+            $companyTypes = $companyTypes->where('name', 'like', '%'.$request->get('search').'%');
         }
 
         return view('models.company-type.index')->with([
-            'companyTypes' => $companyTypes->paginate(10)
+            'companyTypes' => $companyTypes->paginate(10),
         ]);
     }
 
@@ -40,18 +40,18 @@ class CompanyTypeController extends Controller
     public function store(StoreRequest $request)
     {
         $companyType = CompanyType::create([
-            'name'             => $request->get('name'),
+            'name' => $request->get('name'),
             'minimum_required' => $request->get('minimum_required'),
         ]);
 
         if ($companyType) {
             return redirect()->route('company-type.index')->with([
-                'success' => "$companyType->name successfully created"
+                'success' => "$companyType->name successfully created",
             ]);
         }
 
         return redirect()->route('company-type.index')->with([
-            'error' => "Company type creation failed"
+            'error' => 'Company type creation failed',
         ]);
     }
 
@@ -64,16 +64,16 @@ class CompanyTypeController extends Controller
 
         if (empty($companyType)) {
             return redirect()->route('company-type.index')->with([
-                'error' => "Company type not found"
+                'error' => 'Company type not found',
             ]);
         }
 
-        $companyType->name             = $request->get('name');
+        $companyType->name = $request->get('name');
         $companyType->minimum_required = $request->get('minimum_required');
         $companyType->save();
 
         return redirect()->route('company-type.index', $companyType->id)->with([
-            'success' => "Company type updated"
+            'success' => 'Company type updated',
         ]);
     }
 
@@ -86,7 +86,7 @@ class CompanyTypeController extends Controller
 
         if (empty($companyType)) {
             return redirect()->route('company-type.index')->with([
-                'error' => "Company type not found"
+                'error' => 'Company type not found',
             ]);
         }
 
@@ -94,7 +94,7 @@ class CompanyTypeController extends Controller
         $companyType->delete();
 
         return redirect()->route('company-type.index')->with([
-            'success' => "$name has been removed"
+            'success' => "$name has been removed",
         ]);
     }
 }

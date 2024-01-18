@@ -6,6 +6,8 @@ use App\Http\Requests\Meeting\StoreRequest;
 use App\Http\Requests\Meeting\UpdateRequest;
 use App\Models\Contact;
 use App\Models\Meeting;
+use App\Models\User;
+use Faker\Core\Color;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,37 +16,49 @@ class MeetingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     *
-     * @return View
      */
     public function index(Request $request): View
     {
-        $events = [];
+        $eventSources = [];
+        $users = User::all();
 
-        $meetings = Meeting::where('user_id', auth()->id())->get();
-
-        foreach ($meetings as $meeting) {
-            $events[] = [
-                'id'    => $meeting->id,
-                'title' => $meeting->contact->name,
-                'start' => $meeting->date . ' ' . $meeting->start_time,
-                'end'   => $meeting->date . ' ' . $meeting->end_time,
+        $usersQuery = [auth()->id()];
+        if ($request->has('users')) {
+            $usersQuery = array_merge($usersQuery, $request->get('users'));
+        }
+        $usersQuery = array_unique($usersQuery);
+        foreach ($usersQuery as $user) {
+            $events = [];
+            $meetings = Meeting::where('user_id', $user)->get();
+            foreach ($meetings as $meeting) {
+                $events[] = [
+                    'id' => $meeting->id,
+                    'title' => $meeting->contact->name,
+                    'start' => $meeting->date.' '.$meeting->start_time,
+                    'end' => $meeting->date.' '.$meeting->end_time,
+                    'model' => $meeting,
+                ];
+            }
+            $color = (new Color())->colorName();
+            $eventSources[] = [
+                'events'    => $events,
+                'color'     => "color-mix(in srgb, $color, white)",
+                'textColor' => "black",
+                'user'      => $user,
             ];
         }
 
         $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
 
-        return view('models.meeting.index', compact('events', 'contacts', 'meetings'));
+        $request->merge([
+            'users' => $usersQuery,
+        ]);
+
+        return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param StoreRequest $request
-     *
-     * @return RedirectResponse
      */
     public function store(StoreRequest $request): RedirectResponse
     {
@@ -69,7 +83,7 @@ class MeetingController extends Controller
         }
 
         return redirect()->route('meeting.index')->with([
-            'error' => "Meeting creation failed"
+            'error' => 'Meeting creation failed',
         ]);
     }
 
@@ -96,7 +110,7 @@ class MeetingController extends Controller
         }
 
         return redirect()->route('meeting.index')->with([
-            'error' => "Meeting update failed"
+            'error' => 'Meeting update failed',
         ]);
     }
 }

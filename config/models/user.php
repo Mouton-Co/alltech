@@ -7,5 +7,5 @@ return [
         'role->name' => 'Role',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
-    ]
+    ],
 ];

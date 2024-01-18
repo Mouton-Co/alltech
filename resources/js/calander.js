@@ -6,12 +6,13 @@ import interactionPlugin from "@fullcalendar/interaction";
 export function calander() {
     document.addEventListener('DOMContentLoaded', function() {
         let calendarEl = document.getElementById('calendar');
+        if (!calendarEl) return;
         let calendar = new Calendar(calendarEl, {
             plugins: [timeGridPlugin,dayGridPlugin,interactionPlugin],
             initialView: 'timeGridWeek',
             slotMinTime: '1:00:00',
             slotMaxTime: '24:00:00',
-            events: window.events,
+            eventSources: window.eventSources,
             allDaySlot: false,
             firstDay: 1,
             slotLabelFormat: {

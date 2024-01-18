@@ -1,3 +1,36 @@
 .card {
     @apply px-6 py-12 shadow sm:rounded-lg sm:px-12 bg-white;
 }
+
+.report-card {
+    @apply bg-white rounded-lg shadow-sm ring-1 cursor-pointer
+    divide-y-2 divide-darkgray flex flex-col text-sm ring-darkgray;
+
+    .report-card-header {
+        @apply flex items-center justify-between px-5 py-3;
+    }
+
+    .report-card-body {
+        @apply px-5 py-3 flex flex-col;
+        .report-card-body-item {
+            @apply flex items-center py-1 gap-3 text-darkgray truncate;
+        }
+    }
+    .report-card-footer {
+        @apply flex px-5 py-3 items-center gap-3 rounded-b-lg;
+    }
+
+    &:hover {
+        @apply ring-orange opacity-90;
+    }
+}
+
+.report-modal {
+    @apply top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] fixed z-50;
+    .report-card {
+        @apply min-w-[750px] px-2 max-h-[600px] overflow-y-scroll;
+        &:hover {
+            @apply opacity-100;
+        }
+    }
+}

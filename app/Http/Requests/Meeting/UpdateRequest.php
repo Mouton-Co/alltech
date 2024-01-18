@@ -22,13 +22,13 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'meeting_id'             => 'required|exists:meetings,id',
-            'date'                   => 'required|date_format:format,Y-m-d',
-            'start_time'             => 'required|date_format:format,H:i',
-            'end_time'               => 'required|date_format:format,H:i|after:start_time',
-            'objective'              => 'required|string',
+            'meeting_id' => 'required|exists:meetings,id',
+            'date' => 'required|date_format:format,Y-m-d',
+            'start_time' => 'required|date_format:format,H:i',
+            'end_time' => 'required|date_format:format,H:i|after:start_time',
+            'objective' => 'required|string',
             'marketing_requirements' => 'required|string',
-            'contact_id'             => 'required|exists:contacts,id',
+            'contact_id' => 'required|exists:contacts,id',
         ];
     }
 }

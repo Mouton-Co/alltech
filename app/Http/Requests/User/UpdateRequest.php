@@ -24,11 +24,12 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $this->errorBag .= $this->get('user_id');
+
         return [
-            'name'             => 'required',
-            'role_id'          => 'required',
-            'email'            => 'required|unique:users,email,' . $this->get('user_id'),
-            'password'         => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
+            'name' => 'required',
+            'role_id' => 'required',
+            'email' => 'required|unique:users,email,'.$this->get('user_id'),
+            'password' => "nullable|regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{8,16}$/",
             'confirm_password' => 'nullable|same:password',
         ];
     }
@@ -41,8 +42,8 @@ class UpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'regex' => "Password must contain one digit, one lowercase, one uppercase,
-                one special character, no spaces, and be between 8-16 characters.",
+            'regex' => 'Password must contain one digit, one lowercase, one uppercase,
+                one special character, no spaces, and be between 8-16 characters.',
             'same' => "Passwords don't match",
         ];
     }

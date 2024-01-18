@@ -23,7 +23,7 @@ class ContactController extends Controller
         $contacts = Contact::select(['contacts.*', 'companies.name as companies_name'])
             ->join('companies', 'companies.id', '=', 'contacts.company_id');
 
-        if (!empty($request->get('order_by')) && $request->get('order_by') == 'company->name') {
+        if (! empty($request->get('order_by')) && $request->get('order_by') == 'company->name') {
             $contacts = $contacts->orderBy(
                 'companies.name',
                 $request->get('order_direction') ?? 'asc'
@@ -35,15 +35,15 @@ class ContactController extends Controller
             );
         }
 
-        if (!empty($request->get('search'))) {
-            $contacts = $contacts->where('contacts.name', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('email', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('phone', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('companies.name', 'like', '%' . $request->get('search') . '%');
+        if (! empty($request->get('search'))) {
+            $contacts = $contacts->where('contacts.name', 'like', '%'.$request->get('search').'%')
+                ->orWhere('email', 'like', '%'.$request->get('search').'%')
+                ->orWhere('phone', 'like', '%'.$request->get('search').'%')
+                ->orWhere('companies.name', 'like', '%'.$request->get('search').'%');
         }
 
         return view('models.contact.index')->with([
-            'contacts'  => $contacts->paginate(10),
+            'contacts' => $contacts->paginate(10),
             'companies' => Company::all(),
         ]);
     }
@@ -54,20 +54,20 @@ class ContactController extends Controller
     public function store(StoreRequest $request)
     {
         $contact = Contact::create([
-            'name'       => $request->get('name'),
-            'email'      => $request->get('email'),
-            'phone'      => $request->get('phone'),
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'phone' => $request->get('phone'),
             'company_id' => $request->get('company_id'),
         ]);
 
         if ($contact) {
             return redirect()->route('contact.index')->with([
-                'success' => "$contact->name successfully created"
+                'success' => "$contact->name successfully created",
             ]);
         }
 
         return redirect()->route('contact.index')->with([
-            'error' => "Contact creation failed"
+            'error' => 'Contact creation failed',
         ]);
     }
 
@@ -80,18 +80,18 @@ class ContactController extends Controller
 
         if (empty($contact)) {
             return redirect()->route('contact.index')->with([
-                'error' => "Contact not found"
+                'error' => 'Contact not found',
             ]);
         }
 
-        $contact->name       = $request->get('name');
-        $contact->email      = $request->get('email');
-        $contact->phone      = $request->get('phone');
+        $contact->name = $request->get('name');
+        $contact->email = $request->get('email');
+        $contact->phone = $request->get('phone');
         $contact->company_id = $request->get('company_id');
         $contact->save();
 
         return redirect()->route('contact.index', $contact->id)->with([
-            'success' => "Contact updated"
+            'success' => 'Contact updated',
         ]);
     }
 
@@ -104,7 +104,7 @@ class ContactController extends Controller
 
         if (empty($contact)) {
             return redirect()->route('contact.index')->with([
-                'error' => "Contact not found"
+                'error' => 'Contact not found',
             ]);
         }
 
@@ -112,7 +112,7 @@ class ContactController extends Controller
         $contact->delete();
 
         return redirect()->route('contact.index')->with([
-            'success' => "$name has been removed"
+            'success' => "$name has been removed",
         ]);
     }
 }

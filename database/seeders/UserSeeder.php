@@ -19,18 +19,18 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'email' => 'arouxmouton@gmail.com',
-                'name'  => 'Adriaan Mouton',
-                'role'  => 'Admin',
+                'name' => 'Adriaan Mouton',
+                'role' => 'Admin',
             ],
             [
                 'email' => 'theamouton@gmail.com',
-                'name'  => 'Thea Mouton',
-                'role'  => 'Admin',
+                'name' => 'Thea Mouton',
+                'role' => 'Admin',
             ],
             [
                 'email' => 'nicole.geyser@Alltech.com',
-                'name'  => 'Nicole Geyser',
-                'role'  => 'Admin',
+                'name' => 'Nicole Geyser',
+                'role' => 'Admin',
             ],
         ];
 
@@ -38,8 +38,8 @@ class UserSeeder extends Seeder
             User::factory()->create([
                 'role_id' => Role::where('name', $user['role'])->first()->id,
                 'password' => $password,
-                'name'     => $user['name'],
-                'email'    => $user['email'],
+                'name' => $user['name'],
+                'email' => $user['email'],
             ]);
         }
     }

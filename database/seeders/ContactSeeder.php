@@ -16,10 +16,9 @@ class ContactSeeder extends Seeder
         /**
          * Generate 10 contacts for each company
          */
-
         $companies = Company::all();
 
-        foreach($companies as $company) {
+        foreach ($companies as $company) {
             Contact::factory()->count(10)->create([
                 'company_id' => $company->id,
             ]);

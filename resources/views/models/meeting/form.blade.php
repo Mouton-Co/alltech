@@ -1,3 +1,4 @@
+{{-- name --}}
 {{-- meeting id --}}
 @if (!empty($meeting))
     <input type="hidden" name="meeting_id" value="{{ $meeting->id }}">
@@ -56,6 +57,6 @@ old('end_time') }}">
         {{ __('Contact') }}
     </x-form.label>
     <x-form.select :name="'contact_id'" style="width:100%;" :options="$contacts" :value="'id'" :display="'name'"
-        :selected="$meeting->contact_id ?? old('contact_id')">
+        :selected="$meeting->contact_id ?? old('contact_id')" class="selector-for-js">
     </x-form.select>
 </div>

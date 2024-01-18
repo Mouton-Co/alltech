@@ -24,7 +24,7 @@ class CompanyController extends Controller
         $companies = Company::select(['companies.*', 'company_types.name as company_types_name'])
             ->join('company_types', 'company_types.id', '=', 'companies.company_type_id');
 
-        if (!empty($request->get('order_by')) && $request->get('order_by') == 'companyType->name') {
+        if (! empty($request->get('order_by')) && $request->get('order_by') == 'companyType->name') {
             $companies = $companies->orderBy(
                 'company_types.name',
                 $request->get('order_direction') ?? 'asc'
@@ -36,14 +36,14 @@ class CompanyController extends Controller
             );
         }
 
-        if (!empty($request->get('search'))) {
-            $companies = $companies->where('companies.name', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('location', 'like', '%' . $request->get('search') . '%')
-                ->orWhere('company_types.name', 'like', '%' . $request->get('search') . '%');
+        if (! empty($request->get('search'))) {
+            $companies = $companies->where('companies.name', 'like', '%'.$request->get('search').'%')
+                ->orWhere('location', 'like', '%'.$request->get('search').'%')
+                ->orWhere('company_types.name', 'like', '%'.$request->get('search').'%');
         }
 
         return view('models.company.index')->with([
-            'companies'    => $companies->paginate(10),
+            'companies' => $companies->paginate(10),
             'companyTypes' => CompanyType::all(),
         ]);
     }
@@ -54,20 +54,20 @@ class CompanyController extends Controller
     public function store(StoreRequest $request)
     {
         $company = Company::create([
-            'name'            => $request->get('name'),
-            'location'        => $request->get('location'),
-            'coordinates'     => $request->get('coordinates'),
+            'name' => $request->get('name'),
+            'location' => $request->get('location'),
+            'coordinates' => $request->get('coordinates'),
             'company_type_id' => $request->get('company_type_id'),
         ]);
 
         if ($company) {
             return redirect()->route('company.index')->with([
-                'success' => "$company->name successfully created"
+                'success' => "$company->name successfully created",
             ]);
         }
 
         return redirect()->route('company.index')->with([
-            'error' => "Company creation failed"
+            'error' => 'Company creation failed',
         ]);
     }
 
@@ -80,18 +80,18 @@ class CompanyController extends Controller
 
         if (empty($company)) {
             return redirect()->route('company.index')->with([
-                'error' => "Company not found"
+                'error' => 'Company not found',
             ]);
         }
 
-        $company->name            = $request->get('name');
-        $company->location        = $request->get('location');
-        $company->coordinates     = $request->get('coordinates');
+        $company->name = $request->get('name');
+        $company->location = $request->get('location');
+        $company->coordinates = $request->get('coordinates');
         $company->company_type_id = $request->get('company_type_id');
         $company->save();
 
         return redirect()->route('company.index', $company->id)->with([
-            'success' => "Company updated"
+            'success' => 'Company updated',
         ]);
     }
 
@@ -104,7 +104,7 @@ class CompanyController extends Controller
 
         if (empty($company)) {
             return redirect()->route('company.index')->with([
-                'error' => "Company not found"
+                'error' => 'Company not found',
             ]);
         }
 
@@ -112,7 +112,7 @@ class CompanyController extends Controller
         $company->delete();
 
         return redirect()->route('company.index')->with([
-            'success' => "$name has been removed"
+            'success' => "$name has been removed",
         ]);
     }
 }

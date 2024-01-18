@@ -23,7 +23,7 @@ class IndexRequest extends FormRequest
     {
         return [
             'page' => 'nullable|integer|min:1',
-            'order_by' => 'nullable|string|in:' . implode(',', array_keys(config('models.company.columns'))),
+            'order_by' => 'nullable|string|in:'.implode(',', array_keys(config('models.company.columns'))),
             'order_direction' => 'nullable|string|in:asc,desc',
             'search' => 'nullable|string',
         ];

@@ -29,6 +29,10 @@ export function animations() {
         $("#add-resource-modal").addClass('flex').removeClass('hidden');
         $('#curtain').addClass('block').removeClass('hidden');
     });
+    $('#update-resource').on("click", function () {
+        $("#update-resource-modal").addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
+    });
     $('.edit-icon').on("click", function () {
         let id = this.getAttribute('id').split('-')[1];
         $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
@@ -37,7 +41,13 @@ export function animations() {
     $('#curtain, .modal-cancel').on("click", function () {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');
+        $('.report-modal').addClass('hidden').removeClass('flex');
         $('#curtain').addClass('hidden').removeClass('block');
+    });
+    $('.report-card').on("click", function () {
+        let id = this.getAttribute('id').split('-')[2];
+        $("#report-modal-" + id).addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
     });
 
     /*
