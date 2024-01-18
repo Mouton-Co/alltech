@@ -3,12 +3,13 @@
         <option value="{{ $option->$value }}"
             @if (
                 !empty($selected) &&
-                is_array(json_decode($selected)) &&
-                in_array($option->$value, json_decode($selected))
+                is_array(json_decode($selected,true)) &&
+                in_array($option->$value, json_decode($selected, true))
             )
                 selected
             @elseif(!empty($selected) && $selected == $option->$value)
-                selected @endif>
+                selected
+            @endif>
             {{ $option->$display }}
         </option>
     @endforeach

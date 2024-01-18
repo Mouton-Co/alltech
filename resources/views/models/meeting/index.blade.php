@@ -39,14 +39,13 @@
         <div class="flex gap-3 my-2 items-center flex-wrap">
 
             {{-- users --}}
-
             <label class="min-w-fit">{{ __('Users') }}</label>
             <x-form.select
                 :name="'users[]'"
                 :options="$users"
                 :value="'id'"
                 :display="'name'"
-                :selected="json_encode($usersQuery) ?? ''"
+                :selected="json_encode(request()->users) ?? ''"
                 class="filter-field max-w-[40rem]"
                 multiple
             />

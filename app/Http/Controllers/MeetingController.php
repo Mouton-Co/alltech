@@ -48,6 +48,10 @@ class MeetingController extends Controller
 
         $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
 
+        $request->merge([
+            'users' => $usersQuery,
+        ]);
+
         return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
     }
 
