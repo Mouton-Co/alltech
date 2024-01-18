@@ -42,7 +42,7 @@
     <x-form.label for="role_id">
         {{ __('Role') }}
     </x-form.label>
-    <x-form.select :name="'role_id'" class="w-full" :options="$roles" :value="'id'"
+    <x-form.select :name="'role_id'" class="selector-for-js w-full" :options="$roles" :value="'id'"
                    :display="'name'" :selected="old('role_id') ?? ($user->role_id ?? null)">
         <x-icon.role class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray"/>
     </x-form.select>

@@ -46,7 +46,7 @@
                 :value="'id'"
                 :display="'name'"
                 :selected="json_encode(request()->users) ?? ''"
-                class="filter-field max-w-[40rem]"
+                class="selector-for-calendar-users filter-field max-w-[40rem]"
                 multiple
             />
 
@@ -78,4 +78,21 @@
             </x-modals.resource>
         @endforeach
     @endforeach
+
+    <script type="text/javascript">
+        function formatPill(pill)
+        {
+            let color = 'black';
+            window.eventSources.forEach(eventSource => {
+                if (eventSource.user == pill.id) {
+                    color = eventSource.color;
+                }
+            });
+
+            let $pill = $(`<div class='pill-key' style='background:${color};'></div>
+            <span>${pill.text.trim()}</span>`);
+
+            return $pill;
+        }
+    </script>
 </x-dashboard>

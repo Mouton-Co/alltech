@@ -17,10 +17,18 @@ h2#fc-dom-1 {
 a.fc-event {
     @apply bg-orange text-white rounded-sm cursor-pointer border-none pl-1;
     &:hover {
-        @apply bg-orangehover;
+        @apply opacity-75;
     }
 }
 
 .fc-timegrid-slot {
     @apply cursor-pointer;
+}
+
+.pill-key {
+    @apply w-[15px] h-[15px] mr-[4px];
+}
+
+.select2-selection__choice__display {
+    @apply flex items-center;
 }

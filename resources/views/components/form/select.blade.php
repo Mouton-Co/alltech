@@ -1,4 +1,4 @@
-<select name="{{ $name }}" {{ $attributes->merge(['class' => 'selector-for-js']) }}>
+<select name="{{ $name }}" {{ $attributes }}>
     @foreach ($options as $option)
         <option value="{{ $option->$value }}"
             @if (

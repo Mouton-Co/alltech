@@ -23,6 +23,14 @@ $(document).ready(function () {
         }
     });
 
+    $('.selector-for-calendar-users').each(function () {
+        if ($(this).length > 0) {
+            $(this).select2({
+                templateSelection: formatPill
+            });
+        }
+    });
+
     flatpickr(".js-date-range-picker", {
         mode: 'range',
     });

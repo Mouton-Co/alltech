@@ -65,7 +65,7 @@
                     :value="'id'"
                     :display="'name'"
                     :selected="json_encode(request()->users) ?? ''"
-                    class="filter-field"
+                    class="selector-for-js filter-field"
                     multiple
                 />
             </div>
@@ -73,7 +73,7 @@
             {{-- company types --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Company Types') }}</label>
-                <x-form.select :name="'company_types[]'" class="filter-field" :options="$companyTypes"
+                <x-form.select :name="'company_types[]'" class="selector-for-js filter-field" :options="$companyTypes"
                 :value="'id'" :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
                 multiple/>
             </div>
@@ -81,15 +81,15 @@
             {{-- companies --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Companies') }}</label>
-                <x-form.select :name="'companies[]'" class="filter-field" :options="$companies" :value="'id'"
-                               :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
+                <x-form.select :name="'companies[]'" class="selector-for-js filter-field" :options="$companies"
+                :value="'id'" :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
             </div>
 
             {{-- contacts --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Contacts') }}</label>
-                <x-form.select :name="'contacts[]'" class="filter-field" :options="$contacts" :value="'id'"
-                               :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
+                <x-form.select :name="'contacts[]'" class="selector-for-js filter-field" :options="$contacts"
+                :value="'id'" :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
             </div>
 
             {{-- date --}}

@@ -39,10 +39,12 @@ class MeetingController extends Controller
                     'model' => $meeting,
                 ];
             }
+            $color = (new Color())->colorName();
             $eventSources[] = [
-                'events' => $events,
-                'color' => (new Color())->colorName(),
-                'user' => $user,
+                'events'    => $events,
+                'color'     => "color-mix(in srgb, $color, white)",
+                'textColor' => "black",
+                'user'      => $user,
             ];
         }
 
