@@ -12,22 +12,12 @@ use Illuminate\Support\Str;
 class Report extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    public const REPEAT_FREQUENCY = [
-        self::REPEAT_FREQUENCY_DAILY => 'Daily',
-        self::REPEAT_FREQUENCY_WEEKLY => 'Weekly',
-        self::REPEAT_FREQUENCY_MONTHLY => 'Monthly',
-        self::REPEAT_FREQUENCY_YEARLY => 'Yearly',
+    protected $fillable = [
+        'name',
+        'filter',
+        'user_id',
     ];
-
-    public const REPEAT_FREQUENCY_DAILY = 'daily';
-
-    public const REPEAT_FREQUENCY_WEEKLY = 'weekly';
-
-    public const REPEAT_FREQUENCY_MONTHLY = 'monthly';
-
-    public const REPEAT_FREQUENCY_YEARLY = 'yearly';
 
     /**
      * The user who created the filter
@@ -37,9 +27,9 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getFormattedFilterUsedAttribute(): string
+    public function getFormattedFilterAttribute(): string
     {
-        $filterUsed = json_decode($this->filter_used, true);
+        $filterUsed = json_decode($this->filter, true);
         $filterUsedString = '';
         foreach ($filterUsed as $key => $value) {
             if($key == 'report_id'){

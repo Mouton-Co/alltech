@@ -82,7 +82,7 @@ class ReportingController extends Controller
             $meetings->orWhere('marketing_requirements', 'LIKE', '%'.$request->get('search').'%');
         }
 
-        $meetings = $meetings->paginate(20);
+        $meetings = $meetings->paginate(8);
 
         return view(
             'models.reporting.report',
@@ -103,17 +103,13 @@ class ReportingController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        $report = new Report();
-        $report->filter_name = $request->input('filter_name');
-        $report->filter_used = $request->input('filter_used');
-        $report->recipient = $request->input('recipient');
-        $report->send_at = $request->input('send_at');
-        $report->repeat = $request->input('repeat') ?? false;
-        $report->repeat_frequency = $request->input('repeat_frequency');
+        $report          = new Report();
+        $report->name    = $request->input('name');
+        $report->filter  = $request->input('filter');
         $report->user_id = auth()->id();
         $report->save();
 
-        return redirect()->route('reporting.report', json_decode($report->filter_used, true));
+        return redirect()->route('reporting.report', json_decode($report->filter, true));
     }
 
     /**
@@ -121,13 +117,9 @@ class ReportingController extends Controller
      */
     public function update(UpdateRequest $request): RedirectResponse
     {
-        $report = Report::find($request->input('report_id'));
-        $report->filter_name = $request->input('filter_name');
-        $report->filter_used = $request->input('filter_used');
-        $report->recipient = $request->input('recipient');
-        $report->send_at = $request->input('send_at');
-        $report->repeat = $request->input('repeat')?? false;
-        $report->repeat_frequency = $request->input('repeat_frequency');
+        $report          = Report::find($request->input('report_id'));
+        $report->name    = $request->input('name');
+        $report->filter  = $request->input('filter');
         $report->user_id = auth()->id();
         $report->save();
 

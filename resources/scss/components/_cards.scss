@@ -17,10 +17,20 @@
         }
     }
     .report-card-footer {
-        @apply flex px-5 py-3 items-center justify-between rounded-b-lg;
+        @apply flex px-5 py-3 items-center gap-3 rounded-b-lg;
     }
 
     &:hover {
         @apply ring-orange opacity-90;
+    }
+}
+
+.report-modal {
+    @apply top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] fixed z-50;
+    .report-card {
+        @apply min-w-[750px] px-2 max-h-[600px] overflow-y-scroll;
+        &:hover {
+            @apply opacity-100;
+        }
     }
 }

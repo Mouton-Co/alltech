@@ -23,12 +23,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter_name' => 'required|string',
-            'filter_used' => 'required|string',
-            'recipient' => 'email|nullable',
-            'send_at' => 'date_format:format,Y-m-d H:i|nullable',
-            'repeat' => 'boolean|nullable',
-            'repeat_frequency' => 'required_if:repeat,1|nullable|in:'.implode(',', array_keys(Report::REPEAT_FREQUENCY)),
+            'name'   => 'required|string',
+            'filter' => 'required|string',
         ];
     }
 }

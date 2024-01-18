@@ -12,15 +12,10 @@ return new class () extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('filter');
             $table->foreignId('user_id');
-            $table->text('filter_name');
-            $table->text('filter_used');
-            $table->text('recipient')->nullable();
-            $table->dateTime('send_at')->nullable();
-            $table->boolean('repeat')->default(false);
-            $table->string('repeat_frequency')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

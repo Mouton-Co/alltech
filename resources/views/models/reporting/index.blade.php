@@ -36,14 +36,14 @@
                 @foreach ($reports as $report)
                     <tr>
                         @foreach (config('models.report.columns') as $field => $column)
-                            @if (str_contains($field, 'filter_used'))
-                                <td><p>{!!  $report->formatted_filter_used !!}</p></td>
+                            @if (str_contains($field, 'filter'))
+                                <td><p>{!!  $report->formatted_filter !!}</p></td>
                             @else
                                 <td>{{ $report->$field }}</td>
                             @endif
                         @endforeach
                         <td class="flex justify-end gap-2">
-                            <a href="{{route('reporting.report',array_merge(['report_id'=>$report->id],json_decode($report->filter_used, true)))}}">
+                            <a href="{{route('reporting.report',array_merge(['report_id'=>$report->id],json_decode($report->filter, true)))}}">
                             <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange edit-icon"
                                          id="edit-{{ $report->id }}"/>
                             </a>

@@ -1,43 +1,14 @@
 <x-dashboard>
 
-    {{-- see if there's any modal errors and show the modal if the case --}}
-    @php
-        $hasStoreErrors  = false;
-        $hasUpdateErrors = false;
-        
-        foreach ($errors->getBags() as $bagKey => $bag) {
-            if ($bagKey === 'reportSave') {
-                $hasStoreErrors = true;
-                $errors->default = $errors->$bagKey;
-                break;
-            }
-            if (str_contains($bagKey, 'reportUpdate')) {
-                $hasUpdateErrors = true;
-                $updateErrorId = explode('--', $bagKey)[1];
-                $errors->default = $errors->$bagKey;
-                break;
-            }
-        }
-    @endphp
-
-    @if(empty($report))
-        <x-modals.resource :route="route('reporting.store')" :title="'Save Report Filter'" :button="'Save'"
-                           :show="$hasStoreErrors" id="add-resource-modal">
-            <div class="flex w-full flex-col gap-3">
-                @include('models.reporting.form', ['report' => null])
-            </div>
-        </x-modals.resource>
-    @else
-        <x-modals.resource :route="route('reporting.update')" :title="'Update Report Filter'" :button="'Update'"
-                           :show="$hasStoreErrors" id="update-resource-modal">
-            <div class="flex w-full flex-col gap-3">
-                @include('models.reporting.form', ['report' => $report])
-            </div>
-        </x-modals.resource>
-    @endif
+    <x-modals.resource :route="route('reporting.store')" :title="'Save Filter'" :button="'Save As'"
+    :show="false" id="add-resource-modal">
+        <div class="flex w-full flex-col gap-3">
+            @include('models.reporting.form')
+        </div>
+    </x-modals.resource>
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors"/>
+    <x-modals.curtain :show="false"/>
 
     {{-- title --}}
     <div class="flex justify-between items-center py-2">
@@ -46,6 +17,7 @@
             {{ __('Saved Reports') }}
         </a>
     </div>
+
     {{-- filter bar --}}
     <hr>
 
@@ -161,16 +133,28 @@
                 {{-- report card --}}
                 <div id="report-card-{{ $meeting->id }}" class="report-card">
                     <div class="report-card-header">
-                        <span>{{ __('Meeting with: ') . $meeting->contact->name }}</span>
+                        @if (!empty($meeting->contact->name))
+                            <span>{{ __('Meeting with: ') . $meeting->contact->name }}</span>
+                        @else
+                            <span>{{ __('Meeting with: ') . $meeting->contact->email }}</span>
+                        @endif
                     </div>
                     <div class="report-card-body">
                         <div class="report-card-body-item">
                             <x-icon.company class="w-5"/>
-                            <span>{{ strlen($meeting->contact->company->name) > 20 ? substr($meeting->contact->company->name,0,20)."..." : $meeting->contact->company->name }}</span>
+                            <span>
+                                {{ strlen($meeting->contact->company->name) > 20 ?
+                                substr($meeting->contact->company->name,0,20)."..." :
+                                $meeting->contact->company->name }}
+                            </span>
                         </div>
                         <div class="report-card-body-item">
                             <x-icon.date-picker class="w-5"/>
                             <span>{{ $meeting->date }}</span>
+                        </div>
+                        <div class="report-card-body-item">
+                            <x-icon.time-picker class="w-5"/>
+                            <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
                         </div>
                     </div>
                     <div class="report-card-footer">
@@ -180,7 +164,7 @@
                 </div>
 
                 {{-- report modal --}}
-                <div id="report-modal-{{ $meeting->id }}" class="hidden">
+                <div id="report-modal-{{ $meeting->id }}" class="hidden report-modal">
                     <div class="report-card">
                         <div class="report-card-header">
                             <span>{{ __('Meeting with: ') . $meeting->contact->name }}</span>
@@ -188,17 +172,27 @@
                         <div class="report-card-body">
                             <div class="report-card-body-item">
                                 <x-icon.company class="w-5"/>
-                                <span>{{ strlen($meeting->contact->company->name) > 20 ? substr($meeting->contact->company->name,0,20)."..." : $meeting->contact->company->name }}</span>
+                                <span>
+                                    {{ strlen($meeting->contact->company->name) > 20 ?
+                                    substr($meeting->contact->company->name,0,20)."..." :
+                                    $meeting->contact->company->name }}
+                                </span>
                             </div>
                             <div class="report-card-body-item">
                                 <x-icon.date-picker class="w-5"/>
                                 <span>{{ $meeting->date }}</span>
                             </div>
                             <div class="report-card-body-item">
-                                <p>{{ __('Objective') . $meeting->objective }}</p>
+                                <x-icon.time-picker class="w-5"/>
+                                <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
                             </div>
-                            <div class="report-card-body-item">
-                                <p>{{ __('Marketing Requirements') . $meeting->marketing_requirements }}</p>
+                            <div class="report-card-body-item !block">
+                                <p class="my-2"><b>{{ __('Objective') }}</b></p>
+                                <p>{{ $meeting->objective }}</p>
+                            </div>
+                            <div class="report-card-body-item !block">
+                                <p class="my-2"><b>{{ __('Marketing Requirements') }}</b></p>
+                                <p>{{ $meeting->marketing_requirements }}</p>
                             </div>
                         </div>
                         <div class="report-card-footer">

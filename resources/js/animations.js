@@ -41,12 +41,13 @@ export function animations() {
     $('#curtain, .modal-cancel').on("click", function () {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');
+        $('.report-modal').addClass('hidden').removeClass('flex');
         $('#curtain').addClass('hidden').removeClass('block');
     });
     $('.report-card').on("click", function () {
-        console.log('click');
         let id = this.getAttribute('id').split('-')[2];
         $("#report-modal-" + id).addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
     });
 
     /*
