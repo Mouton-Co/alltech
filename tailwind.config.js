@@ -29,6 +29,16 @@ export default {
                 torquise: '#424b4e',
                 lightblue: '#4c6b77',
                 blue: '#2f80ed',
+                'gray-50': 'rgb(249 250 251)',
+                'gray-100': 'rgb(243 244 246)',
+                'gray-200': 'rgb(229 231 235)',
+                'gray-300': 'rgb(209 213 219)',
+                'gray-400': 'rgb(156 163 175)',
+                'gray-500': 'rgb(107 114 128)',
+                'gray-600': 'rgb(75 85 99)',
+                'gray-700': 'rgb(55 65 81)',
+                'gray-800': 'rgb(31 41 55)',
+                'gray-900': 'rgb(17 24 39)',
             },
             boxShadow: {
                 solidlightblue: '0 0 0 28px #4c6b77',
@@ -38,6 +48,9 @@ export default {
             borderRadius: {
                 'pill': '50vw',
             },
+            zIndex: {
+                '60': 60,
+            }
         },
         screens: {
             'smaller-than-380': {'min': '0px', 'max': '380px'},
