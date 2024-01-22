@@ -26,7 +26,7 @@
     <x-form.label for="company_type_id">
         {{ __('Company Type') }}
     </x-form.label>
-    <x-form.select :name="'company_type_id'" class="selector-for-js w-full" :options="$companyTypes" :value="'id'"
+    <x-form.select :name="'company_type_id'" class="selector-for-js w-full filter-field" style="width:100%;" :options="$companyTypes" :value="'id'"
                    :display="'name'" :selected="$company->company_type_id ?? old('company_type_id')">
         <x-icon.company-type class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
     </x-form.select>

@@ -37,7 +37,7 @@
                     :value="'id'"
                     :display="'name'"
                     :selected="json_encode(request()->users) ?? ''"
-                    class="selector-for-js filter-field"
+                    class="selector-for-js filter-field" style="width:100%;"
                     multiple
                 />
             </div>
@@ -45,7 +45,7 @@
             {{-- company types --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Company Types') }}</label>
-                <x-form.select :name="'company_types[]'" class="selector-for-js filter-field" :options="$companyTypes"
+                <x-form.select :name="'company_types[]'" class="selector-for-js filter-field" style="width:100%;" :options="$companyTypes"
                 :value="'id'" :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
                 multiple/>
             </div>
@@ -53,14 +53,14 @@
             {{-- companies --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Companies') }}</label>
-                <x-form.select :name="'companies[]'" class="selector-for-js filter-field" :options="$companies"
+                <x-form.select :name="'companies[]'" class="selector-for-js filter-field" style="width:100%;" :options="$companies"
                 :value="'id'" :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
             </div>
 
             {{-- contacts --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Contacts') }}</label>
-                <x-form.select :name="'contacts[]'" class="selector-for-js filter-field" :options="$contacts"
+                <x-form.select :name="'contacts[]'" class="selector-for-js filter-field" style="width:100%;" :options="$contacts"
                 :value="'id'" :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
             </div>
 

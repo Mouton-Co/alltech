@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full
-{{ !empty(auth()->user()->dark) && auth()->user()->dark ? 'dark' : '' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-white">
 
     <head>
         <meta charset="utf-8">
@@ -16,13 +15,15 @@
         <!-- Scripts -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js">
+        </script>
+        <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
         @yield('header-scripts')
     </head>
 
-    <body class="h-full text-black bg-nothing font-sans">
+    <body class="h-full font-sans">
         {{ $slot }}
     </body>
 
