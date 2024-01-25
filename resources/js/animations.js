@@ -80,7 +80,7 @@ export function animations() {
         $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
         $('#curtain-modal').addClass('block').removeClass('hidden');
     });
-    $('#curtain-modal, .modal-cancel').on("click", function () {
+    $('#curtain-modal, #curtain, .modal-cancel').on("click", function () {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');
         $('.report-modal').addClass('hidden').removeClass('flex');
