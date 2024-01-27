@@ -1,6 +1,6 @@
 {{-- top navbar --}}
 <nav class="w-full h-16 relative flex justify-between items-center border-b border-gray-200 shadow-sm gap-x-4 px-4
-sm:gap-x-6 sm:px-6 cursor-default">
+sm:gap-x-6 sm:px-6 cursor-default bg-white">
     {{-- menu open icon --}}
     <x-icon.stripes id="sidebar-toggle-open" class="aspect-square w-7 text-gray-500 cursor-pointer z-40"/>
 

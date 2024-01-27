@@ -68,14 +68,14 @@
             <div class="flex gap-3">
                 <label for="date" class="min-w-[120px]">{{ __('Date') }}</label>
                 <x-form.date-range-picker :name="'date_range'" :value="request()->query('date') ?? ''"
-                class="w-full mr-3"/>
+                class="w-full"/>
             </div>
 
             {{-- search --}}
             <div class="flex gap-3">
                 <label for="search" class="min-w-[120px]">{{ __('Search') }}</label>
                 <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                       class="filter-field mr-3">
+                       class="filter-field">
             </div>
 
             <div class="flex justify-end gap-3">

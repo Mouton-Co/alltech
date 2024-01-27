@@ -83,13 +83,15 @@
         function formatPill(pill)
         {
             let color = 'black';
+            let textColor = 'white';
             window.eventSources.forEach(eventSource => {
                 if (eventSource.user == pill.id) {
                     color = eventSource.color;
+                    textColor = eventSource.textColor;
                 }
             });
 
-            let $pill = $(`<div class='pill-key' style='background:${color};'></div>
+            let $pill = $(`<div class='pill-key' style='background:${color};border:1px solid ${textColor}'></div>
             <span>${pill.text.trim()}</span>`);
 
             return $pill;
