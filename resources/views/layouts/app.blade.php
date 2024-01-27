@@ -23,7 +23,7 @@
         @yield('header-scripts')
     </head>
 
-    <body class="h-full font-sans">
+    <body class="min-h-full font-sans bg-gray-100">
         {{ $slot }}
     </body>
 

@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+use App\Mail\ReportSummary;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {

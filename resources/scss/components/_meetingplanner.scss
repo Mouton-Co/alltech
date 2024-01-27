@@ -15,9 +15,15 @@ h2#fc-dom-1 {
 }
 
 a.fc-event {
-    @apply bg-orange text-white rounded-sm cursor-pointer border-none pl-1;
+    @apply rounded-sm cursor-pointer border border-solid pl-1;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
     &:hover {
         @apply opacity-75;
+    }
+    .fc-event-time {
+        @apply hidden;
     }
 }
 
@@ -31,4 +37,8 @@ a.fc-event {
 
 .select2-selection__choice__display {
     @apply flex items-center;
+}
+
+.fc-view-harness {
+    @apply bg-white shadow;
 }

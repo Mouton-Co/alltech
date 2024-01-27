@@ -27,25 +27,27 @@ class MeetingController extends Controller
             $usersQuery = array_merge($usersQuery, $request->get('users'));
         }
         $usersQuery = array_unique($usersQuery);
+        $counter = 0;
         foreach ($usersQuery as $user) {
             $events = [];
             $meetings = Meeting::where('user_id', $user)->get();
             foreach ($meetings as $meeting) {
                 $events[] = [
                     'id' => $meeting->id,
-                    'title' => $meeting->contact->name,
+                    'title' => $meeting->contact->name . ' @ ' . $meeting->contact->company->name,
                     'start' => $meeting->date.' '.$meeting->start_time,
                     'end' => $meeting->date.' '.$meeting->end_time,
                     'model' => $meeting,
                 ];
             }
-            $color = (new Color())->colorName();
             $eventSources[] = [
-                'events'    => $events,
-                'color'     => "color-mix(in srgb, $color, white)",
-                'textColor' => "black",
-                'user'      => $user,
+                'events'      => $events,
+                'color'       => config('pill-colors')[$counter]['background'],
+                'textColor'   => config('pill-colors')[$counter]['text'],
+                'user'        => $user,
+                'borderColor' => config('pill-colors')[$counter]['text'],
             ];
+            $counter++;
         }
 
         $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
