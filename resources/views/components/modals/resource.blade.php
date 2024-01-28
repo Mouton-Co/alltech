@@ -18,6 +18,9 @@ smaller-than-740:w-[calc(100%-16px)] {{ !empty($show) && $show ? 'flex' : 'hidde
     
     <form action="{{ $route }}" method="POST" class="w-full flex flex-col items-end gap-3">
         @csrf
+        @if ($method)
+            @method($method)
+        @endif
 
         {{ $slot }}
 

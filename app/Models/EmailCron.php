@@ -4,28 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
-
-class Report extends Model
+class EmailCron extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'day',
+        'hour',
+        'to',
+        'subject',
         'filter',
-        'user_id',
     ];
 
-    /**
-     * The user who created the filter
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    /*
+    |--------------------------------------------------------------------------
+    | GET ATTRIBUTES
+    |--------------------------------------------------------------------------
+    */
     public function getFormattedFilterAttribute(): string
     {
         $filterUsed = json_decode($this->filter, true);
@@ -43,6 +40,11 @@ class Report extends Model
         return $filterUsedString;
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | PROTECTED FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
     protected function getKeyRealValue($key, $value){
         $return = $value;
         if($key == 'users'){

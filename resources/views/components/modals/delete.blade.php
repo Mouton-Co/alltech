@@ -18,6 +18,9 @@ smaller-than-520:w-[calc(100%-16px)]" {{ $attributes }}>
     <div class="w-full flex gap-3 mt-3">
         <form action="{{ route("$route.destroy", $resource->id) }}" method="POST" class="w-full">
             @csrf
+            @if ($method)
+                @method($method)
+            @endif
             <button type="submit" class="btn-orange-thin w-full h-[30px]">
                 {{ __('Delete') }}
             </button>

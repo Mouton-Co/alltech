@@ -44,7 +44,7 @@ class ReportingController extends Controller
 
         if ($request->has('contacts') && ! empty($request->get('contacts'))) {
             $hasQuery = true;
-            $queryContacts = Contact::whereIn('contact_id', $request->get('contacts'))->pluck('id')->toArray();
+            $queryContacts = Contact::whereIn('id', $request->get('contacts'))->pluck('id')->toArray();
         } else {
             $queryContacts = [];
         }
