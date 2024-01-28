@@ -15,7 +15,7 @@
 
             {{-- button --}}
             <div class="w-full flex justify-end mt-3">
-                <button type="submit" class="btn-primary max-w-fit">
+                <button type="submit" class="btn-orange min-w-fit px-3">
                     {{ __('Update') }}
                 </button>
             </div>

@@ -9,4 +9,5 @@ Route::prefix('reporting')->group(function () {
     Route::post('/store', [ReportingController::class, 'store'])->name('reporting.store');
     Route::post('/update', [ReportingController::class, 'update'])->name('reporting.update');
     Route::post('/destroy/{id}', [ReportingController::class, 'destroy'])->name('reporting.destroy');
+    Route::post('/export', [ReportingController::class, 'export'])->name('reporting.export');
 });
