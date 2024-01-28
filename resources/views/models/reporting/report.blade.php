@@ -55,29 +55,31 @@
             {{-- company types --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Company Types') }}</label>
-                <x-form.select :name="'company_types[]'" class="selector-for-js filter-field" style="width:100%;" :options="$companyTypes"
-                :value="'id'" :display="'name'" :selected="json_encode(request()->query('company_types')) ?? ''"
-                multiple/>
+                <x-form.select :name="'company_types[]'" class="selector-for-js filter-field" style="width:100%;"
+                :options="$companyTypes" :value="'id'" :display="'name'" multiple
+                :selected="json_encode(request()->query('company_types')) ?? ''" />
             </div>
 
             {{-- companies --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Companies') }}</label>
-                <x-form.select :name="'companies[]'" class="selector-for-js filter-field" style="width:100%;" :options="$companies"
-                :value="'id'" :display="'name'" :selected="json_encode(request()->query('companies')) ?? ''" multiple/>
+                <x-form.select :name="'companies[]'" class="selector-for-js filter-field" style="width:100%;"
+                :options="$companies" multiple :value="'id'" :display="'name'"
+                :selected="json_encode(request()->query('companies')) ?? ''" />
             </div>
 
             {{-- contacts --}}
             <div class="flex gap-3">
                 <label class="min-w-[120px]">{{ __('Contacts') }}</label>
-                <x-form.select :name="'contacts[]'" class="selector-for-js filter-field" style="width:100%;" :options="$contacts"
-                :value="'id'" :display="'name'" :selected="json_encode(request()->query('contacts')) ?? ''" multiple/>
+                <x-form.select :name="'contacts[]'" class="selector-for-js filter-field" style="width:100%;"
+                :options="$contacts" multiple :value="'id'" :display="'name'"
+                :selected="json_encode(request()->query('contacts')) ?? ''" />
             </div>
 
             {{-- date --}}
             <div class="flex gap-3">
                 <label for="date" class="min-w-[120px]">{{ __('Date') }}</label>
-                <x-form.date-range-picker :name="'date_range'" :value="request()->query('date') ?? ''"
+                <x-form.date-range-picker :name="'date_range'" :value="request()->query('date_range') ?? ''"
                 class="w-full"/>
             </div>
 
