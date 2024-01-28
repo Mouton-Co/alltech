@@ -19,47 +19,49 @@ class ReportExport implements FromView
 
     public function view(): View
     {
-        $meetings = app(Meeting::class)::query();
+        $meetings = Meeting::with(['user', 'contact', 'contact.company', 'contact.company.companyType']);
 
-        if ($this->request->has('contacts') && ! empty($this->request->get('contacts'))) {
-            $queryContacts = Contact::whereIn('contact_id', $this->request->get('contacts'))->pluck('id')->toArray();
-        } else {
-            $queryContacts = [];
+        // filter contacts
+        if (!empty($this->request->get('contacts'))) {
+            $meetings->whereIn('contact_id', $this->request->get('contacts'));
         }
-
-        if ($this->request->has('companies') && ! empty($this->request->get('companies'))) {
-            $queryContacts = array_merge(
-                Contact::whereIn('company_id', $this->request->get('companies'))->pluck('id')->toArray(),
-                $queryContacts
+        
+        // filter companies
+        if (!empty($this->request->get('companies'))) {
+            $meetings->whereIn(
+                'contact_id',
+                Contact::whereIn('company_id', $this->request->get('companies'))->pluck('id')->toArray()
             );
         }
-
-        if ($this->request->has('company_types') && ! empty($this->request->get('company_types'))) {
-            $queryCompanies = Company::whereIn('company_type_id', $this->request->get('company_types'))->get();
-            foreach ($queryCompanies as $company) {
-                $queryContacts = array_merge(
-                    Contact::where('company_id', $company->id)->pluck('id')->toArray(),
-                    $queryContacts
-                );
-            }
+        
+        // filter company types
+        if (!empty($this->request->get('company_types'))) {
+            $meetings->whereIn(
+                'contact_id',
+                Contact::whereIn(
+                    'company_id',
+                    Company::whereIn('company_type_id', $this->request->get('company_types'))->pluck('id')->toArray()
+                )->pluck('id')->toArray()
+            );
         }
-
-        if (! empty($queryContacts)) {
-            $meetings->whereIn('contact_id', $queryContacts);
-        }
-
-        if ($this->request->has('users') && ! empty($this->request->get('users'))) {
+        
+        // filter users
+        if (!empty($this->request->get('users'))) {
             $meetings->whereIn('user_id', $this->request->get('users'));
         }
 
-        if ($this->request->has('date_range') && ! empty($this->request->get('date_range'))) {
+        // filter date range
+        if (!empty($this->request->get('date_range'))) {
             $dateRange = explode(' to ', $this->request->get('date_range'));
             $meetings->where('date', '>=', $dateRange[0])->where('date', '<=', $dateRange[1]);
         }
 
-        if ($this->request->has('search') && ! empty($this->request->get('search'))) {
-            $meetings->where('objectives', 'LIKE', '%'.$this->request->get('search').'%');
-            $meetings->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+        // filter search
+        if (!empty($this->request->get('search'))) {
+            $meetings = $meetings->where(function ($query) {
+                $query->where('objective', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+            });
         }
 
         return view('models.reporting.export', [

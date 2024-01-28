@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 
 class ReportingController extends Controller
 {
+    public $request;
+
     /**
      * Display a listing of the resource.
      */
@@ -29,74 +31,68 @@ class ReportingController extends Controller
 
     public function report(Request $request): View
     {
-        $users = User::all();
-        $companies = Company::all();
-        $companyTypes = CompanyType::all();
-        $contacts = Contact::all();
-        $report = null;
-        if($request->has('report_id')) {
-            $report = Report::find($request->get('report_id'));
-        }
+        $meetings      = Meeting::with(['user', 'contact', 'contact.company', 'contact.company.companyType']);
+        $hasQuery      = false;
+        $this->request = $request;
 
-        $meetings = app(Meeting::class)::query();
-
-        $hasQuery = false;
-
-        if ($request->has('contacts') && ! empty($request->get('contacts'))) {
+        // filter contacts
+        if (!empty($request->get('contacts'))) {
             $hasQuery = true;
-            $queryContacts = Contact::whereIn('id', $request->get('contacts'))->pluck('id')->toArray();
-        } else {
-            $queryContacts = [];
+            $meetings->whereIn('contact_id', $request->get('contacts'));
         }
-
-        if ($request->has('companies') && ! empty($request->get('companies'))) {
+        
+        // filter companies
+        if (!empty($request->get('companies'))) {
             $hasQuery = true;
-            $queryContacts = array_merge(Contact::whereIn('company_id', $request->get('companies'))->pluck('id')->toArray(), $queryContacts);
+            $meetings->whereIn(
+                'contact_id',
+                Contact::whereIn('company_id', $request->get('companies'))->pluck('id')->toArray()
+            );
         }
-
-        if ($request->has('company_types') && ! empty($request->get('company_types'))) {
+        
+        // filter company types
+        if (!empty($request->get('company_types'))) {
             $hasQuery = true;
-            $queryCompanies = Company::whereIn('company_type_id', $request->get('company_types'))->get();
-            foreach ($queryCompanies as $company) {
-                $queryContacts = array_merge(Contact::where('company_id', $company->id)->pluck('id')->toArray(), $queryContacts);
-            }
+            $meetings->whereIn(
+                'contact_id',
+                Contact::whereIn(
+                    'company_id',
+                    Company::whereIn('company_type_id', $request->get('company_types'))->pluck('id')->toArray()
+                )->pluck('id')->toArray()
+            );
         }
-
-        if (! empty($queryContacts)) {
-            $meetings->whereIn('contact_id', $queryContacts);
-        }
-
-        if ($request->has('users') && ! empty($request->get('users'))) {
+        
+        // filter users
+        if (!empty($request->get('users'))) {
             $hasQuery = true;
             $meetings->whereIn('user_id', $request->get('users'));
         }
 
-        if ($request->has('date_range') && ! empty($request->get('date_range'))) {
+        // filter date range
+        if (!empty($request->get('date_range'))) {
             $hasQuery = true;
             $dateRange = explode(' to ', $request->get('date_range'));
             $meetings->where('date', '>=', $dateRange[0])->where('date', '<=', $dateRange[1]);
         }
 
-        if ($request->has('search') && ! empty($request->get('search'))) {
+        // filter search
+        if (!empty($request->get('search'))) {
             $hasQuery = true;
-            $meetings->where('objectives', 'LIKE', '%'.$request->get('search').'%');
-            $meetings->orWhere('marketing_requirements', 'LIKE', '%'.$request->get('search').'%');
+            $meetings = $meetings->where(function ($query) {
+                $query->where('objective', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+            });
         }
 
-        $meetings = $meetings->paginate(8);
-
-        return view(
-            'models.reporting.report',
-            compact(
-                'users',
-                'companies',
-                'companyTypes',
-                'contacts',
-                'meetings',
-                'hasQuery',
-                'report'
-            )
-        );
+        return view('models.reporting.report', [
+            'report'       => Report::find($request->get('report_id')),
+            'hasQuery'     => $hasQuery,
+            'users'        => User::all(),
+            'companies'    => Company::all(),
+            'companyTypes' => CompanyType::all(),
+            'contacts'     => Contact::all(),
+            'meetings'     => $meetings->paginate(8),
+        ]);
     }
 
     /**
