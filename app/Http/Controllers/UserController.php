@@ -123,4 +123,23 @@ class UserController extends Controller
             'success' => "$name has been removed",
         ]);
     }
+
+    /**
+     * Show edit user form
+     */
+    public function edit(string $id)
+    {
+        $user = User::find($id);
+
+        if (empty($user)) {
+            return redirect()->route('user.index')->with([
+                'error' => 'User not found',
+            ]);
+        }
+
+        return view('models.user.edit')->with([
+            'user' => $user,
+            'roles' => Role::all(),
+        ]);
+    }
 }

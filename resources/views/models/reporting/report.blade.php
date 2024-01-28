@@ -77,51 +77,57 @@
                 <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
                        class="filter-field">
             </div>
+        </div>
+    </form>
 
-            <div class="flex justify-end gap-3">
-                @if(empty($report))
-                    <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
-                    items-center"
-                            onclick="event.preventDefault();"
-                            @if(!$hasQuery)
-                                disabled
-                        @endif
-                    >
-                        {{ __('Save Filter') }}
-                    </button>
-                @else
-                    <button id="update-resource" class="btn-transparent min-w-[160px] flex justify-center
-                    items-center"
-                            onclick="event.preventDefault();"
-                            @if(!$hasQuery)
-                                disabled
-                        @endif
-                    >
-                        {{ __('Update Filter') }}
-                    </button>
-                @endif
-                <button class="btn-transparent min-w-[160px] flex justify-center items-center"
+    <div class="grid grid-cols-2 smaller-than-740:grid-cols-1 gap-3 my-2">
+        <div class="flex justify-end gap-3">
+            @if(empty($report))
+                <button id="add-resource" class="btn-transparent min-w-[160px] flex justify-center
+                items-center"
                         onclick="event.preventDefault();"
                         @if(!$hasQuery)
                             disabled
                     @endif
                 >
-                    {{ __('Download Filter') }}
+                    {{ __('Save Filter') }}
                 </button>
-            </div>
-
-            <div class="flex justify-end gap-3">
-                <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-                <button type="submit" class="btn-orange min-w-[120px]">
-                    {{ __('Filter') }}
+            @else
+                <button id="update-resource" class="btn-transparent min-w-[160px] flex justify-center
+                items-center"
+                        onclick="event.preventDefault();"
+                        @if(!$hasQuery)
+                            disabled
+                    @endif
+                >
+                    {{ __('Update Filter') }}
                 </button>
-                <a href="{{ route('reporting.report') }}" class="btn-transparent min-w-[120px] flex justify-center
-                    items-center">
-                    {{ __('Clear Filters') }}
-                </a>
-            </div>
+            @endif
+            <form action="{{ route('reporting.export', [
+                'users'         => request()->query('users') ?? '',
+                'company_types' => request()->query('company_types') ?? '',
+                'companies'     => request()->query('companies') ?? '',
+                'contacts'      => request()->query('contacts') ?? '',
+                'date'          => request()->query('date') ?? '',
+                'search'        => request()->query('search') ?? '',
+            ]) }}" method="post">
+                @csrf
+                <input type="submit" value="Export" class="btn-transparent min-w-[160px] flex justify-center
+                items-center cursor-pointer" @if (!$hasQuery) disabled @endif>
+            </form>
         </div>
-    </form>
+    
+        <div class="flex justify-end gap-3">
+            <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
+            <button type="submit" class="btn-orange min-w-[120px]">
+                {{ __('Filter') }}
+            </button>
+            <a href="{{ route('reporting.report') }}" class="btn-transparent min-w-[120px] flex justify-center
+                items-center">
+                {{ __('Clear Filters') }}
+            </a>
+        </div>
+    </div>
 
     <hr class="mb-3">
 

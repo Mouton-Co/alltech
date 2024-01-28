@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ReportExport;
 use App\Http\Requests\Report\StoreRequest;
 use App\Http\Requests\Report\UpdateRequest;
 use App\Models\Company;
@@ -135,5 +136,13 @@ class ReportingController extends Controller
         $report->delete();
 
         return redirect()->route('reporting.index');
+    }
+
+    /**
+     * export the report
+     */
+    public function export(Request $request)
+    {
+        return \Maatwebsite\Excel\Facades\Excel::download(new ReportExport($request), 'reports.xlsx');
     }
 }
