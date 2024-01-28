@@ -7,21 +7,31 @@
         </div>
     </x-modals.resource>
 
+    <x-modals.resource :route="route('email-cron.store')" :title="'Create Email'" :button="'Create'"
+    :show="false" id="add-email-modal">
+        @include('models.email-cron.form')
+    </x-modals.resource>
+
     {{-- curtain --}}
     <x-modals.curtain :show="false"/>
 
     {{-- title --}}
     <div class="flex justify-between items-center py-2">
         <h1>{{ __('Meeting reports') }}</h1>
-        <a href="{{route('reporting.index')}}" class="btn-transparent flex justify-center items-center px-2">
-            {{ __('Saved Reports') }}
-        </a>
+        <div class="flex gap-3 items-center justify-between">
+            <a href="{{ route('email-cron.index') }}" class="btn-transparent flex justify-center items-center px-2">
+                {{ __('Saved Emails') }}
+            </a>
+            <a href="{{ route('reporting.index') }}" class="btn-transparent flex justify-center items-center px-2">
+                {{ __('Saved Filters') }}
+            </a>
+        </div>
     </div>
 
     {{-- filter bar --}}
     <hr>
 
-    <form action="{{ route('reporting.report') }}" method="get">
+    <form action="{{ route('reporting.report') }}" method="get" id="report-filter-form">
         <div class="grid grid-cols-2 smaller-than-740:grid-cols-1 gap-3 my-2">
             {{-- report id --}}
             @if(!empty($report->id))
@@ -103,6 +113,10 @@
                     {{ __('Update Filter') }}
                 </button>
             @endif
+            <button id="create-email" class="btn-transparent min-w-[160px] flex justify-center
+            items-center" @if (!$hasQuery) disabled @endif>
+                {{ __('Create Email') }}
+            </button>
             <form action="{{ route('reporting.export', [
                 'users'         => request()->query('users') ?? '',
                 'company_types' => request()->query('company_types') ?? '',
@@ -119,7 +133,7 @@
     
         <div class="flex justify-end gap-3">
             <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-            <button type="submit" class="btn-orange min-w-[120px]">
+            <button type="submit" class="btn-orange min-w-[120px]" id="report-filter-submit">
                 {{ __('Filter') }}
             </button>
             <a href="{{ route('reporting.report') }}" class="btn-transparent min-w-[120px] flex justify-center

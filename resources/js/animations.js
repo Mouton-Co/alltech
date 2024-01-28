@@ -84,6 +84,7 @@ export function animations() {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');
         $('.report-modal').addClass('hidden').removeClass('flex');
+        $('#add-email-modal').addClass('hidden').removeClass('flex');
         $('#curtain-modal').addClass('hidden').removeClass('block');
         $('#curtain').addClass('hidden').removeClass('block');
     });
@@ -91,6 +92,10 @@ export function animations() {
         let id = this.getAttribute('id').split('-')[2];
         $("#report-modal-" + id).addClass('flex').removeClass('hidden');
         $('#curtain-modal').addClass('block').removeClass('hidden');
+    });
+    $('#create-email').on("click", function () {
+        $('#add-email-modal').addClass('flex').removeClass('hidden');
+        $('#curtain').addClass('block').removeClass('hidden');
     });
 
     /*
@@ -108,3 +113,12 @@ export function animations() {
         }, 800);
     });
 }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FORM SUBMISSIONS
+    |--------------------------------------------------------------------------
+    */
+    $('#report-filter-submit').on("click", function () {
+        $('#report-filter-form').submit();
+    });
