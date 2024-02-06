@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
 {
+    protected $errorBag = 'meetingStore';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,8 +27,8 @@ class StoreRequest extends FormRequest
             'date' => 'required|date_format:format,Y-m-d',
             'start_time' => 'required|date_format:format,H:i',
             'end_time' => 'required|date_format:format,H:i|after:start_time',
-            'objective' => 'required|string',
-            'marketing_requirements' => 'required|string',
+            'objective' => 'nullable|string',
+            'marketing_requirements' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
         ];
     }

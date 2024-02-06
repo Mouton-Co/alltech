@@ -56,17 +56,22 @@ old('end_time') }}">
     <x-form.label for="contact_id">
         {{ __('Contact') }}
     </x-form.label>
+    @php
+        $meeting_contact_id = $meeting->contact_id ?? old('contact_id');
+    @endphp
     <select name="contact_id" style="width:100%;" class="selector-for-js">
         @foreach ($contacts as $contact)
             <option value="{{ $contact->id }}"
                 @if (
-                    !empty($meeting->contact_id ?? old('contact_id')) &&
-                    is_array(json_decode($meeting->contact_id ?? old('contact_id') ,true)) &&
-                    in_array($contact->id, json_decode($meeting->contact_id ?? old('contact_id'), true))
+                    !empty($meeting_contact_id) &&
+                    is_array(json_decode($meeting_contact_id ,true)) &&
+                    in_array($contact->id, json_decode($meeting_contact_id, true))
                 )
                     selected
-                @elseif (!empty($meeting->contact_id ?? old('contact_id')) &&
-                $meeting->contact_id ?? old('contact_id') == $contact->id)
+                @elseif (
+                    !empty($meeting_contact_id) &&
+                    $meeting_contact_id == $contact->id
+                )
                     selected
                 @endif>
                 {{ $contact->name . ' @ ' . $contact->company->name }}

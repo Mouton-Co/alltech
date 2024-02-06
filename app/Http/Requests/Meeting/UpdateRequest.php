@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRequest extends FormRequest
 {
+    protected $errorBag = 'meetingUpdate--';
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,6 +23,8 @@ class UpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $this->errorBag .= $this->get('meeting_id');
+
         return [
             'meeting_id' => 'required|exists:meetings,id',
             'date' => 'required|date_format:format,Y-m-d',
