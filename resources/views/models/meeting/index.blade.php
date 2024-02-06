@@ -8,22 +8,29 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $modalErrors = ['name', 'email', 'role_id'];
+        $hasStoreErrors  = false;
+        $hasUpdateErrors = false;
 
-        $hasModalErrors = false;
-        foreach ($modalErrors as $modalError) {
-            if (!empty($errors->get($modalError))) {
-                $hasModalErrors = true;
+        foreach ($errors->getBags() as $bagKey => $bag) {
+            if ($bagKey === 'meetingStore') {
+                $hasStoreErrors = true;
+                $errors->default = $errors->$bagKey;
+                break;
+            }
+            if (str_contains($bagKey, 'meetingUpdate')) {
+                $hasUpdateErrors = true;
+                $meetingErrorId = explode('--', $bagKey)[1];
+                $errors->default = $errors->$bagKey;
                 break;
             }
         }
     @endphp
 
     {{-- curtain --}}
-    <x-modals.curtain :show="$hasModalErrors"/>
+    <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors"/>
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('meeting.store')" :show="$hasModalErrors" :title="'Creating meeting'"
+    <x-modals.resource :route="route('meeting.store')" :show="$hasStoreErrors" :title="'Creating meeting'"
                        :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
             @include('models.meeting.form', ['meeting' => null, 'contacts' => $contacts])
@@ -70,8 +77,9 @@
             @php
                 $event = json_decode(json_encode($event), false);
             @endphp
-            <x-modals.resource :route="route('meeting.update', $event->id)" :show="$hasModalErrors"
-                               :title="'Editing meeting'" :button="'Update'" id="edit-resource-modal-{{ $event->id }}">
+            <x-modals.resource :route="route('meeting.update', $event->id)" :title="'Editing meeting'"
+            :show="$hasUpdateErrors && $meetingErrorId == $user->id"  :button="'Update'"
+            id="edit-resource-modal-{{ $event->id }}">
                 <div class="flex w-full flex-col gap-3">
                     @include('models.meeting.form', ['meeting' => $event->model, 'contacts' => $contacts])
                 </div>

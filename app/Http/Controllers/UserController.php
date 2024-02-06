@@ -60,7 +60,11 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
+            'password' => Hash::make(
+                !empty($request->get('password')) ?
+                    $request->get('password') :
+                    'password'
+            ),
             'role_id' => $request->get('role_id'),
         ]);
 
@@ -93,7 +97,7 @@ class UserController extends Controller
         $user->role_id = $request->get('role_id');
 
         if (! empty($request->get('password'))) {
-            $user->name = $request->get('name');
+            $user->password = Hash::make($request->get('password'));
         }
 
         $user->save();
