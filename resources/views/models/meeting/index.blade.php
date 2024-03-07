@@ -72,21 +72,25 @@
     {{-- calendar --}}
     <div id="calendar" class="my-2"></div>
 
+    {{-- edit modals --}}
     @foreach ($eventSources as $eventSource)
         @foreach($eventSource['events'] as $event)
             @php
                 $event = json_decode(json_encode($event), false);
             @endphp
-            <x-modals.resource :route="route('meeting.update', $event->id)" :title="'Editing meeting'"
-            :show="$hasUpdateErrors && $meetingErrorId == $event->id"  :button="'Update'"
-            id="edit-resource-modal-{{ $event->id }}">
-                <div class="flex w-full flex-col gap-3">
-                    @include('models.meeting.form', ['meeting' => $event->model, 'contacts' => $contacts])
-                </div>
-            </x-modals.resource>
+            @can('update', \App\Models\Meeting::find($event->id))
+                <x-modals.resource :route="route('meeting.update', $event->id)" :title="'Editing meeting'"
+                :show="$hasUpdateErrors && $meetingErrorId == $event->id"  :button="'Update'"
+                id="edit-resource-modal-{{ $event->id }}">
+                    <div class="flex w-full flex-col gap-3">
+                        @include('models.meeting.form', ['meeting' => $event->model, 'contacts' => $contacts])
+                    </div>
+                </x-modals.resource>
+            @endcan
         @endforeach
     @endforeach
 
+    {{-- custom styling for event pills --}}
     <script type="text/javascript">
         function formatPill(pill)
         {

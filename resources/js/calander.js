@@ -37,8 +37,14 @@ export function calander() {
             },
             eventClick: function(info) {
                 let id = info.event._def.publicId;
-                $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
-                $('#curtain').addClass('block').removeClass('hidden');
+                let modal = $("#edit-resource-modal-" + id);
+
+                // if modal exists
+                if (modal.length) {
+                    $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
+                    $('#curtain').addClass('block').removeClass('hidden');
+                }
+
             }
         });
         calendar.render();
