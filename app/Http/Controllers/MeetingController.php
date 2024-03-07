@@ -78,12 +78,12 @@ class MeetingController extends Controller
         $meeting->save();
 
         if ($meeting) {
-            return redirect()->route('meeting.index')->with([
+            return redirect()->back()->with([
                 'status' => 'Meeting created successfully',
             ]);
         }
 
-        return redirect()->route('meeting.index')->with([
+        return redirect()->back()->with([
             'error' => 'Meeting creation failed',
         ]);
     }
@@ -105,12 +105,12 @@ class MeetingController extends Controller
         $meeting->save();
 
         if ($meeting) {
-            return redirect()->route('meeting.index')->with([
+            return redirect()->back()->with([
                 'status' => 'Meeting updated successfully',
             ]);
         }
 
-        return redirect()->route('meeting.index')->with([
+        return redirect()->back()->with([
             'error' => 'Meeting update failed',
         ]);
     }

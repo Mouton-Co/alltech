@@ -25,8 +25,7 @@ class UserController extends Controller
     public function index(IndexRequest $request)
     {
         $users = User::select(['users.*', 'roles.name as role_name'])
-            ->join('roles', 'roles.id', '=', 'users.role_id')
-            ->where('users.id', '!=', auth()->user()->id);
+            ->join('roles', 'roles.id', '=', 'users.role_id');
 
         if (! empty($request->get('order_by')) && $request->get('order_by') == 'role->name') {
             $users = $users->orderBy(

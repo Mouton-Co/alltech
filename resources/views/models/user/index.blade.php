@@ -24,12 +24,14 @@
     <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('user.store')" :show="$hasStoreErrors" :title="'Creating user'" :button="'Create'"
-    id="add-resource-modal">
-        <div class="flex w-full flex-col gap-3">
-            @include('models.user.form', ['user' => null, 'roles' => $roles])
-        </div>
-    </x-modals.resource>
+    @can('create', App\Models\User::class)
+        <x-modals.resource :route="route('user.store')" :show="$hasStoreErrors" :title="'Creating user'"
+        :button="'Create'" id="add-resource-modal">
+            <div class="flex w-full flex-col gap-3">
+                @include('models.user.form', ['user' => null, 'roles' => $roles])
+            </div>
+        </x-modals.resource>
+    @endcan
 
     {{-- title and search --}}
     <div class="flex justify-between mb-3">
@@ -56,12 +58,14 @@
                     @foreach (config('models.user.columns') as $field => $column)
                         <x-table.column-name :field="$field" :column="$column" :route="'user'" />
                     @endforeach
-                    <th class="flex justify-end">
-                        <span class="flex items-center gap-3 cursor-pointer hover:text-orange" id="add-resource">
-                            <x-icon.plus class="w-4 h-4" />
-                            {{ __('Add user') }}
-                        </span>
-                    </th>
+                    @can('create', App\Models\User::class)
+                        <th class="flex justify-end">
+                            <span class="flex items-center gap-3 cursor-pointer hover:text-orange" id="add-resource">
+                                <x-icon.plus class="w-4 h-4" />
+                                {{ __('Add user') }}
+                            </span>
+                        </th>
+                    @endcan
                 </tr>
             </thead>
             <tbody>
@@ -75,10 +79,14 @@
                             @endif
                         @endforeach
                         <td class="flex justify-end gap-2">
-                            <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange edit-icon"
-                                id="edit-{{ $user->id }}"/>
-                            <x-icon.delete class="text-blue w-6 cursor-pointer hover:text-orange delete-icon"
-                                id="delete-{{ $user->id }}" />
+                            @can('update', $user)
+                                <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange edit-icon"
+                                    id="edit-{{ $user->id }}"/>
+                            @endcan
+                            @can('delete', $user)
+                                <x-icon.delete class="text-blue w-6 cursor-pointer hover:text-orange delete-icon"
+                                    id="delete-{{ $user->id }}" />
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -87,18 +95,22 @@
     </div>
 
     @foreach ($users as $user)
-        {{-- delete modals --}}
-        <x-modals.delete id="delete-modal-{{ $user->id }}" :resource="$user" :route="'user'"
-            :message="'Are you sure you wish to delete the account for user ' . $user->name . '? All meetings
-            associated with this account will be removed as well.'" />
+        @can('delete', $user)
+            {{-- delete modals --}}
+            <x-modals.delete id="delete-modal-{{ $user->id }}" :resource="$user" :route="'user'"
+                :message="'Are you sure you wish to delete the account for user ' . $user->name . '? All meetings
+                associated with this account will be removed as well.'" />
+        @endcan
 
-        {{-- edit modals --}}
-        <x-modals.resource :route="route('user.update', $user->id)" :title="'Editing user'" :button="'Update'"
-            :show="$hasUpdateErrors && $updateErrorId == $user->id" id="edit-resource-modal-{{ $user->id }}">
-            <div class="flex w-full flex-col gap-3">
-                @include('models.user.form', ['user' => $user, 'roles' => $roles])
-            </div>
-        </x-modals.resource>
+        @can('update', $user)
+            {{-- edit modals --}}
+            <x-modals.resource :route="route('user.update', $user->id)" :title="'Editing user'" :button="'Update'"
+                :show="$hasUpdateErrors && $updateErrorId == $user->id" id="edit-resource-modal-{{ $user->id }}">
+                <div class="flex w-full flex-col gap-3">
+                    @include('models.user.form', ['user' => $user, 'roles' => $roles])
+                </div>
+            </x-modals.resource>
+        @endcan
     @endforeach
 
     {{-- pagination --}}
