@@ -48,12 +48,12 @@ export function animations() {
     */
     $('#sidebar-toggle-open').on("click", function () {
         $('#sidebar').removeClass('-translate-x-full').addClass('translate-x-0');
-        $('#curtain').addClass('block').removeClass('hidden');
+        $('#curtain-mobile').addClass('block').removeClass('hidden');
         $('#sidebar-toggle-close').removeClass('hidden').addClass('block');
     });
-    $('#sidebar-toggle-close, #curtain').on("click", function () {
+    $('#sidebar-toggle-close, #curtain-mobile').on("click", function () {
         $('#sidebar').removeClass('translate-x-0').addClass('-translate-x-full');
-        $('#curtain').addClass('hidden').removeClass('block');
+        $('#curtain-mobile').addClass('hidden').removeClass('block');
         $('#sidebar-toggle-close').removeClass('block').addClass('hidden');
     });
 
@@ -80,13 +80,14 @@ export function animations() {
         $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
         $('#curtain-modal').addClass('block').removeClass('hidden');
     });
-    $('#curtain-modal, #curtain, .modal-cancel').on("click", function () {
+    $('#curtain-modal, #curtain-mobile, #curtain, .modal-cancel').on("click", function () {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');
         $('.report-modal').addClass('hidden').removeClass('flex');
         $('#add-email-modal').addClass('hidden').removeClass('flex');
         $('#curtain-modal').addClass('hidden').removeClass('block');
         $('#curtain').addClass('hidden').removeClass('block');
+        $('#curtain-mobile').addClass('hidden').removeClass('block');
     });
     $('.report-card').on("click", function () {
         let id = this.getAttribute('id').split('-')[2];
