@@ -30,8 +30,8 @@ class UpdateRequest extends FormRequest
             'date' => 'required|date_format:format,Y-m-d',
             'start_time' => 'required|date_format:format,H:i',
             'end_time' => 'required|date_format:format,H:i|after:start_time',
-            'objective' => 'required|string',
-            'marketing_requirements' => 'required|string',
+            'objective' => 'nullable|string',
+            'marketing_requirements' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
         ];
     }

@@ -2,7 +2,8 @@
 
     {{-- curtains --}}
     <div id="curtain-invisible" class="w-full h-full fixed top-0 left-0 z-10 opacity-70 bg-transparent hidden"></div>
-    <div id="curtain" class="w-full h-full fixed top-0 left-0 z-50 opacity-70 bg-black hidden"></div>
+    <div id="curtain" class="w-full h-full fixed top-0 left-0 z-40 opacity-70 bg-black hidden"></div>
+    <div id="curtain-mobile" class="w-full h-full fixed top-0 left-0 z-20 opacity-70 bg-black hidden"></div>
     
     {{-- top navbar --}}
     <x-navbar.top />

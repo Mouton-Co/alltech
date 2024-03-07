@@ -1,4 +1,4 @@
-<div class="fixed top-0 left-0 h-full z-50 flex w-80 flex-col bg-white
+<div class="fixed top-0 left-0 h-full z-30 flex w-80 flex-col bg-white
 border border-gray-200 py-6 px-6 -translate-x-full lg:translate-x-0 transition ease-in-out
 duration-300 transform" id="sidebar">
 

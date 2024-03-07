@@ -78,7 +78,7 @@
                 $event = json_decode(json_encode($event), false);
             @endphp
             <x-modals.resource :route="route('meeting.update', $event->id)" :title="'Editing meeting'"
-            :show="$hasUpdateErrors && $meetingErrorId == $user->id"  :button="'Update'"
+            :show="$hasUpdateErrors && $meetingErrorId == $event->id"  :button="'Update'"
             id="edit-resource-modal-{{ $event->id }}">
                 <div class="flex w-full flex-col gap-3">
                     @include('models.meeting.form', ['meeting' => $event->model, 'contacts' => $contacts])

@@ -2,10 +2,10 @@
 <nav class="w-full h-16 relative flex justify-between items-center border-b border-gray-200 shadow-sm gap-x-4 px-4
 sm:gap-x-6 sm:px-6 cursor-default bg-white">
     {{-- menu open icon --}}
-    <x-icon.stripes id="sidebar-toggle-open" class="aspect-square w-7 text-gray-500 cursor-pointer z-40"/>
+    <x-icon.stripes id="sidebar-toggle-open" class="aspect-square w-7 text-gray-500 cursor-pointer z-20"/>
 
     {{-- profile --}}
-    <div id="profile-dropdown-toggle" class="-m-1.5 flex items-center p-1.5 cursor-pointer z-20">
+    <div id="profile-dropdown-toggle" class="-m-1.5 flex items-center p-1.5 cursor-pointer z-10">
         <span class="inline-block aspect-square h-10 overflow-hidden rounded-full bg-gray-100 shadow">
             <x-icon.profile class="h-full aspect-square text-gray-300" />
         </span>

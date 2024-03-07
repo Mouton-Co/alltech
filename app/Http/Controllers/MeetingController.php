@@ -7,7 +7,6 @@ use App\Http\Requests\Meeting\UpdateRequest;
 use App\Models\Contact;
 use App\Models\Meeting;
 use App\Models\User;
-use Faker\Core\Color;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
