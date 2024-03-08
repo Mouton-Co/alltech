@@ -19,6 +19,7 @@ export function animations() {
             }, 100);
         } else {
             // hide dropdown
+            $('#curtain-invisible').addClass('hidden').removeClass('block');
             $('#profile-dropdown').removeClass('block').addClass('hidden').attr('aria-hidden', "true");
             setTimeout(function () {
                 $('#profile-dropdown')

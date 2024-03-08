@@ -20,7 +20,7 @@ sm:gap-x-6 sm:px-6 cursor-default bg-white">
     {{-- profile dropdown --}}
     <div id="profile-dropdown" class="absolute right-0 top-0 z-20 mt-14 mr-4 sm:mr-6 w-32 rounded-md bg-white
     py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none transition ease-in duration-75 transform
-    opacity-0 scale-95" aria-hidden="true">
+    opacity-0 scale-95 hidden" aria-hidden="true">
         <a href="{{ route('user.edit', auth()->user()->id) }}" class="block px-3 py-1 text-sm leading-6
         text-gray-900 hover:bg-gray-50">
             {{ __('Your profile') }}
