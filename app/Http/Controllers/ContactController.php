@@ -20,14 +20,12 @@ class ContactController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        $contacts = Contact::select(['contacts.*', 'companies.name as companies_name'])
-            ->join('companies', 'companies.id', '=', 'contacts.company_id');
+        $contacts = Contact::with('company');
 
         if (! empty($request->get('order_by')) && $request->get('order_by') == 'company->name') {
-            $contacts = $contacts->orderBy(
-                'companies.name',
-                $request->get('order_direction') ?? 'asc'
-            );
+            $contacts = $contacts->join('companies', 'contacts.company_id', '=', 'companies.id')
+                ->orderBy('companies.name', $request->get('order_direction') ?? 'asc')
+                ->select('contacts.*');
         } else {
             $contacts = $contacts->orderBy(
                 $request->get('order_by') ?? 'contacts.name',
@@ -36,10 +34,9 @@ class ContactController extends Controller
         }
 
         if (! empty($request->get('search'))) {
-            $contacts = $contacts->where('contacts.name', 'like', '%'.$request->get('search').'%')
-                ->orWhere('email', 'like', '%'.$request->get('search').'%')
-                ->orWhere('phone', 'like', '%'.$request->get('search').'%')
-                ->orWhere('companies.name', 'like', '%'.$request->get('search').'%');
+            $contacts = $contacts->where('name', 'like', "%{$request->get('search')}%")
+                ->orWhere('email', 'like', "%{$request->get('search')}%")
+                ->orWhere('phone', 'like', "%{$request->get('search')}%");
         }
 
         return view('models.contact.index')->with([

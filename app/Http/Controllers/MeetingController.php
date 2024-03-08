@@ -49,7 +49,7 @@ class MeetingController extends Controller
             $counter++;
         }
 
-        $contacts = Contact::where('name', '<>', '')->where('email', '<>', '')->orderBy('name')->get();
+        $contacts = Contact::where('name', '<>', '')->orWhere('email', '<>', '')->get();
 
         $request->merge([
             'users' => $usersQuery,

@@ -1,4 +1,7 @@
 <select name="{{ $name }}" {{ $attributes }}>
+    @if (!empty($optional) && $optional)
+        <option value="">{{ __("--Please select--") }}</option>
+    @endif
     @foreach ($options as $option)
         <option value="{{ $option->$value }}"
             @if (

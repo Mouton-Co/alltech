@@ -11,7 +11,7 @@
 
 {{-- Email --}}
 <x-form.input type="email" :name="'email'" value="{{ $contact->email ?? old('email') }}"
-              placeholder="Email" class="w-full" required>
+              placeholder="Email" class="w-full">
     <x-icon.email class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
 </x-form.input>
 
@@ -26,8 +26,9 @@
     <x-form.label for="company_id">
         {{ __('Company') }}
     </x-form.label>
-    <x-form.select :name="'company_id'" class="selector-for-js w-full filter-field" style="width:100%;" :options="$companies" :value="'id'"
-                   :display="'name'" :selected="$contact->company_id ?? old('company_id')">
+    <x-form.select :name="'company_id'" class="selector-for-js w-full filter-field" style="width:100%;"
+    :options="$companies" :value="'id'" :display="'name'" :selected="$contact->company_id ?? old('company_id')"
+    :optional="true">
         <x-icon.company class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
     </x-form.select>
 </div>

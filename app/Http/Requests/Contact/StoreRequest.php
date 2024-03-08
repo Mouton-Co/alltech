@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
-            'company_id' => 'required|exists:companies,id',
+            'email' => 'nullable|email',
+            'company_id' => 'nullable|exists:companies,id',
         ];
     }
 }
