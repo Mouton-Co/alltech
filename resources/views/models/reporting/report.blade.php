@@ -236,6 +236,11 @@
         'search' => request()->query('search') ?? '',
         'status' => request()->query('order_by') ?? '0',
         'supplier' => request()->query('order_direction') ?? '0',
+        'date_range' => request()->query('date_range') ?? '',
+        'users' => request()->query('users') ?? '',
+        'company_types' => request()->query('company_types') ?? '',
+        'companies' => request()->query('companies') ?? '',
+        'contacts' => request()->query('contacts') ?? '',
     ])->links() }}
 
 </x-dashboard>
