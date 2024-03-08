@@ -19,9 +19,11 @@
     <div class="flex justify-between items-center py-2">
         <h1>{{ __('Meeting reports') }}</h1>
         <div class="flex gap-3 items-center justify-between">
-            <a href="{{ route('email-cron.index') }}" class="btn-transparent flex justify-center items-center px-2">
+            {{-- hide for now --}}
+            {{-- <a href="{{ route('email-cron.index') }}" class="btn-transparent flex justify-center items-center
+            px-2">
                 {{ __('Saved Emails') }}
-            </a>
+            </a> --}}
             <a href="{{ route('reporting.index') }}" class="btn-transparent flex justify-center items-center px-2">
                 {{ __('Saved Filters') }}
             </a>
@@ -115,10 +117,11 @@
                     {{ __('Update Filter') }}
                 </button>
             @endif
-            <button id="create-email" class="btn-transparent min-w-[160px] flex justify-center
+            {{-- hide for now --}}
+            {{-- <button id="create-email" class="btn-transparent min-w-[160px] flex justify-center
             items-center" @if (!$hasQuery) disabled @endif>
                 {{ __('Create Email') }}
-            </button>
+            </button> --}}
             <form action="{{ route('reporting.export', [
                 'users'         => request()->query('users') ?? '',
                 'company_types' => request()->query('company_types') ?? '',
