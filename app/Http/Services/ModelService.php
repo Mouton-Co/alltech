@@ -18,6 +18,9 @@ class ModelService
 
         for ($i = 1; $i < count($nesters); $i++) {
             $nester = $nesters[$i];
+            if (empty($field->$nester)) {
+                return null;
+            }
             $field = $field->$nester;
         }
 

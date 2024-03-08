@@ -74,7 +74,11 @@ old('end_time') }}">
                 )
                     selected
                 @endif>
-                {{ $contact->name . ' @ ' . $contact->company->name }}
+                @php
+                    $name = !empty($contact->name) ? $contact->name : $contact->email;
+                    $company = !empty($contact->company->name) ? ' (' . $contact->company->name . ')' : '';
+                @endphp
+                {{ $name . $company }}
             </option>
         @endforeach
     </select>
