@@ -24,11 +24,12 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'title' => 'required|string|max:255',
             'date' => 'required|date_format:format,Y-m-d',
             'start_time' => 'required|date_format:format,H:i',
             'end_time' => 'required|date_format:format,H:i|after:start_time',
-            'objective' => 'nullable|string',
-            'marketing_requirements' => 'nullable|string',
+            'location' => 'nullable|string',
+            'report' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
         ];
     }

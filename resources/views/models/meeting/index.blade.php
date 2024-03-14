@@ -104,7 +104,7 @@
             });
 
             let $pill = $(`<div class='pill-key' style='background:${color};border:1px solid ${textColor}'></div>
-            <span>${pill.text.trim()}</span>`);
+            <div>${pill.text.trim()}</div>`);
 
             return $pill;
         }

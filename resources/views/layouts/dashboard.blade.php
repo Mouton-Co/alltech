@@ -12,7 +12,7 @@
     <x-navbar.sidebar />
 
     {{-- dashboard --}}
-    <main class="w-full" aria-label="main">
+    <main class="w-full max-h-screen overflow-auto" aria-label="main">
         <div class="w-full pt-10 lg:pl-80 pr-20 pb-28">
             <div class="w-full pl-6">
                 @php $messageTypes = ['success', 'error']; @endphp

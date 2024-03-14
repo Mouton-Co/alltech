@@ -1,3 +1,5 @@
+// see full documentation at https://fullcalendar.io/docs
+
 import {Calendar} from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -28,7 +30,6 @@ export function calander() {
             dateClick: function(info) {
                 $("#add-resource-modal").addClass('flex').removeClass('hidden');
                 $('#curtain').addClass('block').removeClass('hidden');
-                console.log(info.dateStr)
                 let currentDate = info.dateStr.substring(0,10);
                 let currentTime = info.dateStr.substring(11,16);
 

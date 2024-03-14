@@ -79,8 +79,9 @@ class ReportingController extends Controller
         if (!empty($request->get('search'))) {
             $hasQuery = true;
             $meetings = $meetings->where(function ($query) {
-                $query->where('objective', 'LIKE', '%'.$this->request->get('search').'%')
-                    ->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+                $query->where('report', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('title', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('location', 'LIKE', '%'.$this->request->get('search').'%');
             });
         }
 

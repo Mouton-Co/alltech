@@ -13,7 +13,6 @@ return new class () extends Migration {
         Schema::create('company_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('minimum_required');
             $table->timestamps();
         });
     }

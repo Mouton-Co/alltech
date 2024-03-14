@@ -4,7 +4,7 @@
 
 .report-card {
     @apply bg-white rounded-lg shadow-sm ring-1 cursor-pointer
-    divide-y-2 divide-darkgray flex flex-col text-sm ring-darkgray;
+    divide-y-2 divide-darkgray flex flex-col text-sm ring-darkgray max-w-xl;
 
     .report-card-header {
         @apply flex items-center justify-between px-5 py-3;
