@@ -11,6 +11,8 @@
         <th>{{ __('End time') }}</th>
         <th>{{ __('Location') }}</th>
         <th>{{ __('Report') }}</th>
+        <th>{{ __('Cancelled') }}</th>
+        <th>{{ __('Cancelled reason') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +28,8 @@
             <td>{{ $meeting->end_time }}</td>
             <td>{{ $meeting->location }}</td>
             <td>{{ $meeting->report }}</td>
+            <td>{{ $meeting->cancelled ? __('Yes') : __('No') }}</td>
+            <td>{{ $meeting->cancelled_reason }}</td>
         </tr>
     @endforeach
     </tbody>

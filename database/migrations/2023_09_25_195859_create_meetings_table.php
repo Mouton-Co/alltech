@@ -22,6 +22,8 @@ return new class () extends Migration {
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->foreignId('company_type_id')->constrained('company_types')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->dateTime('cancelled_at')->nullable();
+            $table->text('cancelled_reason')->nullable();
             $table->timestamps();
         });
     }

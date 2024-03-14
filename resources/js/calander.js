@@ -45,7 +45,21 @@ export function calander() {
                     $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
                     $('#curtain').addClass('block').removeClass('hidden');
                 }
+            },
+            eventClassNames: function(info) {
+                let id = info.event._def.publicId;
+                let classes = '';
 
+                $.ajax({
+                    url: '/meetings/is-cancelled/' + id,
+                    type: 'GET',
+                    async: false,
+                    success: function(response) {
+                        classes = response.is_cancelled ? 'cancelled-meeting' : '';
+                    },
+                });
+
+                return classes;
             }
         });
         calendar.render();

@@ -24,13 +24,21 @@ smaller-than-740:w-[calc(100%-16px)] {{ !empty($show) && $show ? 'flex' : 'hidde
 
         {{ $slot }}
 
-        <button type="submit" class="btn-transparent w-fit px-5 h-[30px]">
-            @if (!empty($button))
-                {{ $button }}
-            @else
-                {{ __('Create/Edit') }}
+        <div class="flex gap-3 w-full justify-end">
+            @if (!empty($meeting))
+                <div class="btn-transparent w-fit px-5 h-[30px] cursor-pointer flex items-center cancel-meeting-button"
+                id="cancel-meeting-{{ $meeting }}">
+                    {{ __('Cancel meeting') }}
+                </div>
             @endif
-        </button>
+            <button type="submit" class="btn-orange w-fit px-5 h-[30px]">
+                @if (!empty($button))
+                    {{ $button }}
+                @else
+                    {{ __('Create/Edit') }}
+                @endif
+            </button>
+        </div>
     </form>
 
 </div>

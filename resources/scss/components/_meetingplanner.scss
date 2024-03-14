@@ -42,3 +42,18 @@ a.fc-event {
 .fc-view-harness {
     @apply bg-white shadow;
 }
+
+.cancelled-meeting {
+    opacity: 0.5 !important;
+    
+    .fc-event-main {
+        &::before {
+            @apply w-[110%] h-[1px] bg-black absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[5%];
+            content: '';
+        }
+        &::after {
+            content: 'Cancelled';
+            @apply absolute bottom-2 right-0 text-[10px] text-black;
+        }
+    }
+}
