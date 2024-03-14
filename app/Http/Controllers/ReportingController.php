@@ -36,22 +36,22 @@ class ReportingController extends Controller
         $this->request = $request;
 
         // filter contacts
-        if (!empty($request->get('contacts'))) {
+        if (! empty($request->get('contacts'))) {
             $hasQuery = true;
             $meetings->whereIn('contact_id', $request->get('contacts'));
         }
-        
+
         // filter companies
-        if (!empty($request->get('companies'))) {
+        if (! empty($request->get('companies'))) {
             $hasQuery = true;
             $meetings->whereIn(
                 'contact_id',
                 Contact::whereIn('company_id', $request->get('companies'))->pluck('id')->toArray()
             );
         }
-        
+
         // filter company types
-        if (!empty($request->get('company_types'))) {
+        if (! empty($request->get('company_types'))) {
             $hasQuery = true;
             $meetings->whereIn(
                 'contact_id',
@@ -61,26 +61,27 @@ class ReportingController extends Controller
                 )->pluck('id')->toArray()
             );
         }
-        
+
         // filter users
-        if (!empty($request->get('users'))) {
+        if (! empty($request->get('users'))) {
             $hasQuery = true;
             $meetings->whereIn('user_id', $request->get('users'));
         }
 
         // filter date range
-        if (!empty($request->get('date_range'))) {
+        if (! empty($request->get('date_range'))) {
             $hasQuery = true;
             $dateRange = explode(' to ', $request->get('date_range'));
             $meetings->where('date', '>=', $dateRange[0])->where('date', '<=', $dateRange[1]);
         }
 
         // filter search
-        if (!empty($request->get('search'))) {
+        if (! empty($request->get('search'))) {
             $hasQuery = true;
             $meetings = $meetings->where(function ($query) {
-                $query->where('objective', 'LIKE', '%'.$this->request->get('search').'%')
-                    ->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+                $query->where('report', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('title', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('location', 'LIKE', '%'.$this->request->get('search').'%');
             });
         }
 

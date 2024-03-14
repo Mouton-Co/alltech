@@ -22,20 +22,20 @@ class ReportExport implements FromView
         $meetings = Meeting::with(['user', 'contact', 'contact.company', 'contact.company.companyType']);
 
         // filter contacts
-        if (!empty($this->request->get('contacts'))) {
+        if (! empty($this->request->get('contacts'))) {
             $meetings->whereIn('contact_id', $this->request->get('contacts'));
         }
-        
+
         // filter companies
-        if (!empty($this->request->get('companies'))) {
+        if (! empty($this->request->get('companies'))) {
             $meetings->whereIn(
                 'contact_id',
                 Contact::whereIn('company_id', $this->request->get('companies'))->pluck('id')->toArray()
             );
         }
-        
+
         // filter company types
-        if (!empty($this->request->get('company_types'))) {
+        if (! empty($this->request->get('company_types'))) {
             $meetings->whereIn(
                 'contact_id',
                 Contact::whereIn(
@@ -44,23 +44,24 @@ class ReportExport implements FromView
                 )->pluck('id')->toArray()
             );
         }
-        
+
         // filter users
-        if (!empty($this->request->get('users'))) {
+        if (! empty($this->request->get('users'))) {
             $meetings->whereIn('user_id', $this->request->get('users'));
         }
 
         // filter date range
-        if (!empty($this->request->get('date_range'))) {
+        if (! empty($this->request->get('date_range'))) {
             $dateRange = explode(' to ', $this->request->get('date_range'));
             $meetings->where('date', '>=', $dateRange[0])->where('date', '<=', $dateRange[1]);
         }
 
         // filter search
-        if (!empty($this->request->get('search'))) {
+        if (! empty($this->request->get('search'))) {
             $meetings = $meetings->where(function ($query) {
-                $query->where('objective', 'LIKE', '%'.$this->request->get('search').'%')
-                    ->orWhere('marketing_requirements', 'LIKE', '%'.$this->request->get('search').'%');
+                $query->where('report', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('title', 'LIKE', '%'.$this->request->get('search').'%')
+                    ->orWhere('location', 'LIKE', '%'.$this->request->get('search').'%');
             });
         }
 

@@ -39,10 +39,7 @@ class CompanyTypeController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $companyType = CompanyType::create([
-            'name' => $request->get('name'),
-            'minimum_required' => $request->get('minimum_required'),
-        ]);
+        $companyType = CompanyType::create($request->all());
 
         if ($companyType) {
             return redirect()->route('company-type.index')->with([
@@ -68,9 +65,7 @@ class CompanyTypeController extends Controller
             ]);
         }
 
-        $companyType->name = $request->get('name');
-        $companyType->minimum_required = $request->get('minimum_required');
-        $companyType->save();
+        $companyType->update($request->all());
 
         return redirect()->route('company-type.index', $companyType->id)->with([
             'success' => 'Company type updated',

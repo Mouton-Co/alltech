@@ -8,9 +8,3 @@
               placeholder="Name" class="w-full" required>
     <x-icon.company-type class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
 </x-form.input>
-
-{{-- minimum required --}}
-<x-form.input type="number" :name="'minimum_required'" placeholder="Minimum required" class="w-full"
-              value="{{ $companyType->minimum_required ?? old('minimum_required') }}" required>
-    <x-icon.calendar class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-</x-form.input>

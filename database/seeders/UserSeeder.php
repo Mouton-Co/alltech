@@ -16,30 +16,59 @@ class UserSeeder extends Seeder
     {
         $password = Hash::make('password');
 
-        $users = [
+        $admins = [
             [
                 'email' => 'arouxmouton@gmail.com',
                 'name' => 'Adriaan Mouton',
-                'role' => 'Admin',
             ],
             [
                 'email' => 'theamouton@gmail.com',
                 'name' => 'Thea Mouton',
-                'role' => 'Admin',
             ],
             [
-                'email' => 'nicole.geyser@Alltech.com',
+                'email' => 'nicole.geyser@alltech.com',
                 'name' => 'Nicole Geyser',
-                'role' => 'Admin',
             ],
         ];
 
-        foreach ($users as $user) {
+        foreach ($admins as $admin) {
             User::factory()->create([
-                'role_id' => Role::where('name', $user['role'])->first()->id,
+                'name' => $admin['name'],
+                'email' => $admin['email'],
                 'password' => $password,
-                'name' => $user['name'],
-                'email' => $user['email'],
+                'role_id' => Role::where('name', 'Admin')->first()->id,
+            ]);
+        }
+
+        $clients = [
+            [
+                'name' => 'Alretha Naude',
+                'email' => 'avanheerden@alltech.com',
+            ],
+            [
+                'name' => 'Janke Bestbier',
+                'email' => 'janke.bestbier@alltech.com',
+            ],
+            [
+                'name' => 'Johanet van der Merwe',
+                'email' => 'johanet.vandermerwe@alltech.com',
+            ],
+            [
+                'name' => 'Murray van Niekerk',
+                'email' => 'mvanniekerk@alltech.com',
+            ],
+            [
+                'name' => 'Olga Dreyer',
+                'email' => 'olga.dreyer@alltech.com',
+            ],
+        ];
+
+        foreach ($clients as $client) {
+            User::factory()->create([
+                'name' => $client['name'],
+                'email' => $client['email'],
+                'password' => $password,
+                'role_id' => Role::where('name', 'Client')->first()->id,
             ]);
         }
     }

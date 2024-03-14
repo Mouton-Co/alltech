@@ -39,6 +39,7 @@ class CompanyController extends Controller
         if (! empty($request->get('search'))) {
             $companies = $companies->where('companies.name', 'like', '%'.$request->get('search').'%')
                 ->orWhere('location', 'like', '%'.$request->get('search').'%')
+                ->orWhere('region', 'like', '%'.$request->get('search').'%')
                 ->orWhere('company_types.name', 'like', '%'.$request->get('search').'%');
         }
 
@@ -53,12 +54,7 @@ class CompanyController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $company = Company::create([
-            'name' => $request->get('name'),
-            'location' => $request->get('location'),
-            'coordinates' => $request->get('coordinates'),
-            'company_type_id' => $request->get('company_type_id'),
-        ]);
+        $company = Company::create($request->all());
 
         if ($company) {
             return redirect()->route('company.index')->with([
@@ -84,11 +80,7 @@ class CompanyController extends Controller
             ]);
         }
 
-        $company->name = $request->get('name');
-        $company->location = $request->get('location');
-        $company->coordinates = $request->get('coordinates');
-        $company->company_type_id = $request->get('company_type_id');
-        $company->save();
+        $company->update($request->all());
 
         return redirect()->route('company.index', $company->id)->with([
             'success' => 'Company updated',

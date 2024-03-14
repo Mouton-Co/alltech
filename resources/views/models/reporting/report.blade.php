@@ -158,15 +158,19 @@
                 {{-- report card --}}
                 <div id="report-card-{{ $meeting->id }}" class="report-card">
                     <div class="report-card-header">
-                        @if (!empty($meeting->contact->name))
-                            <span>{{ __('Meeting with: ') . $meeting->contact->name }}</span>
-                        @else
-                            <span>{{ __('Meeting with: ') . $meeting->contact->email }}</span>
-                        @endif
+                        <span>{{ __('Meeting title: ') . $meeting->title }}</span>
                     </div>
                     <div class="report-card-body">
                         <div class="report-card-body-item">
-                            <x-icon.company class="w-5"/>
+                            <x-icon.contact class="w-5 h-5"/>
+                            <span>
+                                {{ strlen($meeting->contact->name) > 20 ?
+                                substr($meeting->contact->name,0,20)."..." :
+                                $meeting->contact->name }}
+                            </span>
+                        </div>
+                        <div class="report-card-body-item">
+                            <x-icon.company class="w-5 h-5"/>
                             <span>
                                 {{ strlen($meeting->contact->company->name) > 20 ?
                                 substr($meeting->contact->company->name,0,20)."..." :
@@ -174,11 +178,11 @@
                             </span>
                         </div>
                         <div class="report-card-body-item">
-                            <x-icon.date-picker class="w-5"/>
+                            <x-icon.date-picker class="w-5 h-5"/>
                             <span>{{ $meeting->date }}</span>
                         </div>
                         <div class="report-card-body-item">
-                            <x-icon.time-picker class="w-5"/>
+                            <x-icon.time-picker class="w-5 h-5"/>
                             <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
                         </div>
                     </div>
@@ -192,11 +196,19 @@
                 <div id="report-modal-{{ $meeting->id }}" class="hidden report-modal">
                     <div class="report-card">
                         <div class="report-card-header">
-                            <span>{{ __('Meeting with: ') . $meeting->contact->name }}</span>
+                            <span>{{ __('Meeting title: ') . $meeting->title }}</span>
                         </div>
                         <div class="report-card-body">
                             <div class="report-card-body-item">
-                                <x-icon.company class="w-5"/>
+                                <x-icon.contact class="w-5 h-5"/>
+                                <span>
+                                    {{ strlen($meeting->contact->name) > 20 ?
+                                    substr($meeting->contact->name,0,20)."..." :
+                                    $meeting->contact->name }}
+                                </span>
+                            </div>
+                            <div class="report-card-body-item">
+                                <x-icon.company class="w-5 h-5"/>
                                 <span>
                                     {{ strlen($meeting->contact->company->name) > 20 ?
                                     substr($meeting->contact->company->name,0,20)."..." :
@@ -204,20 +216,28 @@
                                 </span>
                             </div>
                             <div class="report-card-body-item">
-                                <x-icon.date-picker class="w-5"/>
+                                <x-icon.date-picker class="w-5 h-5"/>
                                 <span>{{ $meeting->date }}</span>
                             </div>
                             <div class="report-card-body-item">
-                                <x-icon.time-picker class="w-5"/>
+                                <x-icon.time-picker class="w-5 h-5"/>
                                 <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
                             </div>
-                            <div class="report-card-body-item !block">
-                                <p class="my-2"><b>{{ __('Objective') }}</b></p>
-                                <p>{{ $meeting->objective }}</p>
+                            <div class="report-card-body-item">
+                                <x-icon.location class="w-5 h-5"/>
+                                <span>
+                                    @if (!empty($meeting->location))
+                                        {{ strlen($meeting->location) > 20 ?
+                                        substr($meeting->location,0,20)."..." :
+                                        $meeting->location }}
+                                    @else
+                                        {{ __("N/A") }}
+                                    @endif
+                                </span>
                             </div>
-                            <div class="report-card-body-item !block">
-                                <p class="my-2"><b>{{ __('Marketing Requirements') }}</b></p>
-                                <p>{{ $meeting->marketing_requirements }}</p>
+                            <div class="report-card-body-item text-wrap !block">
+                                <p class="my-2"><b>{{ __('Report') }}</b></p>
+                                <p>{{ $meeting->report }}</p>
                             </div>
                         </div>
                         <div class="report-card-footer">

@@ -4,7 +4,7 @@ return [
     'columns' => [
         'name' => 'Name',
         'location' => 'Location',
-        'coordinates' => 'Coordinates',
+        'region' => 'Region',
         'companyType->name' => 'Company type',
     ],
 ];

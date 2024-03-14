@@ -12,12 +12,12 @@ return new class () extends Migration {
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->text('objective')->nullable();
-            $table->text('marketing_requirements')->nullable();
-            $table->boolean('added_to_teams')->default(false);
+            $table->text('location')->nullable();
+            $table->text('report')->nullable();
             $table->foreignId('contact_id')->constrained('contacts')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->foreignId('company_type_id')->constrained('company_types')->onDelete('cascade');

@@ -16,13 +16,15 @@ class Meeting extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'title',
         'date',
         'start_time',
         'end_time',
-        'objective',
-        'marketing_requirements',
-        'added_to_teams',
+        'location',
+        'report',
         'contact_id',
+        'company_id',
+        'company_type_id',
         'user_id',
     ];
 

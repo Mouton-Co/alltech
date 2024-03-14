@@ -33,7 +33,7 @@ class MeetingController extends Controller
             foreach ($meetings as $meeting) {
                 $events[] = [
                     'id' => $meeting->id,
-                    'title' => $meeting->contact->name . ' @ ' . $meeting->contact->company->name,
+                    'title' => $meeting->title,
                     'start' => $meeting->date.' '.$meeting->start_time,
                     'end' => $meeting->date.' '.$meeting->end_time,
                     'model' => $meeting,
@@ -65,17 +65,11 @@ class MeetingController extends Controller
     {
         $contact = Contact::find($request->input('contact_id'));
 
-        $meeting = new Meeting();
-        $meeting->date = $request->input('date');
-        $meeting->start_time = $request->input('start_time');
-        $meeting->end_time = $request->input('end_time');
-        $meeting->objective = $request->input('objective');
-        $meeting->marketing_requirements = $request->input('marketing_requirements');
-        $meeting->contact_id = $request->input('contact_id');
-        $meeting->company_id = strval($contact->company_id);
-        $meeting->company_type_id = strval($contact->company->company_type_id);
-        $meeting->user_id = auth()->id();
-        $meeting->save();
+        $meeting = Meeting::create(array_merge($request->all(), [
+            'company_id' => $contact->company_id,
+            'company_type_id' => $contact->company->company_type_id,
+            'user_id' => auth()->id(),
+        ]));
 
         if ($meeting) {
             return redirect()->back()->with([
@@ -93,16 +87,18 @@ class MeetingController extends Controller
         $contact = Contact::find($request->input('contact_id'));
 
         $meeting = Meeting::find($request->input('meeting_id'));
-        $meeting->date = $request->input('date');
-        $meeting->start_time = $request->input('start_time');
-        $meeting->end_time = $request->input('end_time');
-        $meeting->objective = $request->input('objective');
-        $meeting->marketing_requirements = $request->input('marketing_requirements');
-        $meeting->contact_id = $request->input('contact_id');
-        $meeting->company_id = strval($contact->company_id);
-        $meeting->company_type_id = strval($contact->company->company_type_id);
-        $meeting->user_id = auth()->id();
-        $meeting->save();
+
+        if (! $meeting) {
+            return redirect()->back()->with([
+                'error' => 'Meeting not found',
+            ]);
+        }
+
+        $meeting->update(array_merge($request->all(), [
+            'company_id' => $contact->company_id,
+            'company_type_id' => $contact->company->company_type_id,
+            'user_id' => auth()->id(),
+        ]));
 
         if ($meeting) {
             return redirect()->back()->with([
