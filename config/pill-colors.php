@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     [ // orange
         'background' => 'rgb(254 215 170)',
         'text' => 'rgb(234 88 12)',

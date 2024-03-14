@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\EmailCron;
 use Illuminate\Http\Request;
-use PharIo\Manifest\Email;
 
 class EmailCronController extends Controller
 {

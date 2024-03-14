@@ -64,7 +64,7 @@ class MeetingController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $contact = Contact::find($request->input('contact_id'));
-        
+
         $meeting = Meeting::create(array_merge($request->all(), [
             'company_id' => $contact->company_id,
             'company_type_id' => $contact->company->company_type_id,
@@ -85,10 +85,10 @@ class MeetingController extends Controller
     public function update(UpdateRequest $request): RedirectResponse
     {
         $contact = Contact::find($request->input('contact_id'));
-        
+
         $meeting = Meeting::find($request->input('meeting_id'));
 
-        if (!$meeting) {
+        if (! $meeting) {
             return redirect()->back()->with([
                 'error' => 'Meeting not found',
             ]);

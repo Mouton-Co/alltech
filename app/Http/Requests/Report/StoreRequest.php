@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Report;
 
-use App\Models\Report;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest

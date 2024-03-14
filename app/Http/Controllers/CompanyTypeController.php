@@ -64,7 +64,7 @@ class CompanyTypeController extends Controller
                 'error' => 'Company type not found',
             ]);
         }
-        
+
         $companyType->update($request->all());
 
         return redirect()->route('company-type.index', $companyType->id)->with([

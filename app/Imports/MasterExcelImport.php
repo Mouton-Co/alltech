@@ -22,7 +22,7 @@ class MasterExcelImport implements ToCollection, WithChunkReading
             }
 
             $company = $this->createCompany($row);
-            if (!empty($company)) {
+            if (! empty($company)) {
                 $this->createContact($row, $company);
             }
         }
@@ -44,7 +44,7 @@ class MasterExcelImport implements ToCollection, WithChunkReading
             $companyType = CompanyType::where('name', 'Other')->first();
         }
 
-        if (!empty($row[4])) {
+        if (! empty($row[4])) {
             return Company::firstOrCreate([
                 'name' => $row[4] ?? '',
                 'location' => $row[5] ?? '',
@@ -61,14 +61,14 @@ class MasterExcelImport implements ToCollection, WithChunkReading
      */
     private function createContact(mixed $row, Company $company): void
     {
-        if (!empty($row[0])) {
+        if (! empty($row[0])) {
             $contact = [
                 'name' => $row[0] ?? '',
                 'email' => $row[1] ?? '',
                 'phone' => $row[2] ?? '',
                 'company_id' => $company->id,
             ];
-    
+
             Contact::firstOrCreate($contact);
         }
     }

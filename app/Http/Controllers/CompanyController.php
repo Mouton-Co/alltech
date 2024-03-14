@@ -79,7 +79,7 @@ class CompanyController extends Controller
                 'error' => 'Company not found',
             ]);
         }
-        
+
         $company->update($request->all());
 
         return redirect()->route('company.index', $company->id)->with([
