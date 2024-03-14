@@ -91,6 +91,12 @@
                 <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
                        class="filter-field">
             </div>
+
+            {{-- cancelled --}}
+            <div class="flex gap-2 min-w-fit h-full items-center pr-5 justify-end">
+                <label for="cancelled" class="min-w-[120px]">{{ __('Show cancelled meetings?') }}</label>
+                <input type="checkbox" name="cancelled" @if (request()->query('cancelled') == 'on') checked @endif>
+            </div>
         </div>
     </form>
 
@@ -129,6 +135,7 @@
                 'contacts'      => request()->query('contacts') ?? '',
                 'date'          => request()->query('date') ?? '',
                 'search'        => request()->query('search') ?? '',
+                'cancelled'     => request()->query('cancelled') ?? '',
             ]) }}" method="post">
                 @csrf
                 <input type="submit" value="Export" class="btn-transparent min-w-[160px] flex justify-center
@@ -156,7 +163,8 @@
             @foreach ($meetings as $meeting)
 
                 {{-- report card --}}
-                <div id="report-card-{{ $meeting->id }}" class="report-card">
+                <div id="report-card-{{ $meeting->id }}" class="report-card
+                {{ !empty($meeting->cancelled_at) ? 'report-card-cancelled' : '' }}">
                     <div class="report-card-header">
                         <span>{{ __('Meeting title: ') . $meeting->title }}</span>
                     </div>
@@ -264,6 +272,7 @@
         'company_types' => request()->query('company_types') ?? '',
         'companies' => request()->query('companies') ?? '',
         'contacts' => request()->query('contacts') ?? '',
+        'cancelled' => request()->query('cancelled') ?? '',
     ])->links() }}
 
 </x-dashboard>

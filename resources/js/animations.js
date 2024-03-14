@@ -81,6 +81,11 @@ export function animations() {
         $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
         $('#curtain-modal').addClass('block').removeClass('hidden');
     });
+    $('.cancel-meeting-button').on("click", function () {
+        let id = this.getAttribute('id').split('-')[2];
+        $("#edit-resource-modal-" + id).addClass('hidden').removeClass('flex');
+        $("#cancel-resource-modal-" + id).addClass('flex').removeClass('hidden');
+    });
     $('#curtain-modal, #curtain-mobile, #curtain, .modal-cancel').on("click", function () {
         $('.delete-modal').addClass('hidden').removeClass('flex');
         $('.resource-modal').addClass('hidden').removeClass('flex');

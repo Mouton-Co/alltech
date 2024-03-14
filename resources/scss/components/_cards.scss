@@ -34,3 +34,11 @@
         }
     }
 }
+
+.report-card-cancelled {
+    @apply relative;
+    ::before {
+        @apply w-[100%] h-[1px] bg-red-200 rotate-45 absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[5%];
+        content: '';
+    }
+}

@@ -65,6 +65,11 @@ class ReportExport implements FromView
             });
         }
 
+        // filter cancelled
+        if (empty($this->request->get('cancelled'))) {
+            $meetings->where('cancelled_at', null);
+        }
+
         return view('models.reporting.export', [
             'meetings' => $meetings->get(),
         ]);

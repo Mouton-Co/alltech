@@ -85,6 +85,13 @@ class ReportingController extends Controller
             });
         }
 
+        // filter cancelled
+        if (empty($request->get('cancelled'))) {
+            $meetings->where('cancelled_at', null);
+        } else {
+            $hasQuery = true;
+        }
+
         return view('models.reporting.report', [
             'report'       => Report::find($request->get('report_id')),
             'hasQuery'     => $hasQuery,

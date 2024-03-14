@@ -110,4 +110,33 @@ class MeetingController extends Controller
             'error' => 'Meeting update failed',
         ]);
     }
+
+    public function cancel(Request $request): RedirectResponse
+    {
+        $meeting = Meeting::find($request->input('meeting_id'));
+
+        if (! $meeting) {
+            return redirect()->back()->with([
+                'error' => 'Meeting not found',
+            ]);
+        }
+
+        $meeting->update([
+            'cancelled_at' => now(),
+            'cancelled_reason' => $request->input('cancelled_reason'),
+        ]);
+
+        return redirect()->back()->with([
+            'status' => 'Meeting cancelled successfully',
+        ]);
+    }
+
+    public function isCancelled($id)
+    {
+        $meeting = Meeting::find($id);
+
+        return response()->json([
+            'is_cancelled' => $meeting->cancelled_at ? true : false,
+        ]);
+    }
 }
