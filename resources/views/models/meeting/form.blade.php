@@ -4,6 +4,8 @@
     <input type="hidden" name="meeting_id" value="{{ $meeting->id }}">
 @endif
 
+<input type="hidden" name="grid" class="meeting-modal-input-grid">
+
 {{-- meeting title --}}
 <x-form.label for="title">
     {{ __('Title') }}

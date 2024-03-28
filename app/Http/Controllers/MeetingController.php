@@ -72,7 +72,10 @@ class MeetingController extends Controller
         ]));
 
         if ($meeting) {
-            return redirect()->back()->with([
+            return redirect()->route('meeting.index', [
+                'grid' => $request->input('grid'),
+                'date' => $meeting->date,
+            ])->with([
                 'status' => 'Meeting created successfully',
             ]);
         }
@@ -101,7 +104,10 @@ class MeetingController extends Controller
         ]));
 
         if ($meeting) {
-            return redirect()->back()->with([
+            return redirect()->route('meeting.index', [
+                'grid' => $request->input('grid'),
+                'date' => $meeting->date,
+            ])->with([
                 'status' => 'Meeting updated successfully',
             ]);
         }

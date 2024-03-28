@@ -35,16 +35,20 @@ export function calander() {
 
                 $("#add-resource-modal form input[name='date']").val(currentDate);
                 $("#add-resource-modal form input[name='start_time']").val(currentTime);
+
+                $('.meeting-modal-input-grid').val(calendar.view.type);
             },
             eventClick: function(info) {
                 let id = info.event._def.publicId;
                 let modal = $("#edit-resource-modal-" + id);
-
+                
                 // if modal exists
                 if (modal.length) {
                     $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
                     $('#curtain').addClass('block').removeClass('hidden');
                 }
+
+                $('.meeting-modal-input-grid').val(calendar.view.type);
             },
             eventClassNames: function(info) {
                 let id = info.event._def.publicId;
@@ -62,6 +66,15 @@ export function calander() {
                 return classes;
             }
         });
+
+        // get value from url parameter and adjust calendar view
+        let url = new URL(window.location.href);
+        let grid = url.searchParams.get("grid");
+        let date = url.searchParams.get("date");
+        if (grid && date) {
+            calendar.changeView(grid, date);
+        }
+        
         calendar.render();
     });
 }
