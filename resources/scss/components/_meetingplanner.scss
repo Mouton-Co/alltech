@@ -46,14 +46,17 @@ a.fc-event {
 .cancelled-meeting {
     opacity: 0.5 !important;
     
-    .fc-event-main {
+    .fc-event-main, .fc-daygrid-event-dot {
         &::before {
             @apply w-[110%] h-[1px] bg-black absolute top-1/2 left-0 -translate-y-1/2 -translate-x-[5%];
             content: '';
         }
+    }
+    .fc-event-main {
         &::after {
             content: 'Cancelled';
             @apply absolute bottom-2 right-0 text-[10px] text-black;
         }
     }
+
 }
