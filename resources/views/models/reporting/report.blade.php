@@ -133,7 +133,7 @@
                 'company_types' => request()->query('company_types') ?? '',
                 'companies'     => request()->query('companies') ?? '',
                 'contacts'      => request()->query('contacts') ?? '',
-                'date'          => request()->query('date') ?? '',
+                'date_range'    => request()->query('date_range') ?? '',
                 'search'        => request()->query('search') ?? '',
                 'cancelled'     => request()->query('cancelled') ?? '',
             ]) }}" method="post">

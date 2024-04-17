@@ -71,7 +71,7 @@ class ReportExport implements FromView
         }
 
         return view('models.reporting.export', [
-            'meetings' => $meetings->get(),
+            'meetings' => $meetings->orderBy('date', 'asc')->get(),
         ]);
     }
 }
