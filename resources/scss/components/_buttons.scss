@@ -2,6 +2,10 @@
     @apply h-[45px] text-white rounded bg-orange hover:bg-orangehover;
 }
 
+.btn-orange:disabled{
+    @apply bg-gray-500 hover:bg-gray-500;
+}
+
 .btn-orange-thin {
     @apply h-[35px] text-white rounded bg-orange hover:bg-orangehover;
 }

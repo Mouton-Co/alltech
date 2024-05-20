@@ -1,11 +1,13 @@
 @php
-    if (empty($type)) {
-        $type = 'success';
-    }
-    if ($type == 'success') {
-        $color = 'green';
-    } else {
-        $color = 'red';
+    if (empty($color)) {
+        if (empty($type)) {
+            $type = 'success';
+        }
+        if ($type == 'success') {
+            $color = 'green';
+        } else {
+            $color = 'red';
+        }
     }
 @endphp
 <div class="mb-6">

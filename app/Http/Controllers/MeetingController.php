@@ -18,14 +18,16 @@ class MeetingController extends Controller
      */
     public function index(Request $request): View
     {
-        $eventSources = [];
+        // grabbing user query
         $users = User::all();
-
         $usersQuery = [auth()->id()];
         if ($request->has('users')) {
             $usersQuery = array_merge($usersQuery, $request->get('users'));
         }
         $usersQuery = array_unique($usersQuery);
+
+        // grabbing all meetings for the selected users
+        $eventSources = [];
         $counter = 0;
         foreach ($usersQuery as $user) {
             $events = [];
@@ -36,7 +38,7 @@ class MeetingController extends Controller
                     'title' => $meeting->title,
                     'start' => $meeting->date.' '.$meeting->start_time,
                     'end' => $meeting->date.' '.$meeting->end_time,
-                    'model' => $meeting,
+                    'className' => ! empty($meeting->cancelled_at) ? 'cancelled-meeting' : '',
                 ];
             }
             $eventSources[] = [
@@ -49,13 +51,36 @@ class MeetingController extends Controller
             $counter++;
         }
 
+        // grabbing contacts
         $contacts = Contact::where('name', '<>', '')->orWhere('email', '<>', '')->get();
 
+        // merging request with users
         $request->merge([
             'users' => $usersQuery,
         ]);
-
+        
         return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Request $request, $id): View
+    {
+        if (empty($meeting = Meeting::find($id))) {
+            return redirect()->back()->with([
+                'error' => 'Meeting not found',
+            ]);
+        }
+
+        $contacts = Contact::where('name', '<>', '')->orWhere('email', '<>', '')->get();
+
+        return view('models.meeting.edit', [
+            'meeting' => $meeting,
+            'contacts' => $contacts,
+            'grid' => $request->input('grid') ?? '',
+            'date' => $request->input('date') ?? '',
+        ]);
     }
 
     /**
@@ -104,11 +129,8 @@ class MeetingController extends Controller
         ]));
 
         if ($meeting) {
-            return redirect()->route('meeting.index', [
-                'grid' => $request->input('grid'),
-                'date' => $meeting->date,
-            ])->with([
-                'status' => 'Meeting updated successfully',
+            return redirect()->back()->with([
+                'success' => 'Meeting updated',
             ]);
         }
 
@@ -133,16 +155,7 @@ class MeetingController extends Controller
         ]);
 
         return redirect()->back()->with([
-            'status' => 'Meeting cancelled successfully',
-        ]);
-    }
-
-    public function isCancelled($id)
-    {
-        $meeting = Meeting::find($id);
-
-        return response()->json([
-            'is_cancelled' => $meeting->cancelled_at ? true : false,
+            'success' => 'Meeting cancelled',
         ]);
     }
 }

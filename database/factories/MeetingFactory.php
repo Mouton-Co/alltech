@@ -2,9 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Company;
-use App\Models\CompanyType;
 use App\Models\Contact;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,17 +22,22 @@ class MeetingFactory extends Factory
         $hour = $this->faker->numberBetween(6, 19);
         $startTime = $hour.':00:00'; // between 06:00 and 19:00
         $endTime = ($hour + 1).':00:00'; // an hour later
+        
+        $contact = $this->faker->randomElement(Contact::all());
+        $company = $contact->company;
+        $companyType = $company->companyType;
 
         return [
+            'title' => $this->faker->sentence(3),
             'date' => Carbon::now()->format('Y-m-d'), // today
+            'location' => $this->faker->address,
             'start_time' => $startTime,
             'end_time' => $endTime,
-            'objective' => $this->faker->sentence,
-            'marketing_requirements' => $this->faker->sentence,
-            'added_to_teams' => false,
-            'contact_id' => $this->faker->randomElement(Contact::pluck('id')->toArray()),
-            'company_id' => $this->faker->randomElement(Company::pluck('id')->toArray()),
-            'company_type_id' => $this->faker->randomElement(CompanyType::pluck('id')->toArray()),
+            'report' => $this->faker->sentence(20),
+            'contact_id' => $contact->id,
+            'company_id' => $company->id,
+            'company_type_id' => $companyType->id,
+            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }
 }

@@ -11,5 +11,4 @@ Route::prefix('meetings')->group(function () {
     Route::post('/update/{id}', [MeetingController::class, 'update'])->name('meeting.update');
     Route::post('/destroy/{id}', [MeetingController::class, 'destroy'])->name('meeting.destroy');
     Route::post('/cancel/{id}', [MeetingController::class, 'cancel'])->name('meeting.cancel');
-    Route::get('/is-cancelled/{id}', [MeetingController::class, 'isCancelled'])->name('meeting.is-cancelled');
 });
