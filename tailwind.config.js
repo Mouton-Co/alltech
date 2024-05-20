@@ -74,6 +74,12 @@ export default {
         'text-red-500',
         'text-red-700',
         'ring-red-400',
+        'bg-amber-100',
+        'bg-amber-200',
+        'b-amber-500',
+        'text-amber-500',
+        'text-amber-700',
+        'ring-amber-400',
     ],
 
     plugins: [

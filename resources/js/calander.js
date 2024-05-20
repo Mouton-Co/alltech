@@ -39,31 +39,16 @@ export function calander() {
                 $('.meeting-modal-input-grid').val(calendar.view.type);
             },
             eventClick: function(info) {
+                // get view type and date
+                let view = calendar.view.type;
+                let date = info.view.activeStart;
+                date.setDate(date.getDate() + 1);
+                date = date.toISOString().split('T')[0];
+
+                // open meeting edit
                 let id = info.event._def.publicId;
-                let modal = $("#edit-resource-modal-" + id);
-                
-                // if modal exists
-                if (modal.length) {
-                    $("#edit-resource-modal-" + id).addClass('flex').removeClass('hidden');
-                    $('#curtain').addClass('block').removeClass('hidden');
-                }
-
-                $('.meeting-modal-input-grid').val(calendar.view.type);
-            },
-            eventClassNames: function(info) {
-                let id = info.event._def.publicId;
-                let classes = '';
-
-                $.ajax({
-                    url: '/meetings/is-cancelled/' + id,
-                    type: 'GET',
-                    async: false,
-                    success: function(response) {
-                        classes = response.is_cancelled ? 'cancelled-meeting' : '';
-                    },
-                });
-
-                return classes;
+                let url = '/meetings/edit/' + id + '?grid=' + view + '&date=' + date;
+                window.location.href = url;
             }
         });
 

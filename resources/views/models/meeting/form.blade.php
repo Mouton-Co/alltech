@@ -6,28 +6,21 @@
 
 <input type="hidden" name="grid" class="meeting-modal-input-grid">
 
-{{-- meeting title --}}
-<x-form.label for="title">
-    {{ __('Title') }}
-</x-form.label>
-<x-form.input :name="'title'" class="w-full" required
-    value="{{ $meeting->title ?? old('title') }}">
-    <x-icon.edit class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-</x-form.input>
+<div class="mt-3">
+    {{-- date --}}
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+        <x-form.label for="date" class="min-w-[80px]">
+            {{ __('Date') }}
+        </x-form.label>
+        <x-form.input :name="'date'" :type="'date'" class="w-full" required
+            value="{{ $meeting->date ?? old('date') }}">
+            <x-icon.date-picker class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+        </x-form.input>
+    </div>
 
-{{-- date --}}
-<x-form.label for="date" class="w-fit">
-    {{ __('Date') }}
-</x-form.label>
-<x-form.input :name="'date'" :type="'date'" class="w-full" required
-    value="{{ $meeting->date ?? old('date') }}">
-    <x-icon.date-picker class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-</x-form.input>
-
-<div class="flex gap-3 items-center justify-between">
     {{-- start time --}}
-    <div class="w-full flex items-center gap-3">
-        <x-form.label for="start_time" class="min-w-fit">
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+        <x-form.label for="start_time" class="min-w-[80px]">
             {{ __('Start time') }}
         </x-form.label>
         <x-form.input :name="'start_time'" :type="'time'" class="w-full" required
@@ -39,11 +32,11 @@
     </div>
     
     {{-- end time --}}
-    <div class="w-full flex items-center gap-3">
-        <x-form.label for="end_time" class="min-w-fit">
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+        <x-form.label for="end_time" class="min-w-[80px]">
             {{ __('End time') }}
         </x-form.label>
-        <x-form.input :name="'end_time'" :type="'time'" class="w-full" required
+        <x-form.input :name="'end_time'" :type="'time'" class="w-full max-w-xs" required
         value="{{ !empty($meeting->end_time) ?
         \Carbon\Carbon::createFromFormat('H:i:s', $meeting->end_time)->format('H:i') :
         old('end_time') }}">
@@ -51,6 +44,15 @@
         </x-form.input>
     </div>
 </div>
+
+{{-- meeting title --}}
+<x-form.label for="title">
+    {{ __('Meeting Title') }}
+</x-form.label>
+<x-form.input :name="'title'" class="w-full" required
+    value="{{ $meeting->title ?? old('title') }}">
+    <x-icon.meeting class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+</x-form.input>
 
 {{-- location --}}
 <x-form.label for="location">
