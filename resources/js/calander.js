@@ -41,7 +41,7 @@ export function calander() {
             eventClick: function(info) {
                 // get view type and date
                 let view = calendar.view.type;
-                let date = info.view.activeStart;
+                let date = info.view.currentStart;
                 date.setDate(date.getDate() + 1);
                 date = date.toISOString().split('T')[0];
 
