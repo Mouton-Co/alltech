@@ -4,8 +4,6 @@
     <input type="hidden" name="meeting_id" value="{{ $meeting->id }}">
 @endif
 
-<input type="hidden" name="grid" class="meeting-modal-input-grid">
-
 <div class="mt-3">
     {{-- date --}}
     <div class="w-full max-w-xs flex items-center gap-3 mb-3">

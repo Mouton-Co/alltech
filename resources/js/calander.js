@@ -33,8 +33,18 @@ export function calander() {
                 let currentDate = info.dateStr.substring(0,10);
                 let currentTime = info.dateStr.substring(11,16);
 
+                // get view type and date
+                let view = calendar.view.type;
+                let date = info.view.currentStart;
+                date.setDate(date.getDate() + 1);
+                date = date.toISOString().split('T')[0];
+
                 $("#add-resource-modal form input[name='date']").val(currentDate);
                 $("#add-resource-modal form input[name='start_time']").val(currentTime);
+
+                // set view type and date
+                $(".meeting-modal-input-grid").val(view);
+                $(".meeting-modal-input-start_date").val(date);
 
                 $('.meeting-modal-input-grid').val(calendar.view.type);
             },
@@ -47,7 +57,7 @@ export function calander() {
 
                 // open meeting edit
                 let id = info.event._def.publicId;
-                let url = '/meetings/edit/' + id + '?grid=' + view + '&date=' + date;
+                let url = '/meetings/edit/' + id + '?grid=' + view + '&start_date=' + date;
                 window.location.href = url;
             }
         });
@@ -55,7 +65,7 @@ export function calander() {
         // get value from url parameter and adjust calendar view
         let url = new URL(window.location.href);
         let grid = url.searchParams.get("grid");
-        let date = url.searchParams.get("date");
+        let date = url.searchParams.get("start_date");
         if (grid && date) {
             calendar.changeView(grid, date);
         }
