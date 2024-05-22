@@ -5,7 +5,7 @@
 
     <a href="{{ route('meeting.index', [
         'grid' => $grid,
-        'date' => $date,
+        'start_date' => $start_date,
     ]) }}" class="btn-transparent w-fit px-5 mb-6 h-[30px] cursor-pointer flex items-center">
         {{ __('<- Back to calendar') }}
     </a>
@@ -37,7 +37,7 @@
             @include('models.meeting.form')
 
             <input type="hidden" name="grid" value="{{ $grid }}">
-            <input type="hidden" name="date" value="{{ $date }}">
+            <input type="hidden" name="start_date" value="{{ $start_date }}">
 
             {{-- button --}}
             <div class="mt-3 flex w-full justify-end">

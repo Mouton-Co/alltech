@@ -79,7 +79,7 @@ class MeetingController extends Controller
             'meeting' => $meeting,
             'contacts' => $contacts,
             'grid' => $request->input('grid') ?? '',
-            'date' => $request->input('date') ?? '',
+            'start_date' => $request->input('start_date') ?? '',
         ]);
     }
 
@@ -99,7 +99,7 @@ class MeetingController extends Controller
         if ($meeting) {
             return redirect()->route('meeting.index', [
                 'grid' => $request->input('grid'),
-                'date' => $meeting->date,
+                'start_date' => $request->input('start_date') ?? '',
             ])->with([
                 'status' => 'Meeting created successfully',
             ]);

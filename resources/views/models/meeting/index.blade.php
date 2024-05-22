@@ -27,6 +27,9 @@
     <x-modals.resource :route="route('meeting.store')" :show="$hasStoreErrors" :title="'Creating meeting'"
                        :button="'Create'" id="add-resource-modal">
         <div class="flex w-full flex-col gap-3">
+            <input type="hidden" name="grid" class="meeting-modal-input-grid">
+            <input type="hidden" name="start_date" class="meeting-modal-input-start_date">
+
             @include('models.meeting.form', ['meeting' => null, 'contacts' => $contacts])
         </div>
     </x-modals.resource>
