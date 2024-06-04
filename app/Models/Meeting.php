@@ -67,4 +67,24 @@ class Meeting extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get pill text for meeting displayed on the calendar.
+     * @param string $format
+     * @return string
+     */
+    public function getPillText($format = 'title'): string
+    {
+        switch ($format) {
+            case 'contact':
+                return $this->contact->name ?? 'N/A';
+                break;
+            case 'company':
+                return $this->company()->name ?? 'N/A';
+                break;
+            default:
+                return $this->title;
+                break;
+        }
+    }
 }

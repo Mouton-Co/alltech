@@ -26,6 +26,9 @@ class MeetingController extends Controller
         }
         $usersQuery = array_unique($usersQuery);
 
+        // grabbing pill display query
+        $format = $request->has('display') ? $request->get('display') : 'title';
+
         // grabbing all meetings for the selected users
         $eventSources = [];
         $counter = 0;
@@ -35,7 +38,7 @@ class MeetingController extends Controller
             foreach ($meetings as $meeting) {
                 $events[] = [
                     'id' => $meeting->id,
-                    'title' => $meeting->title,
+                    'title' => $meeting->getPillText($format),
                     'start' => $meeting->date.' '.$meeting->start_time,
                     'end' => $meeting->date.' '.$meeting->end_time,
                     'className' => ! empty($meeting->cancelled_at) ? 'cancelled-meeting' : '',

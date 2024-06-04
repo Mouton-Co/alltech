@@ -39,7 +39,7 @@
 
     {{-- filter bar --}}
     <hr>
-    <form action="{{ route('meeting.index') }}" method="get">
+    <form action="{{ route('meeting.index') }}" method="get" id="meeting-index-filter">
         <div class="flex gap-3 my-2 items-center flex-wrap">
 
             {{-- users --}}
@@ -53,6 +53,29 @@
                 class="selector-for-calendar-users filter-field max-w-[40rem]"
                 multiple
             />
+
+            {{-- pill display --}}
+            <label class="min-w-fit">{{ __('Show') }}</label>
+            <select name="display" class="filter-field cursor-pointer max-w-[40rem]">
+                <option
+                    value="title"
+                    selected
+                >
+                    {{ __("Meeting title") }}
+                </option>
+                <option
+                    value="contact"
+                    @if (! empty(request()->display) && request()->display == 'contact') selected @endif
+                >
+                    {{ __("Contact name") }}
+                </option>
+                <option
+                    value="company"
+                    @if (! empty(request()->display) && request()->display == 'company') selected @endif
+                >
+                    {{ __("Company name") }}
+                </option>
+            </select>
 
             <button type="submit" class="btn-orange min-w-[120px]">
                 {{ __('Filter') }}
