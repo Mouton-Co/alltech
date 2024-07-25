@@ -55,9 +55,21 @@ export function calander() {
                 date.setDate(date.getDate() + 1);
                 date = date.toISOString().split('T')[0];
 
+                // get users from url parameter
+                let usersParam = "";
+                for (let i = 1; i < window.location.search.split('users').length; i++) {
+                    usersParam += '&users[]=' + window.location.search.split('users')[i].split('=')[1].split('&')[0];
+                }
+
+                // get display from url parameter
+                let display = "";
+                if (window.location.search.includes('display')) {
+                    display = '&display=' + window.location.search.split('display')[1].split('=')[1].split('&')[0];
+                }
+
                 // open meeting edit
                 let id = info.event._def.publicId;
-                let url = '/meetings/edit/' + id + '?grid=' + view + '&start_date=' + date;
+                let url = '/meetings/edit/' + id + '?grid=' + view + '&start_date=' + date + '&' + usersParam + display;
                 window.location.href = url;
             }
         });

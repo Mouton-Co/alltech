@@ -2,17 +2,26 @@
 
     {{-- curtain --}}
     <x-modals.curtain />
-
-    <a href="{{ route('meeting.index', [
-        'grid' => $grid,
-        'start_date' => $start_date,
-    ]) }}" class="btn-transparent w-fit px-5 mb-6 h-[30px] cursor-pointer flex items-center">
+    
+    <a
+        class="btn-transparent mb-6 flex h-[30px] w-fit cursor-pointer items-center px-5"
+        href="{{ route(
+            'meeting.index',
+            array_merge(
+                [
+                    'grid' => $grid,
+                    'start_date' => $start_date,
+                ],
+                request()->query(),
+            ),
+        ) }}"
+    >
         {{ __('<- Back to calendar') }}
     </a>
 
     @if ($meeting->cancelled_at)
         <x-navbar.message :color="'amber'">
-            {{ __("This meeting has been cancelled") }}
+            {{ __('This meeting has been cancelled') }}
         </x-navbar.message>
     @endif
 
@@ -22,7 +31,7 @@
             <h1>{{ __('Editing meeting') }}</h1>
 
             <button
-                class="btn-orange w-fit px-5 h-[30px]"
+                class="btn-orange h-[30px] w-fit px-5"
                 id="cancel-meeting"
                 datum-id="{{ $meeting->id }}"
                 {{ $meeting->cancelled_at ? 'disabled' : '' }}
@@ -31,18 +40,29 @@
             </button>
         </div>
 
-        <form action="{{ route('meeting.update', $meeting->id) }}" method="POST">
+        <form
+            action="{{ route('meeting.update', $meeting->id) }}"
+            method="POST"
+        >
             @csrf
 
             @include('models.meeting.form')
 
-            <input type="hidden" name="grid" value="{{ $grid }}">
-            <input type="hidden" name="start_date" value="{{ $start_date }}">
+            <input
+                name="grid"
+                type="hidden"
+                value="{{ $grid }}"
+            >
+            <input
+                name="start_date"
+                type="hidden"
+                value="{{ $start_date }}"
+            >
 
             {{-- button --}}
             <div class="mt-3 flex w-full justify-end">
                 <button
-                    class="btn-orange w-fit px-5 h-[30px]"
+                    class="btn-orange h-[30px] w-fit px-5"
                     type="submit"
                     {{ $meeting->cancelled_at ? 'disabled' : '' }}
                 >
@@ -59,7 +79,11 @@
         :title="'Are you sure you want to cancel this meeting?'"
         :button="'Cancel meeting'"
     >
-        <input name="meeting_id" type="hidden" value="{{ $meeting->id }}">
+        <input
+            name="meeting_id"
+            type="hidden"
+            value="{{ $meeting->id }}"
+        >
 
         {{-- reason --}}
         <div class="flex w-full justify-start">
@@ -68,7 +92,12 @@
             </x-form.label>
         </div>
 
-        <x-form.textarea class="w-full" :name="'cancelled_reason'" placeholder="Reason..." required>
+        <x-form.textarea
+            class="w-full"
+            :name="'cancelled_reason'"
+            placeholder="Reason..."
+            required
+        >
             {{ $meeting->cancelled_reason ?? old('cancelled_reason') }}
         </x-form.textarea>
     </x-modals.resource>
