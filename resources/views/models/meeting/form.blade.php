@@ -43,14 +43,32 @@
     </div>
 </div>
 
-{{-- meeting title --}}
-<x-form.label for="title">
-    {{ __('Meeting Title') }}
-</x-form.label>
-<x-form.input :name="'title'" class="w-full" required
-    value="{{ $meeting->title ?? old('title') }}">
-    <x-icon.meeting class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
-</x-form.input>
+<div class="w-full flex gap-3 justify-center items-center">
+    <div class="w-full">
+        {{-- meeting title --}}
+        <x-form.label for="title">
+            {{ __('Meeting Title') }}
+        </x-form.label>
+        <x-form.input :name="'title'" class="w-full mt-3" required
+            value="{{ $meeting->title ?? old('title') }}">
+            <x-icon.meeting class="absolute w-5 top-[60%] translate-y-[-50%] left-3 text-darkgray" />
+        </x-form.input>
+    </div>
+    
+    <div class="w-full">
+        {{-- meeting type --}}
+        <x-form.label for="type">
+            {{ __('Meeting Type') }}
+        </x-form.label>
+        <div>
+            <select name="type" id="type" class="field-thin w-full mt-3" required>
+                <option value="">{{ __("--Please select--") }}</option>
+                <option value="Call" @if ($meeting->type ?? old('type') == 'Call') selected @endif>{{ __("Call") }}</option>
+                <option value="Visit" @if ($meeting->type ?? old('type') == 'Visit') selected @endif>{{ __("Visit") }}</option>
+            </select>
+        </div>
+    </div>
+</div>
 
 {{-- location --}}
 <x-form.label for="location">

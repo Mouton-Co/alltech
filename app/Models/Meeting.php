@@ -28,6 +28,7 @@ class Meeting extends Model
         'user_id',
         'cancelled_at',
         'cancelled_reason',
+        'type',
     ];
 
     /*
