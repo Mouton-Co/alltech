@@ -14,14 +14,12 @@ class ContactSeeder extends Seeder
     public function run(): void
     {
         /**
-         * Generate 10 contacts for each company
+         * Generate 5 contacts for each company
          */
-        $companies = Company::all();
-
-        foreach ($companies as $company) {
-            Contact::factory()->count(10)->create([
+        Company::all()->each(function (Company $company) {
+            Contact::factory()->count(5)->create([
                 'company_id' => $company->id,
             ]);
-        }
+        });
     }
 }

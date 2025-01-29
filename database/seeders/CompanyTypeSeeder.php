@@ -12,15 +12,7 @@ class CompanyTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $types = [
-            'Feedmill/Co-op',
-            'Farms/Producers',
-            'Consultants',
-            'Veterinarians',
-            'Other',
-        ];
-
-        foreach ($types as $type) {
+        foreach (config('seeders.company-types') as $type) {
             CompanyType::factory()->create([
                 'name' => $type,
             ]);

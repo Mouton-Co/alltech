@@ -19,8 +19,8 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->company,
-            'location' => $this->faker->country,
-            'coordinates' => $this->faker->latitude.' '.$this->faker->longitude,
+            'location' => $this->faker->city,
+            'region' => $this->faker->state,
             'company_type_id' => $this->faker->randomElement(CompanyType::pluck('id')->toArray()),
         ];
     }
