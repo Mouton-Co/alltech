@@ -33,6 +33,7 @@ class UpdateRequest extends FormRequest
             'location' => 'nullable|string',
             'report' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
+            'type' => 'required|in:Call,Visit',
         ];
     }
 }

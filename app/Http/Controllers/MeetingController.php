@@ -61,7 +61,7 @@ class MeetingController extends Controller
         $request->merge([
             'users' => $usersQuery,
         ]);
-        
+
         return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
     }
 

@@ -22,7 +22,7 @@ class MeetingFactory extends Factory
         $hour = $this->faker->numberBetween(6, 19);
         $startTime = $hour.':00:00'; // between 06:00 and 19:00
         $endTime = ($hour + 1).':00:00'; // an hour later
-        
+
         $contact = $this->faker->randomElement(Contact::all());
         $company = $contact->company;
         $companyType = $company->companyType;
