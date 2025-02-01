@@ -56,21 +56,47 @@
                                         {{ $day['day'] }}
                                     </span>
                                     <div class="flex h-full w-full flex-col items-start justify-start p-2 text-[8px]">
-                                        @foreach ($day['meetings'] as $meeting)
-                                            <div class="-mb-1 flex gap-1">
-                                                <span class="min-w-[50px] text-nowrap font-bold">
-                                                    {{ date('H:i', strtotime($meeting->start_time)) . ' ' . $meeting?->type ?? 'N/A' }}
-                                                </span>
-                                                <div class="flex w-full flex-col items-start">
-                                                    <span class="max-w-[140px] truncate font-bold">
-                                                        {{ $meeting?->company()?->name ?? 'No company name set...' }}
-                                                    </span>
-                                                    <span class="-mt-1 truncate">
-                                                        {{ $meeting?->location ?? 'No location set...' }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                        <table>
+                                            @foreach ($day['meetings'] as $meeting)
+                                                @php
+                                                    $fields = $meeting->getPdfList(request());
+                                                    $itemsShown = 0;
+                                                @endphp
+                                                <tr>
+                                                    {{-- if start time and type was chosen --}}
+                                                    @if (in_array('start_time', request()->get('lookup', [])) && in_array('type', request()->get('lookup', [])))
+                                                        {{-- show start time and type on left --}}
+                                                        <td><b>{{ $fields[0] . ' ' . $fields[1] }}</b></td>
+                                                        @if (!empty($fields[2]))
+                                                            {{-- show 3rd item on right --}}
+                                                            <td>{{ $fields[2] }}</td>
+                                                        @endif
+                                                        @php
+                                                            $itemsShown = 3;
+                                                        @endphp
+                                                    @else
+                                                        {{-- show only first item on left --}}
+                                                        <td><b>{{ $fields[0] }}</b></td>
+                                                        @if (!empty($fields[1]))
+                                                            {{-- show 2rd item on right --}}
+                                                            <td>{{ $fields[1] }}</td>
+                                                        @endif
+                                                        @php
+                                                            $itemsShown = 2;
+                                                        @endphp
+                                                    @endif
+                                                </tr>
+                                                @if (count($fields) > $itemsShown)
+                                                    @for ($i = $itemsShown - 1; $i < count($fields); $i++)
+                                                        {{-- show all the rest on the right --}}
+                                                        <tr>
+                                                            <td></td>
+                                                            <td>{{ $fields[$i] }}</td>
+                                                        </tr>
+                                                    @endfor
+                                                @endif
+                                            @endforeach
+                                        </table>
                                     </div>
                                 </td>
                             @endif

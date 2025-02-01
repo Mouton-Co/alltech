@@ -11,33 +11,6 @@ use function Spatie\LaravelPdf\Support\pdf;
 class CalendarController extends Controller
 {
     /**
-     * Days of the week.
-     *
-     * @var array
-     */
-    protected array $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
-    /**
-     * Months of the year.
-     *
-     * @var array
-     */
-    protected array $months = [
-        '01' => 'January',
-        '02' => 'February',
-        '03' => 'March',
-        '04' => 'April',
-        '05' => 'May',
-        '06' => 'June',
-        '07' => 'July',
-        '08' => 'August',
-        '09' => 'September',
-        '10' => 'October',
-        '11' => 'November',
-        '12' => 'December',
-    ];
-
-    /**
      * The calendar service.
      *
      * @var \App\Http\Services\CalendarService
@@ -61,7 +34,8 @@ class CalendarController extends Controller
     {
         return view('models.calendar.index', [
             'users' => User::all(),
-            'months' => $this->months,
+            'months' => $this->service->months,
+            'fields' => $this->service->fields,
         ]);
     }
 
@@ -77,7 +51,7 @@ class CalendarController extends Controller
 
         return pdf()
             ->view('pdf.calendar', [
-                'days' => $this->days,
+                'days' => $this->service->days,
                 'user' => $user,
                 'month' => date('F', strtotime("$year-$month-01")),
                 'year' => $year,

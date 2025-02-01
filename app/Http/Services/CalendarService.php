@@ -7,6 +7,53 @@ use App\Models\User;
 class CalendarService
 {
     /**
+     * Days of the week.
+     *
+     * @var array
+     */
+    public array $days = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday'
+    ];
+
+    /**
+     * Months of the year.
+     *
+     * @var array
+     */
+    public array $months = [
+        '01' => 'January',
+        '02' => 'February',
+        '03' => 'March',
+        '04' => 'April',
+        '05' => 'May',
+        '06' => 'June',
+        '07' => 'July',
+        '08' => 'August',
+        '09' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December',
+    ];
+
+    /**
+     * Lookup field options to show on the calendar for each meeting.
+     *
+     * @var array
+     */
+    public array $fields = [
+        'start_time' => 'Starting time',
+        'type' => 'Call/Visit',
+        'title' => 'Meeting title',
+        'location' => 'Location',
+        'contact' => 'Contact',
+        'company' => 'Company',
+    ];
+
+    /**
      * Get the calendar for the given user, year, and month.
      *
      * @param \App\Models\User $user
@@ -27,6 +74,8 @@ class CalendarService
             ->orderBy('start_time')
             ->get()
             ->groupBy('date');
+
+        $meetings['2025-02-03'][0]->getPdfList(request());
 
         // MON TUE WED THU FRI SAT SUN
         // 01  02  03  04  05  06  07
