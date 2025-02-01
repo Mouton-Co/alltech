@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\Request;
 
 class Meeting extends Model
 {
@@ -87,5 +88,39 @@ class Meeting extends Model
                 return $this->title;
                 break;
         }
+    }
+
+    /**
+     * Get the formatted start time.
+     *
+     * @return string
+     */
+    public function getStartTimeAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
+
+    /**
+     * Generate a list of items to be displayed in the PDF for each meeting.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function getPdfList(Request $request): array
+    {
+        $lookup = $request->get('lookup', []);
+
+        $list = [];
+        foreach ($lookup as $value) {
+            if ($value == 'contact') {
+                $list[] = $this->contact->name ?? $this->contact->email ?? '';
+            } elseif ($value == 'company') {
+                $list[] = $this->company()->name ?? 'N/A';
+            } else {
+                $list[] = $this->$value;
+            }
+        }
+
+        return $list;
     }
 }
