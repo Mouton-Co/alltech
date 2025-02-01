@@ -87,7 +87,7 @@
                                                     @endif
                                                 </tr>
                                                 @if (count($fields) > $itemsShown)
-                                                    @for ($i = $itemsShown - 1; $i < count($fields); $i++)
+                                                    @for ($i = $itemsShown; $i < count($fields); $i++)
                                                         {{-- show all the rest on the right --}}
                                                         <tr>
                                                             <td></td>
