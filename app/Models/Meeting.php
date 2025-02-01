@@ -91,16 +91,6 @@ class Meeting extends Model
     }
 
     /**
-     * Get the formatted start time.
-     *
-     * @return string
-     */
-    public function getStartTimeAttribute($value)
-    {
-        return date('H:i', strtotime($value));
-    }
-
-    /**
      * Generate a list of items to be displayed in the PDF for each meeting.
      *
      * @param Request $request
@@ -116,6 +106,8 @@ class Meeting extends Model
                 $list[] = $this->contact->name ?? $this->contact->email ?? '';
             } elseif ($value == 'company') {
                 $list[] = $this->company()->name ?? 'N/A';
+            } elseif ($value == 'start_time') {
+                $list[] = date('H:i', strtotime($this->start_time));
             } else {
                 $list[] = $this->$value;
             }
