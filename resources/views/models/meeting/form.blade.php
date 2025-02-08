@@ -63,8 +63,8 @@
         <div>
             <select name="type" id="type" class="field-thin w-full mt-3" required>
                 <option value="">{{ __("--Please select--") }}</option>
-                <option value="Call" @if ($meeting->type ?? old('type') == 'Call') selected @endif>{{ __("Call") }}</option>
-                <option value="Visit" @if ($meeting->type ?? old('type') == 'Visit') selected @endif>{{ __("Visit") }}</option>
+                <option value="Call" @if (($meeting->type ?? old('type')) == 'Call') selected @endif>{{ __("Call") }}</option>
+                <option value="Visit" @if (($meeting->type ?? old('type')) == 'Visit') selected @endif>{{ __("Visit") }}</option>
             </select>
         </div>
     </div>
