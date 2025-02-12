@@ -70,6 +70,23 @@
                         @endforeach
                     </select>
                 </div>
+
+                {{-- call/visit --}}
+                <div>
+                    <label
+                        class="mb-1"
+                        for="type"
+                    >{{ __('Type') }}</label>
+                    <select
+                        class="selector-for-js filter-field"
+                        name="type"
+                        style="width:100%;"
+                    >
+                        <option selected value="">{{ __('All') }}</option>
+                        <option value="Call">{{ __('Call') }}</option>
+                        <option value="Visit">{{ __('Visit') }}</option>
+                    </select>
+                </div>
             </div>
 
             <div class="flex justify-end">
@@ -93,6 +110,7 @@
                             name="lookup[]"
                             type="checkbox"
                             value="{{ $value }}"
+                            checked
                         >
                         {{ $display }}
                     </label>

@@ -62,38 +62,40 @@
                                                     $fields = $meeting->getPdfList(request());
                                                     $itemsShown = 0;
                                                 @endphp
-                                                <tr>
-                                                    {{-- if start time and type was chosen --}}
-                                                    @if (in_array('start_time', request()->get('lookup', [])) && in_array('type', request()->get('lookup', [])))
-                                                        {{-- show start time and type on left --}}
-                                                        <td><b>{{ $fields[0] . ' ' . $fields[1] }}</b></td>
-                                                        @if (!empty($fields[2]))
-                                                            {{-- show 3rd item on right --}}
-                                                            <td>{{ $fields[2] }}</td>
+                                                @if (count($fields) > 0)
+                                                    <tr>
+                                                        {{-- if start time and type was chosen --}}
+                                                        @if (in_array('start_time', request()->get('lookup', [])) && in_array('type', request()->get('lookup', [])))
+                                                            {{-- show start time and type on left --}}
+                                                            <td><b>{{ $fields[0] . ' ' . $fields[1] }}</b></td>
+                                                            @if (!empty($fields[2]))
+                                                                {{-- show 3rd item on right --}}
+                                                                <td>{{ $fields[2] }}</td>
+                                                            @endif
+                                                            @php
+                                                                $itemsShown = 3;
+                                                            @endphp
+                                                        @else
+                                                            {{-- show only first item on left --}}
+                                                            <td><b>{{ $fields[0] }}</b></td>
+                                                            @if (!empty($fields[1]))
+                                                                {{-- show 2rd item on right --}}
+                                                                <td>{{ $fields[1] }}</td>
+                                                            @endif
+                                                            @php
+                                                                $itemsShown = 2;
+                                                            @endphp
                                                         @endif
-                                                        @php
-                                                            $itemsShown = 3;
-                                                        @endphp
-                                                    @else
-                                                        {{-- show only first item on left --}}
-                                                        <td><b>{{ $fields[0] }}</b></td>
-                                                        @if (!empty($fields[1]))
-                                                            {{-- show 2rd item on right --}}
-                                                            <td>{{ $fields[1] }}</td>
-                                                        @endif
-                                                        @php
-                                                            $itemsShown = 2;
-                                                        @endphp
+                                                    </tr>
+                                                    @if (count($fields) > $itemsShown)
+                                                        @for ($i = $itemsShown; $i < count($fields); $i++)
+                                                            {{-- show all the rest on the right --}}
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>{{ $fields[$i] }}</td>
+                                                            </tr>
+                                                        @endfor
                                                     @endif
-                                                </tr>
-                                                @if (count($fields) > $itemsShown)
-                                                    @for ($i = $itemsShown; $i < count($fields); $i++)
-                                                        {{-- show all the rest on the right --}}
-                                                        <tr>
-                                                            <td></td>
-                                                            <td>{{ $fields[$i] }}</td>
-                                                        </tr>
-                                                    @endfor
                                                 @endif
                                             @endforeach
                                         </table>

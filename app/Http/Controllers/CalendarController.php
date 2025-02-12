@@ -47,7 +47,8 @@ class CalendarController extends Controller
         $user = User::find($request->get('user'));
         $month = $request->get('month');
         $year = $request->get('year');
-        $formattedCalendar = $this->service->getFormattedCalendar($user, $year, $month);
+        $type = $request->get('type') ?? '';
+        $formattedCalendar = $this->service->getFormattedCalendar($user, $year, $month, $type);
 
         return pdf()
             ->view('pdf.calendar', [

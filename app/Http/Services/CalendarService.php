@@ -59,9 +59,10 @@ class CalendarService
      * @param \App\Models\User $user
      * @param string $year
      * @param string $month
+     * @param string $type
      * @return array
      */
-    public function getFormattedCalendar(User $user, string $year, string $month): array
+    public function getFormattedCalendar(User $user, string $year, string $month, string $type): array
     {
         $firstDay = date('N', strtotime("$year-$month-01")); // 31
         $lastDay = date('t', strtotime("$year-$month-01")); // 1
@@ -69,8 +70,14 @@ class CalendarService
         // get all meetings where date is between the first and last day of the month
         $meetings = $user
             ->meetings()
-            ->whereBetween('date', ["$year-$month-01", "$year-$month-$lastDay"])
-            ->orderBy('date')
+            ->whereBetween('date', ["$year-$month-01", "$year-$month-$lastDay"]);
+
+        // if type is present, filter by type
+        if (! empty($type)) {
+            $meetings = $meetings->where('type', $type);
+        }
+
+        $meetings = $meetings->orderBy('date')
             ->orderBy('start_time')
             ->get()
             ->groupBy('date');
