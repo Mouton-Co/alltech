@@ -20,7 +20,7 @@ class ContactController extends Controller
      */
     public function index(IndexRequest $request)
     {
-        $contacts = Contact::with('company');
+        $contacts = Contact::with('company.companyType');
 
         if (! empty($request->get('order_by')) && $request->get('order_by') == 'company->name') {
             $contacts = $contacts->join('companies', 'contacts.company_id', '=', 'companies.id')
@@ -36,7 +36,11 @@ class ContactController extends Controller
         if (! empty($request->get('search'))) {
             $contacts = $contacts->where('name', 'like', "%{$request->get('search')}%")
                 ->orWhere('email', 'like', "%{$request->get('search')}%")
-                ->orWhere('phone', 'like', "%{$request->get('search')}%");
+                ->orWhere('phone', 'like', "%{$request->get('search')}%")
+                ->orWhereRelation('company', 'name', 'like', "%{$request->get('search')}%")
+                ->orWhereRelation('company', 'location', 'like', "%{$request->get('search')}%")
+                ->orWhereRelation('company', 'region', 'like', "%{$request->get('search')}%")
+                ->orWhereRelation('company.companyType', 'name', 'like', "%{$request->get('search')}%");
         }
 
         return view('models.contact.index')->with([
