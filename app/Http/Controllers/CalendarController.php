@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CalendarService;
+use App\Models\Company;
+use App\Models\CompanyType;
+use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -36,6 +39,9 @@ class CalendarController extends Controller
             'users' => User::all(),
             'months' => $this->service->months,
             'fields' => $this->service->fields,
+            'contacts' => Contact::all(),
+            'companies' => Company::all(),
+            'companyTypes' => CompanyType::all(),
         ]);
     }
 
@@ -48,7 +54,7 @@ class CalendarController extends Controller
         $month = $request->get('month');
         $year = $request->get('year');
         $type = $request->get('type') ?? '';
-        $formattedCalendar = $this->service->getFormattedCalendar($user, $year, $month, $type);
+        $formattedCalendar = $this->service->getFormattedCalendar($user, $year, $month, $type, $request);
 
         return pdf()
             ->view('pdf.calendar', [

@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class CalendarService
 {
@@ -62,7 +63,7 @@ class CalendarService
      * @param string $type
      * @return array
      */
-    public function getFormattedCalendar(User $user, string $year, string $month, string $type): array
+    public function getFormattedCalendar(User $user, string $year, string $month, string $type, Request $request): array
     {
         $firstDay = date('N', strtotime("$year-$month-01")); // 31
         $lastDay = date('t', strtotime("$year-$month-01")); // 1
@@ -70,11 +71,37 @@ class CalendarService
         // get all meetings where date is between the first and last day of the month
         $meetings = $user
             ->meetings()
+            ->with(['contact', 'contact.company', 'contact.company.companyType'])
             ->whereBetween('date', ["$year-$month-01", "$year-$month-$lastDay"]);
 
         // if type is present, filter by type
         if (! empty($type)) {
             $meetings = $meetings->where('type', $type);
+        }
+
+        if ($request->has('contacts')) {
+            $meetings = $meetings->whereIn('contact_id', $request->get('contacts'));
+        }
+
+        if ($request->has('companies')) {
+            $meetings = $meetings->whereIn('company_id', $request->get('companies'));
+        }
+
+        if ($request->has('company_types')) {
+            $meetings = $meetings->whereIn('company_type_id', $request->get('company_types'));
+        }
+
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $meetings = $meetings->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%$search%")
+                    ->orWhere('location', 'like', "%$search%")
+                    ->orWhereRelation('contact', 'name', 'like', "%$search%")
+                    ->orWhereRelation('contact.company', 'name', 'like', "%$search%")
+                    ->orWhereRelation('contact.company', 'location', 'like', "%$search%")
+                    ->orWhereRelation('contact.company', 'region', 'like', "%$search%")
+                    ->orWhereRelation('contact.company.companyType', 'name', 'like', "%$search%");
+            });
         }
 
         $meetings = $meetings->orderBy('date')
