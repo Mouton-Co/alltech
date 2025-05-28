@@ -17,21 +17,39 @@ class StoreRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'all_day' => ! empty($this->input('all_day')) && $this->input('all_day') == 'on' ? true : false,
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'title' => 'required|string|max:255',
+            'all_day' => 'required|boolean',
             'date' => 'required|date_format:format,Y-m-d',
-            'start_time' => 'required|date_format:format,H:i',
-            'end_time' => 'required|date_format:format,H:i|after:start_time',
             'location' => 'nullable|string',
             'report' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
             'type' => 'required|in:Call,Visit',
         ];
+
+        if ($this->get('all_day')) {
+            $rules['end_date'] = 'required|date_format:format,Y-m-d|after_or_equal:date';
+        } else {
+            $rules['start_time'] = 'required|date_format:format,H:i';
+            $rules['end_time'] = 'required|date_format:format,H:i|after:start_time';
+        }
+
+        return $rules;
     }
 }

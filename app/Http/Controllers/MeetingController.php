@@ -36,11 +36,24 @@ class MeetingController extends Controller
             $events = [];
             $meetings = Meeting::where('user_id', $user)->get();
             foreach ($meetings as $meeting) {
+
+                // if all day, set end date to start date
+                if ($meeting->all_day ?? false) {
+                    // create a new date object for the end date
+                    $endDate = new \DateTime($meeting->end_date);
+                    // add 1 day to the end date
+                    $endDate->add(new \DateInterval('P1D'));
+                    $end = $endDate->format('Y-m-d') . ' ' . $meeting->end_time;
+                } else {
+                    $end = $meeting->date . ' ' . $meeting->end_time;
+                }
+
                 $events[] = [
                     'id' => $meeting->id,
                     'title' => $meeting->getPillText($format),
-                    'start' => $meeting->date.' '.$meeting->start_time,
-                    'end' => $meeting->date.' '.$meeting->end_time,
+                    'allDay' => $meeting->all_day ?? false,
+                    'start' => $meeting->date . ' ' . $meeting->start_time,
+                    'end' => $end,
                     'className' => ! empty($meeting->cancelled_at) ? 'cancelled-meeting' : '',
                 ];
             }
@@ -68,7 +81,7 @@ class MeetingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id): View
+    public function edit(Request $request, $id): View|RedirectResponse
     {
         if (empty($meeting = Meeting::find($id))) {
             return redirect()->back()->with([
@@ -92,6 +105,13 @@ class MeetingController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $contact = Contact::find($request->input('contact_id'));
+
+        if ($request->get('all_day')) {
+            $request->merge([
+                'start_time' => '00:00',
+                'end_time' => '23:59',
+            ]);
+        }
 
         $meeting = Meeting::create(array_merge($request->all(), [
             'company_id' => $contact->company_id,
@@ -122,6 +142,13 @@ class MeetingController extends Controller
         if (! $meeting) {
             return redirect()->back()->with([
                 'error' => 'Meeting not found',
+            ]);
+        }
+
+        if ($request->get('all_day')) {
+            $request->merge([
+                'start_time' => '00:00',
+                'end_time' => '23:59',
             ]);
         }
 

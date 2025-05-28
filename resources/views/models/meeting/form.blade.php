@@ -5,10 +5,23 @@
 @endif
 
 <div class="mt-3">
-    {{-- date --}}
+    {{-- all day --}}
     <div class="w-full max-w-xs flex items-center gap-3 mb-3">
         <x-form.label for="date" class="min-w-[80px]">
+            {{ __('All day') }}
+        </x-form.label>
+        <input type="checkbox" name="all_day" class="cursor-pointer"
+            @if (!empty($meeting->all_day)) checked @endif>
+    </div>
+
+    {{-- start date --}}
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+        <x-form.label for="date" class="min-w-[80px] start-date-label">
+            @if (empty($meeting->all_day))
             {{ __('Date') }}
+            @else
+                {{ __('Start date') }}
+            @endif
         </x-form.label>
         <x-form.input :name="'date'" :type="'date'" class="w-full" required
             value="{{ $meeting->date ?? old('date') }}">
@@ -16,12 +29,23 @@
         </x-form.input>
     </div>
 
+    {{-- end date --}}
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3 show-for-all-day @if (empty($meeting->all_day)) hidden @endif">
+        <x-form.label for="date" class="min-w-[80px]">
+            {{ __('End date') }}
+        </x-form.label>
+        <x-form.input :name="'end_date'" :type="'date'" class="w-full"
+            value="{{ $meeting->end_date ?? old('end_date') }}">
+            <x-icon.date-picker class="absolute w-5 top-[50%] translate-y-[-50%] left-3 text-darkgray" />
+        </x-form.input>
+    </div>
+
     {{-- start time --}}
-    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3 hide-for-all-day @if (!empty($meeting->all_day)) hidden @endif">
         <x-form.label for="start_time" class="min-w-[80px]">
             {{ __('Start time') }}
         </x-form.label>
-        <x-form.input :name="'start_time'" :type="'time'" class="w-full" required
+        <x-form.input :name="'start_time'" :type="'time'" class="w-full"
         value="{{ !empty($meeting->end_time) ?
         \Carbon\Carbon::createFromFormat('H:i:s', $meeting->start_time)->format('H:i') :
         old('start_time') }}">
@@ -30,11 +54,11 @@
     </div>
     
     {{-- end time --}}
-    <div class="w-full max-w-xs flex items-center gap-3 mb-3">
+    <div class="w-full max-w-xs flex items-center gap-3 mb-3 hide-for-all-day @if (!empty($meeting->all_day)) hidden @endif">
         <x-form.label for="end_time" class="min-w-[80px]">
             {{ __('End time') }}
         </x-form.label>
-        <x-form.input :name="'end_time'" :type="'time'" class="w-full max-w-xs" required
+        <x-form.input :name="'end_time'" :type="'time'" class="w-full max-w-xs"
         value="{{ !empty($meeting->end_time) ?
         \Carbon\Carbon::createFromFormat('H:i:s', $meeting->end_time)->format('H:i') :
         old('end_time') }}">
