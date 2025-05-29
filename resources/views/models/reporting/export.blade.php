@@ -2,7 +2,9 @@
     <thead>
     <tr>
         <th>{{ __('Sales rep') }}</th>
+        <th>{{ __('All day') }}</th>
         <th>{{ __('Date') }}</th>
+        <th>{{ __('End date') }}</th>
         <th>{{ __('Start time') }}</th>
         <th>{{ __('End time') }}</th>
         <th>{{ __('Meeting title') }}</th>
@@ -20,9 +22,11 @@
     @foreach($meetings as $meeting)
         <tr>
             <td>{{ $meeting->user->name }}</td>
+            <td>{{ $meeting->all_day ?? false ? __('Yes') : __('No') }}</td>
             <td>{{ $meeting->date }}</td>
-            <td>{{ $meeting->start_time }}</td>
-            <td>{{ $meeting->end_time }}</td>
+            <td>{{ $meeting->all_day ?? false ? $meeting->end_date : '' }}</td>
+            <td>{{ $meeting->all_day ?? false ? '' : $meeting->start_time }}</td>
+            <td>{{ $meeting->all_day ?? false ? '' : $meeting->end_time }}</td>
             <td>{{ $meeting->title }}</td>
             <td>{{ $meeting->company()->name }}</td>
             <td>{{ $meeting->company()->companyType->name }}</td>

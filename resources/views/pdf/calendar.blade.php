@@ -67,7 +67,11 @@
                                                         {{-- if start time and type was chosen --}}
                                                         @if (in_array('start_time', request()->get('lookup', [])) && in_array('type', request()->get('lookup', [])))
                                                             {{-- show start time and type on left --}}
-                                                            <td><b>{{ $fields[0] . ' ' . $fields[1] }}</b></td>
+                                                            @if ($meeting->all_day ?? false)
+                                                                <td><b>{{ 'All day ' . $fields[1] }}</b></td>
+                                                            @else
+                                                                <td><b>{{ $fields[0] . ' ' . $fields[1] }}</b></td>
+                                                            @endif
                                                             @if (!empty($fields[2]))
                                                                 {{-- show 3rd item on right --}}
                                                                 <td>{{ $fields[2] }}</td>

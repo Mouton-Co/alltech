@@ -187,11 +187,23 @@
                         </div>
                         <div class="report-card-body-item">
                             <x-icon.date-picker class="w-5 h-5"/>
-                            <span>{{ $meeting->date }}</span>
+                            <span>
+                                @if ($meeting->all_day ?? false)
+                                    {{ $meeting->date . ' to ' . $meeting->end_date }}
+                                @else
+                                    {{ $meeting->date }}
+                                @endif
+                            </span>
                         </div>
                         <div class="report-card-body-item">
                             <x-icon.time-picker class="w-5 h-5"/>
-                            <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
+                            <span>
+                                @if ($meeting->all_day ?? false)
+                                    {{ __("All day") }}
+                                @else
+                                    {{ $meeting->start_time . ' - ' . $meeting->end_time }}
+                                @endif
+                            </span>
                         </div>
                     </div>
                     <div class="report-card-footer">
@@ -225,11 +237,23 @@
                             </div>
                             <div class="report-card-body-item">
                                 <x-icon.date-picker class="w-5 h-5"/>
-                                <span>{{ $meeting->date }}</span>
+                                <span>
+                                    @if ($meeting->all_day ?? false)
+                                        {{ $meeting->date . ' to ' . $meeting->end_date }}
+                                    @else
+                                        {{ $meeting->date }}
+                                    @endif
+                                </span>
                             </div>
                             <div class="report-card-body-item">
                                 <x-icon.time-picker class="w-5 h-5"/>
-                                <span>{{ $meeting->start_time . ' - ' . $meeting->end_time }}</span>
+                                <span>
+                                    @if ($meeting->all_day ?? false)
+                                        {{ __("All day") }}
+                                    @else
+                                        {{ $meeting->start_time . ' - ' . $meeting->end_time }}
+                                    @endif
+                                </span>
                             </div>
                             <div class="report-card-body-item">
                                 <x-icon.location class="w-5 h-5"/>
