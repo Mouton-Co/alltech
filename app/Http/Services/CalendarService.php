@@ -46,7 +46,7 @@ class CalendarService
      * @var array
      */
     public array $fields = [
-        'start_time' => 'Starting time',
+        'start_time' => 'Times',
         'type' => 'Call/Visit',
         'title' => 'Meeting title',
         'location' => 'Location',
