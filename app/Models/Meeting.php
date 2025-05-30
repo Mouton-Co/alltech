@@ -109,7 +109,7 @@ class Meeting extends Model
             } elseif ($value == 'company') {
                 $list[] = $this->company()->name ?? 'N/A';
             } elseif ($value == 'start_time') {
-                $list[] = date('H:i', strtotime($this->start_time));
+                $list[] = date('H:i', strtotime($this->start_time)) . ' - ' . date('H:i', strtotime($this->end_time));
             } else {
                 $list[] = $this->$value;
             }
