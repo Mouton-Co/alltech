@@ -71,6 +71,7 @@ class CalendarService
         // get all meetings where date is between the first and last day of the month
         $meetings = $user
             ->meetings()
+            ->where('cancelled_at', null)
             ->with(['contact', 'contact.company', 'contact.company.companyType'])
             ->whereBetween('date', ["$year-$month-01", "$year-$month-$lastDay"]);
 
