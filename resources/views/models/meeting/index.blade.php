@@ -77,6 +77,24 @@
                 </option>
             </select>
 
+            {{-- company types --}}
+            <div class="flex items-center gap-2">
+                <label
+                    class="mb-1"
+                    for="company_types[]"
+                >{{ __('Company Types') }}</label>
+                <x-form.select
+                    class="selector-for-js filter-field w-full"
+                    style="width: 600px;"
+                    :name="'company_types[]'"
+                    :options="$companyTypes"
+                    :selected="json_encode(request()->company_types) ?? ''"
+                    :value="'id'"
+                    :display="'name'"
+                    multiple
+                />
+            </div>
+
             <button type="submit" class="btn-orange min-w-[120px]">
                 {{ __('Filter') }}
             </button>

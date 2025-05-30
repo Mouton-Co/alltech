@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Meeting\StoreRequest;
-use App\Http\Requests\Meeting\UpdateRequest;
+use App\Models\User;
 use App\Models\Contact;
 use App\Models\Meeting;
-use App\Models\User;
+use App\Models\CompanyType;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\Meeting\StoreRequest;
+use App\Http\Requests\Meeting\UpdateRequest;
 
 class MeetingController extends Controller
 {
@@ -26,6 +27,14 @@ class MeetingController extends Controller
         }
         $usersQuery = array_unique($usersQuery);
 
+        // grabbing company type query
+        $companyTypes = CompanyType::all();
+        $companyTypesQuery = [];
+        if ($request->has('company_types')) {
+            $companyTypesQuery = array_merge($companyTypesQuery, $request->get('company_types'));
+        }
+        $companyTypesQuery = array_unique($companyTypesQuery);
+
         // grabbing pill display query
         $format = $request->has('display') ? $request->get('display') : 'title';
 
@@ -34,7 +43,7 @@ class MeetingController extends Controller
         $counter = 0;
         foreach ($usersQuery as $user) {
             $events = [];
-            $meetings = Meeting::where('user_id', $user)->get();
+            $meetings = Meeting::where('user_id', $user)->whereIn('company_type_id', $companyTypesQuery)->get();
             foreach ($meetings as $meeting) {
 
                 // if all day, set end date to start date
@@ -75,7 +84,7 @@ class MeetingController extends Controller
             'users' => $usersQuery,
         ]);
 
-        return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery'));
+        return view('models.meeting.index', compact('eventSources', 'contacts', 'users', 'usersQuery', 'companyTypes', 'companyTypesQuery'));
     }
 
     /**
