@@ -43,7 +43,14 @@ class MeetingController extends Controller
         $counter = 0;
         foreach ($usersQuery as $user) {
             $events = [];
-            $meetings = Meeting::where('user_id', $user)->whereIn('company_type_id', $companyTypesQuery)->get();
+            $meetings = Meeting::where('user_id', $user);
+
+            if (! empty($companyTypesQuery)) {
+                $meetings = $meetings->whereIn('company_type_id', $companyTypesQuery);
+            }
+
+            $meetings = $meetings->get();
+
             foreach ($meetings as $meeting) {
 
                 // if all day, set end date to start date
