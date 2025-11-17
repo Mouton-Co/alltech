@@ -39,13 +39,13 @@ class ContactsExport implements FromArray, WithHeadings
 
         return $contacts->map(function (Contact $contact) {
             return [
-                'Contact Name' => $contact?->name ?? '',
-                'Contact Email' => $contact?->email ?? '',
-                'Contact Phone' => $contact?->phone ?? '',
-                'Company Name' => $contact?->company?->name ?? '',
-                'Company Location' => $contact?->company?->location ?? '',
-                'Company Region' => $contact?->company?->region ?? '',
-                'Company Type' => $contact?->company?->companyType?->name ?? '',
+                $contact?->name ?? '',
+                $contact?->email ?? '',
+                $contact?->phone ?? '',
+                $contact?->company?->name ?? '',
+                $contact?->company?->location ?? '',
+                $contact?->company?->region ?? '',
+                $contact?->company?->companyType?->name ?? '',
             ];
         })->toArray();
     }

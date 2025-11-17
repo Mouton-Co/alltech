@@ -35,15 +35,9 @@
     <div class="flex justify-between mb-3">
         <h1>{{ __('Contacts') }}</h1>
         <div class="flex justify-between items-center gap-3">
-            <form action="{{ route('contacts.export') }}" method="post">
-                @csrf
-                <button
-                    type="submit"
-                    class="hover:text-orange"
-                >
-                    <x-icon.excel class="h-4 w-4" />
-                </button>
-            </form>
+            <a href="{{ route('contacts.export') }}" class="hover:text-orange">
+                <x-icon.excel class="h-4 w-4" />
+            </a>
             <form action="" class="relative">
                 <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
                     class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray shadow
