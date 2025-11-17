@@ -34,17 +34,22 @@
     {{-- title and search --}}
     <div class="flex justify-between mb-3">
         <h1>{{ __('Contacts') }}</h1>
-        <form action="" class="relative">
-            <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray shadow
-                focus:ring-orange focus:border-orange">
-            <input type="hidden" name="order_by" value="{{ request()->query('order_by') ?? 'name' }}">
-            <input type="hidden" name="order_direction" value="{{ request()->query('order_direction') ?? 'asc' }}">
-            <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-            <button type="submit" class="absolute right-[2px] top-[2px]">
-                <x-icon.search />
-            </button>
-        </form>
+        <div class="flex justify-between items-center gap-3">
+            <a href="{{ route('contacts.export') }}" class="hover:text-orange">
+                <x-icon.excel class="h-4 w-4" />
+            </a>
+            <form action="" class="relative">
+                <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
+                    class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray shadow
+                    focus:ring-orange focus:border-orange">
+                <input type="hidden" name="order_by" value="{{ request()->query('order_by') ?? 'name' }}">
+                <input type="hidden" name="order_direction" value="{{ request()->query('order_direction') ?? 'asc' }}">
+                <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
+                <button type="submit" class="absolute right-[2px] top-[2px]">
+                    <x-icon.search />
+                </button>
+            </form>
+        </div>
     </div>
 
     {{-- index table --}}

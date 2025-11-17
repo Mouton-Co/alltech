@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Contact\IndexRequest;
-use App\Http\Requests\Contact\StoreRequest;
+use App\Exports\ContactsExport;
 use App\Models\Company;
 use App\Models\Contact;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\Contact\IndexRequest;
+use App\Http\Requests\Contact\StoreRequest;
 
 class ContactController extends Controller
 {
@@ -115,5 +117,15 @@ class ContactController extends Controller
         return redirect()->route('contact.index')->with([
             'success' => "$name has been removed",
         ]);
+    }
+
+    /**
+     * Export contacts to an Excel file.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    {
+        return Excel::download(new ContactsExport, 'contacts.xlsx');
     }
 }

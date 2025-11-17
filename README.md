@@ -2,7 +2,7 @@ Alltech
 =======
 
 Dependancies:
-1. php 8^
+1. php 8.2
 2. node 16^
 3. composer
 
