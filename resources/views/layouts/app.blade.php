@@ -19,12 +19,14 @@
         </script>
         <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        @livewireStyles
         @vite(['resources/scss/app.scss', 'resources/js/app.js'])
         @yield('header-scripts')
     </head>
 
     <body class="min-h-full font-sans bg-gray-100">
         {{ $slot }}
+        @livewireScripts
     </body>
 
 </html>
