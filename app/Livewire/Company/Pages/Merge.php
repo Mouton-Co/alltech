@@ -19,8 +19,18 @@ class Merge extends Component
      */
     public function mount(int $targetCompanyId): void
     {
-        $this->targetCompany = Company::with('companyType')->findOrFail($targetCompanyId)->toArray();
-        $this->companies = Company::with('companyType')
+        $company = Company::with(['companyType', 'contacts', 'meetings'])->findOrFail($targetCompanyId);
+        $this->targetCompany = [
+            'id' => $company->id,
+            'name' => $company->name ?? '',
+            'location' => $company->location ?? '',
+            'region' => $company->region ?? '',
+            'company_type' => $company->companyType?->name ?? '',
+            'meetings_count' => $company->meetings->count(),
+            'contacts_count' => $company->contacts->count(),
+        ];
+
+        $this->companies = Company::with(['companyType', 'contacts', 'meetings'])
             ->where('id', '!=', $targetCompanyId)
             ->orderBy('name')
             ->get()
@@ -31,6 +41,8 @@ class Merge extends Component
                     'location' => $company->location ?? '',
                     'region' => $company->region ?? '',
                     'company_type' => $company->companyType?->name ?? '',
+                    'meetings_count' => $company->meetings->count(),
+                    'contacts_count' => $company->contacts->count(),
                     'selected' => false,
                 ];
             })
@@ -62,5 +74,25 @@ class Merge extends Component
                 str_contains(strtolower($company['region']), $searchTerm) ||
                 str_contains(strtolower($company['company_type']), $searchTerm);
         });
+    }
+
+    /**
+     * Calculate the new total contacts after merging.
+     */
+    public function newContactCount(): int
+    {
+        return collect($this->companies)
+            ->where('selected', true)
+            ->sum('contacts_count') + $this->targetCompany['contacts_count'];
+    }
+
+    /**
+     * Calculate the new total meetings after merging.
+     */
+    public function newMeetingCount(): int
+    {
+        return collect($this->companies)
+            ->where('selected', true)
+            ->sum('meetings_count') + $this->targetCompany['meetings_count'];
     }
 }

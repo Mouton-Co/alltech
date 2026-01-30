@@ -44,4 +44,12 @@ class Company extends Model
     {
         return $this->hasMany(Contact::class);
     }
+
+    /**
+     * Get company's meetings
+     */
+    public function meetings(): HasMany
+    {
+        return $this->hasMany(Meeting::class);
+    }
 }
