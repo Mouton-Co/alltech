@@ -29,15 +29,15 @@
                     </dl>
                     <div class="mt-3 border-t border-gray-900/5 px-6 py-3">
                         <div class="flex gap-4">
-                            <x-icon.location class="h-5 w-5 text-gray-400" />
+                            <x-icon.email class="h-5 w-5 text-gray-400" />
                             <h3 class="text-sm font-medium leading-6 text-gray-900">
-                                {{ $targetContact['location'] ?? '' }}
+                                {{ $targetContact['email'] ?? '' }}
                             </h3>
                         </div>
                         <div class="flex gap-4">
-                            <x-icon.coordinates class="h-5 w-5 text-gray-400" />
+                            <x-icon.phone class="h-5 w-5 text-gray-400" />
                             <h3 class="text-sm font-medium leading-6 text-gray-900">
-                                {{ $targetContact['region'] ?? '' }}
+                                {{ $targetContact['phone'] ?? '' }}
                             </h3>
                         </div>
                         <div class="flex gap-4">

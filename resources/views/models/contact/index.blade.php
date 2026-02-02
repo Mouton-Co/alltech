@@ -154,7 +154,7 @@
                                 <td>{{ $contact->$field }}</td>
                             @endif
                         @endforeach
-                        <td class="flex justify-end gap-2">
+                        <td class="flex items-center justify-end gap-2">
                             <x-icon.edit
                                 class="text-blue hover:text-orange edit-icon w-4 cursor-pointer"
                                 id="edit-{{ $contact->id }}"
@@ -187,7 +187,7 @@
             :message="'Are you sure you wish to delete the contact ' .
                 $contact->name .
                 '? All meetings
-                        associated with this contact will be removed as well.'"
+                                    associated with this contact will be removed as well.'"
         />
 
         {{-- edit modals --}}
