@@ -13,12 +13,17 @@ class Merge extends Component
     public array $targetCompany = []; // Details of the main company
     public array $companies = []; // All companies available for merging
     public ?string $search = ''; // Search term for filtering companies
+    public bool $confirm = false; // Flag to confirm merge action
 
     /**
      * Mount the component with the target company ID.
      */
     public function mount(int $targetCompanyId): void
     {
+        if (auth()->user()->role->name !== 'Admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
         $company = Company::with(['companyType', 'contacts', 'meetings'])->findOrFail($targetCompanyId);
         $this->targetCompany = [
             'id' => $company->id,
@@ -94,5 +99,38 @@ class Merge extends Component
         return collect($this->companies)
             ->where('selected', true)
             ->sum('meetings_count') + $this->targetCompany['meetings_count'];
+    }
+
+    /**
+     * Execute the merge operation.
+     */
+    public function merge(): void
+    {
+        if (auth()->user()->role->name !== 'Admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Get all the selected company IDs to merge
+        $idsToMerge = collect($this->companies)
+            ->where('selected', true)
+            ->keys()
+            ->toArray();
+
+        // Load the companies to be merged
+        $companiesToMerge = Company::with(['contacts', 'meetings'])
+            ->whereIn('id', $idsToMerge)
+            ->get();
+
+        // Update all related contacts and meetings to point to the target company and then delete the merged companies
+        foreach ($companiesToMerge as $company) {
+            $company->contacts()->update(['company_id' => $this->targetCompany['id']]);
+            $company->meetings()->update(['company_id' => $this->targetCompany['id']]);
+            $company->delete();
+        }
+
+        session()->flash('success', 'Companies merged successfully.');
+        $this->redirectRoute(
+            name: 'company.index',
+        );
     }
 }
