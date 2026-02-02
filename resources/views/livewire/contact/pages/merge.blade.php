@@ -1,6 +1,6 @@
 <div>
     {{-- title --}}
-    <h1 class="mb-3">Merge companies into {{ $targetContact['name'] ?? '' }}</h1>
+    <h1 class="mb-3">Merge contacts into {{ $targetContact['name'] ?? '' }}</h1>
 
     {{-- target contact details --}}
     <div class="mb-3">
@@ -146,10 +146,7 @@
                     type="checkbox"
                     wire:model.live="confirm"
                 />
-                <label
-                    class="text-sm text-gray-700"
-                    for="confirm-merge"
-                >
+                <label class="text-sm text-gray-700">
                     I understand that this action cannot be undone.
                 </label>
             </div>

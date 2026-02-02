@@ -158,10 +158,7 @@
                     type="checkbox"
                     wire:model.live="confirm"
                 />
-                <label
-                    class="text-sm text-gray-700"
-                    for="confirm-merge"
-                >
+                <label class="text-sm text-gray-700">
                     I understand that this action cannot be undone.
                 </label>
             </div>

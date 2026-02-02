@@ -98,6 +98,11 @@ class Merge extends Component
             abort(403, 'Unauthorized action.');
         }
 
+        if (! $this->confirm) {
+            session()->flash('error', 'You must confirm before proceeding.');
+            return;
+        }
+
         // Get all the selected contact IDs to merge
         $idsToMerge = collect($this->contacts)
             ->where('selected', true)
