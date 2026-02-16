@@ -30,6 +30,11 @@ duration-300 transform" id="sidebar">
             'text-orange' : 'text-gray-400' }}"/>
             {{ __('Calendar export') }}
         </x-navbar.link>
+        <x-navbar.link href="{{ route('analytics.index') }}" :active="request()->segment(1) == 'analytics'">
+            <x-icon.analytics class="w-7 group-hover:text-orange {{ request()->segment(1) == 'analytics' ?
+            'text-orange' : 'text-gray-400' }}"/>
+            {{ __('Analytics') }}
+        </x-navbar.link>
 
         <div class="pt-8 text-sm font-semibold leading-6 text-gray-400">{{ __('Administration') }}</div>
 
