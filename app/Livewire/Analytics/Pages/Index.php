@@ -10,13 +10,27 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    /**
+     * Options that are initialised for the dropdowns.
+     */
     public array $users = [];
     public array $companyTypes = [];
     public array $regions = [];
-    public string $selectedDateRange = '';
+
+    /**
+     * These are multi select options which gets updated manually via form submission.
+     */
     public array $selectedCompanyTypeIds = [];
     public array $selectedUserIds = [];
     public array $selectedRegions = [];
+
+    /**
+     * These are string which gets updated manually via form submission.
+     */
+    public string $selectedDateRange = '';
+    public string $groupByA = '';
+    public string $groupByB = '';
+    public string $metric = '';
 
     /**
      * Mount the component.
@@ -30,6 +44,9 @@ class Index extends Component
         $this->selectedCompanyTypeIds = request()->get('company_type_ids', []);
         $this->selectedUserIds = request()->get('user_ids', []);
         $this->selectedRegions = request()->get('regions', []);
+        $this->groupByA = request()->get('group_by_a', '') ?? '';
+        $this->groupByB = request()->get('group_by_b', '') ?? '';
+        $this->metric = request()->get('metric', '') ?? '';
     }
 
     /**
