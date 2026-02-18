@@ -93,29 +93,15 @@
                     name='group_by_a'
                 >
                     <option value="">--Please select--</option>
-                    <option
-                        value="user"
-                        @selected($this->groupByA === 'user')
-                    >User</option>
-                    <option
-                        value="contact"
-                        @selected($this->groupByA === 'contact')
-                    >Contact</option>
-                    <option
-                        value="company"
-                        @selected($this->groupByA === 'company')
-                    >Company</option>
-                    <option
-                        value="region"
-                        @selected($this->groupByA === 'region')
-                    >Region</option>
-                    <option
-                        value="company_type"
-                        @selected($this->groupByA === 'company_type')
-                    >Company Type</option>
+                    @foreach ($this->groupBy as $groupByOption)
+                        <option
+                            value="{{ $groupByOption }}"
+                            @selected($this->groupByA === $groupByOption)
+                        >{{ $groupByOption }}</option>
+                    @endforeach
                 </select>
             </div>
-            {{-- group by A --}}
+            {{-- group by B --}}
             <div class="flex w-full flex-col gap-1">
                 <label for="group_by_b">Then by</label>
                 <select
@@ -123,26 +109,12 @@
                     name='group_by_b'
                 >
                     <option value="">--Please select--</option>
-                    <option
-                        value="user"
-                        @selected($this->groupByA === 'user')
-                    >User</option>
-                    <option
-                        value="contact"
-                        @selected($this->groupByA === 'contact')
-                    >Contact</option>
-                    <option
-                        value="company"
-                        @selected($this->groupByA === 'company')
-                    >Company</option>
-                    <option
-                        value="region"
-                        @selected($this->groupByA === 'region')
-                    >Region</option>
-                    <option
-                        value="company_type"
-                        @selected($this->groupByA === 'company_type')
-                    >Company Type</option>
+                    @foreach ($this->groupBy as $groupByOption)
+                        <option
+                            value="{{ $groupByOption }}"
+                            @selected($this->groupByB === $groupByOption)
+                        >{{ $groupByOption }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -155,44 +127,85 @@
                     Metric - What do you need to count?
                 </label>
                 <div class="flex flex-col space-y-1">
-                    <div class="flex items-center">
-                        <input
-                            class="not-checked:before:hidden checked:border-orange checked:bg-orange focus-visible:outline-orange relative size-4 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
-                            name="metric"
-                            type="radio"
-                            value="meetings"
-                            @checked($this->metric === 'meetings')
-                        />
-                        <label class="ml-3 block text-sm/6 font-medium text-gray-900">Number of meetings</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input
-                            class="not-checked:before:hidden checked:border-orange checked:bg-orange focus-visible:outline-orange relative size-4 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
-                            name="metric"
-                            type="radio"
-                            value="companies"
-                            @checked($this->metric === 'contacts')
-                        />
-                        <label class="ml-3 block text-sm/6 font-medium text-gray-900">Number unique contacts</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input
-                            class="not-checked:before:hidden checked:border-orange checked:bg-orange focus-visible:outline-orange relative size-4 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
-                            name="metric"
-                            type="radio"
-                            value="companies"
-                            @checked($this->metric === 'companies')
-                        />
-                        <label class="ml-3 block text-sm/6 font-medium text-gray-900">Number unique companies</label>
-                    </div>
+                    @foreach ($this->metrics as $metricOption)
+                        <div class="flex items-center">
+                            <input
+                                class="not-checked:before:hidden checked:border-orange checked:bg-orange focus-visible:outline-orange relative size-4 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
+                                name="metric"
+                                type="radio"
+                                value="{{ $metricOption }}"
+                                @checked($this->metric === $metricOption)
+                            />
+                            <label class="ml-3 block text-sm/6 font-medium text-gray-900">{{ $metricOption }}</label>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
             {{-- button --}}
             <button
-                class="btn-orange max-w-fit px-4"
+                class="btn-orange-thin max-w-fit px-4"
                 type="submit"
-            >Update metrics</button>
+            >Update report</button>
         </div>
     </form>
+
+    {{-- view report --}}
+    <h1 class="mb-3 mt-6">Analytics report</h1>
+    <hr class="mb-2">
+
+    <div
+        class="max-w-fit rounded border border-red-600 bg-red-200 px-8 py-2 text-red-600"
+        wire:show="$errors.has('groupByA') || $errors.has('metric')"
+    >
+        <ul class="list-disc">
+            <li
+                wire:show="$errors.has('groupByA')"
+                wire:text="$errors.first('groupByA')"
+            ></li>
+            <li
+                wire:show="$errors.has('metric')"
+                wire:text="$errors.first('metric')"
+            ></li>
+        </ul>
+    </div>
+    {{-- table --}}
+    <div class="no-scrollbar mt-3 max-h-96 overflow-scroll">
+        <table class="index-table">
+            <thead>
+                <tr>
+                    @if ($this->groupByA)
+                        <th class="sticky top-0 z-10">
+                            <span class="flex items-center gap-2">
+                                {{ $this->groupByA }}
+                            </span>
+                        </th>
+                    @endif
+                    @if ($this->groupByB)
+                        <th class="sticky top-0 z-10">
+                            <span class="flex items-center gap-2">
+                                {{ $this->groupByB }}
+                            </span>
+                        </th>
+                    @endif
+                    @if ($this->metric)
+                        <th class="sticky top-0 z-10">
+                            <span class="flex items-center gap-2">
+                                {{ $this->metric }}
+                            </span>
+                        </th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($this->results as $row)
+                    <tr>
+                        <td>{{ $row['column_1'] ?? '' }}</td>
+                        <td>{{ $row['column_2'] ?? '' }}</td>
+                        <td>{{ $row['metric'] ?? '' }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
