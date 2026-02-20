@@ -200,9 +200,15 @@
             <tbody>
                 @foreach ($this->results as $row)
                     <tr>
-                        <td>{{ $row['column_1'] ?? '' }}</td>
-                        <td>{{ $row['column_2'] ?? '' }}</td>
-                        <td>{{ $row['metric'] ?? '' }}</td>
+                        @if ($this->groupByA)
+                            <td>{{ $row['column_1'] ?? '' }}</td>
+                        @endif
+                        @if ($this->groupByB)
+                            <td>{{ $row['column_2'] ?? '' }}</td>
+                        @endif
+                        @if ($this->metric)
+                            <td>{{ $row['metric'] ?? '' }}</td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

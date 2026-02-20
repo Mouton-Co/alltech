@@ -99,12 +99,12 @@ class Index extends Component
         $this->validate();
 
         $select = array_merge(
-            config("analytics.select.a.{$this->groupByA}"),
-            config("analytics.select.b.{$this->groupByB}"),
+            config("analytics.select.a.{$this->groupByA}", []),
+            config("analytics.select.b.{$this->groupByB}", []),
         );
         $groupBy = array_values(array_unique(array_merge(
-            config("analytics.group_by.{$this->groupByA}"),
-            config("analytics.group_by.{$this->groupByB}"),
+            config("analytics.group_by.{$this->groupByA}", []),
+            config("analytics.group_by.{$this->groupByB}", []),
         )));
 
         $this->results = Meeting::query()
@@ -112,6 +112,35 @@ class Index extends Component
             ->join('contacts', 'contacts.id', '=', 'meetings.contact_id')
             ->join('companies', 'companies.id', '=', 'contacts.company_id')
             ->join('company_types', 'companies.company_type_id', '=', 'company_types.id')
+            ->when(! empty($this->selectedDateRange), function ($query) {
+                if (str_contains($this->selectedDateRange, "to")) {
+                    $dates = explode('to', $this->selectedDateRange);
+                    return $query->whereBetween('date', [trim($dates[0]), trim($dates[1])]);
+                }
+                return $query->whereDate('date', $this->selectedDateRange);
+
+            })
+            ->when(! empty($this->selectedUserIds), function ($query) {
+                return $query->whereRelation('user', function ($usersQuery) {
+                    return $usersQuery->whereIn('id', $this->selectedUserIds);
+                });
+            })
+            ->when(! empty($this->selectedCompanyTypeIds), function ($query) {
+                return $query->whereRelation('contact', function ($contactQuery) {
+                    return $contactQuery->whereRelation('company', function ($companyQuery) {
+                        return $companyQuery->whereRelation('companyType', function ($companyTypeQuery) {
+                            return $companyTypeQuery->whereIn('id', $this->selectedCompanyTypeIds);
+                        });
+                    });
+                });
+            })
+            ->when(! empty($this->selectedRegions), function ($query) {
+                return $query->whereRelation('contact', function ($contactQuery) {
+                    return $contactQuery->whereRelation('company', function ($companyQuery) {
+                        return $companyQuery->whereIn('region', $this->selectedRegions);
+                    });
+                });
+            })
             ->select($select)
             ->selectRaw(config("analytics.select.count.{$this->metric}"))
             ->groupBy($groupBy)

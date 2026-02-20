@@ -6,7 +6,7 @@ return [
             'User' => ['users.id as id', 'users.name as column_1'],
             'Contact' => ['contacts.id as id', 'contacts.name as column_1'],
             'Company' => ['companies.id as id', 'companies.name as column_1'],
-            'Region' => ['companies.id as id', 'companies.region as column_1'],
+            'Region' => ['companies.region as column_1'],
             'Company Type' => ['company_types.id as id', 'company_types.name as column_1'],
         ],
         'b' => [
