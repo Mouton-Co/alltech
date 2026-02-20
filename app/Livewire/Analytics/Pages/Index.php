@@ -46,6 +46,10 @@ class Index extends Component
      */
     public function mount(): void
     {
+        if (auth()->user()?->role?->name !== 'Admin') {
+            $this->redirectRoute('meeting.index');
+        }
+
         $this->users = User::orderBy('name')->pluck('name', 'id')->toArray();
         $this->companyTypes = CompanyType::orderBy('name')->pluck('name', 'id')->toArray();
         $this->regions = Company::orderBy('region')->pluck('region')->unique()->toArray();
