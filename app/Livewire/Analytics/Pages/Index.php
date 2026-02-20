@@ -125,25 +125,13 @@ class Index extends Component
 
             })
             ->when(! empty($this->selectedUserIds), function ($query) {
-                return $query->whereRelation('user', function ($usersQuery) {
-                    return $usersQuery->whereIn('id', $this->selectedUserIds);
-                });
+                return $query->whereIn('users.id', $this->selectedUserIds);
             })
             ->when(! empty($this->selectedCompanyTypeIds), function ($query) {
-                return $query->whereRelation('contact', function ($contactQuery) {
-                    return $contactQuery->whereRelation('company', function ($companyQuery) {
-                        return $companyQuery->whereRelation('companyType', function ($companyTypeQuery) {
-                            return $companyTypeQuery->whereIn('id', $this->selectedCompanyTypeIds);
-                        });
-                    });
-                });
+                return $query->whereIn('company_types.id', $this->selectedCompanyTypeIds);
             })
             ->when(! empty($this->selectedRegions), function ($query) {
-                return $query->whereRelation('contact', function ($contactQuery) {
-                    return $contactQuery->whereRelation('company', function ($companyQuery) {
-                        return $companyQuery->whereIn('region', $this->selectedRegions);
-                    });
-                });
+                return $query->whereIn('companies.region', $this->selectedRegions);
             })
             ->select($select)
             ->selectRaw(config("analytics.select.count.{$this->metric}"))
