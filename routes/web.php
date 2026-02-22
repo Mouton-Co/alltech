@@ -21,14 +21,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/toggle-dark-mode', [UserController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
     Route::livewire('/analytics', \App\Livewire\Analytics\Pages\Index::class)->name('analytics.index');
 
-    require_once 'models/user.php';
-    require_once 'models/company-type.php';
-    require_once 'models/company.php';
-    require_once 'models/contact.php';
-    require_once 'models/meeting.php';
-    require_once 'models/reporting.php';
-    require_once 'models/email-cron.php';
-    require_once 'models/calendar.php';
+    require 'models/user.php';
+    require 'models/company-type.php';
+    require 'models/company.php';
+    require 'models/contact.php';
+    require 'models/meeting.php';
+    require 'models/reporting.php';
+    require 'models/email-cron.php';
+    require 'models/calendar.php';
 });
 
-require_once 'auth.php';
+require 'auth.php';
