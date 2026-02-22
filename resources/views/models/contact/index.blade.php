@@ -2,7 +2,7 @@
 
     {{-- see if there's any modal errors and show the modal if the case --}}
     @php
-        $hasStoreErrors  = false;
+        $hasStoreErrors = false;
         $hasUpdateErrors = false;
 
         foreach ($errors->getBags() as $bagKey => $bag) {
@@ -24,28 +24,58 @@
     <x-modals.curtain :show="$hasStoreErrors | $hasUpdateErrors" />
 
     {{-- add modal --}}
-    <x-modals.resource :route="route('contact.store')" :show="$hasStoreErrors" :title="'Creating contact'"
-    :button="'Create'" id="add-resource-modal">
+    <x-modals.resource
+        id="add-resource-modal"
+        :route="route('contact.store')"
+        :show="$hasStoreErrors"
+        :title="'Creating contact'"
+        :button="'Create'"
+    >
         <div class="flex w-full flex-col gap-3">
             @include('models.contact.form', ['contact' => null, 'companies' => $companies])
         </div>
     </x-modals.resource>
 
     {{-- title and search --}}
-    <div class="flex justify-between mb-3">
+    <div class="mb-3 flex justify-between">
         <h1>{{ __('Contacts') }}</h1>
-        <div class="flex justify-between items-center gap-3">
-            <a href="{{ route('contacts.export') }}" class="hover:text-orange">
+        <div class="flex items-center justify-between gap-3">
+            <a
+                class="hover:text-orange"
+                href="{{ route('contacts.export') }}"
+            >
                 <x-icon.excel class="h-4 w-4" />
             </a>
-            <form action="" class="relative">
-                <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') ?? '' }}"
-                    class="w-64 smaller-than-740:w-full h-7 pb-[9.5px] border-gray bg-lightgray shadow
-                    focus:ring-orange focus:border-orange">
-                <input type="hidden" name="order_by" value="{{ request()->query('order_by') ?? 'name' }}">
-                <input type="hidden" name="order_direction" value="{{ request()->query('order_direction') ?? 'asc' }}">
-                <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-                <button type="submit" class="absolute right-[2px] top-[2px]">
+            <form
+                class="relative"
+                action=""
+            >
+                <input
+                    class="smaller-than-740:w-full border-gray bg-lightgray focus:ring-orange focus:border-orange h-7 w-64 pb-[9.5px] shadow"
+                    name="search"
+                    type="text"
+                    value="{{ request()->query('search') ?? '' }}"
+                    placeholder="Search..."
+                >
+                <input
+                    name="order_by"
+                    type="hidden"
+                    value="{{ request()->query('order_by') ?? 'name' }}"
+                >
+                <input
+                    name="order_direction"
+                    type="hidden"
+                    value="{{ request()->query('order_direction') ?? 'asc' }}"
+                >
+                <input
+                    name="page"
+                    type="hidden"
+                    value="{{ request()->query('page') ?? 1 }}"
+                >
+                <button
+                    class="absolute right-[2px] top-[2px]"
+                    type="submit"
+                >
                     <x-icon.search />
                 </button>
             </form>
@@ -53,7 +83,7 @@
     </div>
 
     {{-- index table --}}
-    <div class="overflow-scroll no-scrollbar">
+    <div class="no-scrollbar overflow-scroll">
         <table class="index-table">
             <caption class="hidden">{{ __('Contacts index table') }}</caption>
             <thead>
@@ -62,33 +92,53 @@
                         <th>
                             <span class="flex items-center gap-2">
                                 {{ $column }}
-                                <form action="{{ route('contact.index') }}" method="GET">
-                                    <input type="hidden" name="search"
-                                        value="{{ request()->query('search') ?? '' }}">
-                                    <input type="hidden" name="order_by" value="{{ $field }}">
-                                    <input type="hidden" name="page" value="{{ request()->query('page') ?? 1 }}">
-                                    <input type="hidden" name="order_direction"
+                                <form
+                                    action="{{ route('contact.index') }}"
+                                    method="GET"
+                                >
+                                    <input
+                                        name="search"
+                                        type="hidden"
+                                        value="{{ request()->query('search') ?? '' }}"
+                                    >
+                                    <input
+                                        name="order_by"
+                                        type="hidden"
+                                        value="{{ $field }}"
+                                    >
+                                    <input
+                                        name="page"
+                                        type="hidden"
+                                        value="{{ request()->query('page') ?? 1 }}"
+                                    >
+                                    <input
+                                        name="order_direction"
+                                        type="hidden"
                                         value="{{ !empty(request()->query('order_by')) &&
                                         request()->query('order_by') == $field &&
                                         request()->query('order_direction') == 'asc'
                                             ? 'desc'
-                                            : 'asc' }}">
+                                            : 'asc' }}"
+                                    >
                                     <button type="submit">
                                         <x-icon.up-arrow
-                                            class="cursor-pointer h-[10px]
-                                            {{ !empty(request()->query('order_by')) &&
+                                            class="{{ !empty(request()->query('order_by')) &&
                                             request()->query('order_by') == $field &&
                                             request()->query('order_direction') == 'asc'
                                                 ? 'rotate-180'
-                                                : '' }}" />
+                                                : '' }} h-[10px] cursor-pointer"
+                                        />
                                     </button>
                                 </form>
                             </span>
                         </th>
                     @endforeach
                     <th class="flex justify-end">
-                        <span class="flex items-center gap-3 cursor-pointer hover:text-orange" id="add-resource">
-                            <x-icon.plus class="w-4 h-4" />
+                        <span
+                            class="hover:text-orange flex cursor-pointer items-center gap-3"
+                            id="add-resource"
+                        >
+                            <x-icon.plus class="h-4 w-4" />
                             {{ __('Add contact') }}
                         </span>
                     </th>
@@ -104,11 +154,23 @@
                                 <td>{{ $contact->$field }}</td>
                             @endif
                         @endforeach
-                        <td class="flex justify-end gap-2">
-                            <x-icon.edit class="text-blue w-4 cursor-pointer hover:text-orange edit-icon"
-                                id="edit-{{ $contact->id }}"/>
-                            <x-icon.delete class="text-blue w-6 cursor-pointer hover:text-orange delete-icon"
-                                id="delete-{{ $contact->id }}" />
+                        <td class="flex items-center justify-end gap-2">
+                            <x-icon.edit
+                                class="text-blue hover:text-orange edit-icon w-4 cursor-pointer"
+                                id="edit-{{ $contact->id }}"
+                            />
+                            <x-icon.delete
+                                class="text-blue hover:text-orange delete-icon w-6 cursor-pointer"
+                                id="delete-{{ $contact->id }}"
+                            />
+                            @if (auth()->user()->role->name === 'Admin')
+                                <a
+                                    class="text-blue hover:text-orange h-4 w-4 cursor-pointer"
+                                    href="{{ route('contact.merge', $contact->id) }}"
+                                >
+                                    <x-icon.merge class="h-4 w-4" />
+                                </a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -118,13 +180,24 @@
 
     @foreach ($contacts as $contact)
         {{-- delete modals --}}
-        <x-modals.delete id="delete-modal-{{ $contact->id }}" :resource="$contact" :route="'contact'"
-            :message="'Are you sure you wish to delete the contact ' . $contact->name . '? All meetings
-            associated with this contact will be removed as well.'" />
+        <x-modals.delete
+            id="delete-modal-{{ $contact->id }}"
+            :resource="$contact"
+            :route="'contact'"
+            :message="'Are you sure you wish to delete the contact ' .
+                $contact->name .
+                '? All meetings
+                                    associated with this contact will be removed as well.'"
+        />
 
         {{-- edit modals --}}
-        <x-modals.resource :route="route('contact.update', $contact->id)" :title="'Editing company'" :button="'Update'"
-            :show="$hasUpdateErrors && $updateErrorId == $contact->id" id="edit-resource-modal-{{ $contact->id }}">
+        <x-modals.resource
+            id="edit-resource-modal-{{ $contact->id }}"
+            :route="route('contact.update', $contact->id)"
+            :title="'Editing contact'"
+            :button="'Update'"
+            :show="$hasUpdateErrors && $updateErrorId == $contact->id"
+        >
             <div class="flex w-full flex-col gap-3">
                 @include('models.contact.form', ['contact' => $contact, 'companies' => $companies])
             </div>
@@ -133,9 +206,9 @@
 
     {{-- pagination --}}
     {{ $contacts->appends([
-        'search' => request()->query('search') ?? '',
-        'order_by' => request()->query('order_by') ?? 'name',
-        'order_direction' => request()->query('order_direction') ?? 'asc',
-    ])->links() }}
+            'search' => request()->query('search') ?? '',
+            'order_by' => request()->query('order_by') ?? 'name',
+            'order_direction' => request()->query('order_direction') ?? 'asc',
+        ])->links() }}
 
 </x-dashboard>

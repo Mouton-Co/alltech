@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('meeting.index');
     })->name('dashboard');
     Route::post('/toggle-dark-mode', [UserController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
+    Route::livewire('/analytics', \App\Livewire\Analytics\Pages\Index::class)->name('analytics.index');
 
     require_once 'models/user.php';
     require_once 'models/company-type.php';

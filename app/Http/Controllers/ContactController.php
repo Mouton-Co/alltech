@@ -126,6 +126,6 @@ class ContactController extends Controller
      */
     public function export(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        return Excel::download(new ContactsExport, 'contacts.xlsx');
+        return Excel::download(new ContactsExport(), 'contacts.xlsx');
     }
 }
