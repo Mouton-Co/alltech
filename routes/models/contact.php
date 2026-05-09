@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Livewire\Contact\Pages\Index;
+use App\Livewire\Contact\Pages\Merge;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('contacts')->group(function () {
@@ -9,5 +11,6 @@ Route::prefix('contacts')->group(function () {
     Route::post('/update/{id}', [ContactController::class, 'update'])->name('contact.update');
     Route::post('/destroy/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
     Route::get('/export', [ContactController::class, 'export'])->name('contacts.export');
-    Route::livewire('/merge/{targetContactId}', \App\Livewire\Contact\Pages\Merge::class)->name('contact.merge');
+    Route::livewire('/merge/{targetContactId}', Merge::class)->name('contact.merge');
+    Route::livewire('/new', Index::class)->name('contact.index.new');
 });
