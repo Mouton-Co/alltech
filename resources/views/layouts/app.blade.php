@@ -26,6 +26,7 @@
 
     <body class="min-h-full font-sans bg-gray-100">
         {{ $slot }}
+        <livewire:flash.success />
         @livewireScripts
     </body>
 

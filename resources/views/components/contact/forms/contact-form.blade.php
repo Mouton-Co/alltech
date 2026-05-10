@@ -1,0 +1,34 @@
+<div class="grid grid-cols-1 gap-3">
+    <x-form.field
+        type="text"
+        wire:model='form.name'
+        placeholder="Name"
+        required
+        icon='name'
+    />
+    <x-form.field
+        type="email"
+        wire:model='form.email'
+        placeholder="Email"
+        required
+        icon='email'
+    />
+    <x-form.field
+        type="text"
+        wire:model='form.phone'
+        placeholder="Phone"
+        icon='phone'
+    />
+    <div>
+        <livewire:form.select
+            icon='company'
+            wire:model='form.companyId'
+            field='form.companyId'
+            placeholder='Company'
+            :options="$this->companies"
+        />
+        @error('form.companyId')
+            <span class="text-red-600">{{ $message }}</span>
+        @enderror
+    </div>
+</div>
