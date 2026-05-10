@@ -42,13 +42,16 @@ class ContactAndCompanyForm extends Form
 
     public function submit(): void
     {
-        $this->validate($this->contactRules());
         if ($this->companyMode === 'new') {
-            $this->validate($this->companyRules());
+            $this->validate(array_merge(
+                $this->companyRules(),
+                collect($this->contactRules())->except(['contactCompanyId'])->toArray(),
+            ));
+        } else {
+            $this->validate($this->contactRules());
         }
 
         if ($this->companyMode === 'new') {
-
             $company = Company::create([
                 'name' => $this->companyName,
                 'location' => $this->companyLocation,
