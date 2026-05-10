@@ -24,7 +24,7 @@ class ContactAndCompanyForm extends Form
     {
         return [
             'contactName' => 'required|string|min:3|max:255',
-            'contactEmail' => 'required|unique:contacts,email',
+            'contactEmail' => 'required|email|unique:contacts,email',
             'contactPhone' => 'nullable|string|min:3|max:255',
             'contactCompanyId' => 'required|int|exists:companies,id',
         ];
@@ -42,8 +42,12 @@ class ContactAndCompanyForm extends Form
 
     public function submit(): void
     {
+        $this->validate($this->contactRules());
         if ($this->companyMode === 'new') {
             $this->validate($this->companyRules());
+        }
+
+        if ($this->companyMode === 'new') {
 
             $company = Company::create([
                 'name' => $this->companyName,
@@ -54,8 +58,6 @@ class ContactAndCompanyForm extends Form
 
             $this->contactCompanyId = $company->getKey();
         }
-
-        $this->validate($this->contactRules());
 
         Contact::create([
             'name' => $this->contactName,

@@ -29,6 +29,7 @@ class ContactForm extends Form
             'name' => 'required|string|min:3|max:255',
             'email' => [
                 'required',
+                'email',
                 Rule::unique('contacts', 'email')->ignore($this->contact),
             ],
             'phone' => 'nullable|string|min:3|max:255',
