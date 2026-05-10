@@ -1,7 +1,8 @@
 <?php
 
-use App\Livewire\Contact\Forms\ContactForm;
+use App\Livewire\Contact\Forms\ContactAndCompanyForm;
 use App\Models\Company;
+use App\Models\CompanyType;
 use App\Models\Contact;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
@@ -9,13 +10,19 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
-    public ContactForm $form;
+    public ContactAndCompanyForm $form;
     public bool $show = false;
 
     #[Computed]
     public function companies(): array
     {
         return Company::orderBy('name')->pluck('name', 'id')->toArray();
+    }
+
+    #[Computed]
+    public function companyTypes(): array
+    {
+        return CompanyType::orderBy('name')->pluck('name', 'id')->toArray();
     }
 
     #[On('contact.modals.create.show')]
@@ -44,7 +51,7 @@ new class extends Component {
         wire:click.outside="$toggle('show')"
     >
         <h1>{{ __('Add contact') }}</h1>
-        <x-contact.forms.contact-form />
+        <x-contact.forms.contact-company-form />
         <button
             class="btn-orange-thin h-[30px] w-fit self-end px-4"
             wire:click='create'
