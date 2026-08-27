@@ -76,13 +76,14 @@ new class extends Component {
         class="absolute left-0 top-full mt-1 w-full overflow-hidden rounded border-none bg-white shadow ring-1 ring-gray"
         wire:cloak
         wire:show='expanded'
-        wire:click.outside="$toggle('expanded')"
+        wire:click.outside="$set('expanded', false)"
     >
         <div class="relative w-full border-b border-gray bg-transparent pl-8">
             <input
                 class="w-full border-none bg-transparent outline-none focus:ring-0"
                 type="text"
                 wire:model.live.debounce.250ms="search"
+                wire:click.stop
             >
             <x-icon.search class="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-gray" />
         </div>
